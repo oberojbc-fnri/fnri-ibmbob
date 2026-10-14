@@ -1,15 +1,25 @@
-# FNRI Service Finder — MVP Plan
+# Citizen Charter Service Finder — Full Platform Plan
 
 ## Top-Level Overview
 
-Build a **mobile-first web app** that helps citizens find the right FNRI service by describing
-their need in plain language. The app is a static React + Vite + Tailwind CSS site deployed on GitHub Pages.
-It requires no backend — search runs entirely in the browser using Fuse.js over a local `services.json`
-data file extracted from the FNRI Citizen Charter 2026.
+This plan covers **two phases** of the platform:
 
-**Three entry points** serve different citizen types:
+**Phase A — FNRI Service Finder MVP**
+A mobile-first web app that helps citizens find the right FNRI service by describing their need in
+plain language. Static React + Vite + Tailwind CSS site deployed on GitHub Pages. No backend required —
+search runs entirely in the browser using Fuse.js over a local `services.json` data file.
+
+**Phase B — Multi-Agency PDF Onboarding**
+Extends the platform so that any Philippine government agency can upload their Citizen Charter PDF
+through a simple web page, have watsonx.ai extract all services automatically, review and approve the
+result, and go live — without any technical knowledge or developer involvement.
+
+All Philippine Citizen Charters follow the same ARTA-mandated table structure (Republic Act 11032),
+which means one AI extraction prompt works for all agencies.
+
+**Three entry points** serve different citizen types (both phases):
 1. **Instant Search** — free-text, results appear as they type
-2. **Browse by Category** — visual category cards (Laboratory, Training, Information, Surveys, Sensory)
+2. **Browse by Category** — visual category cards per agency
 3. **Guided Wizard** — 3-question quiz for citizens who do not know what they need
 
 **Chatbot is a non-goal for MVP.** The architecture keeps a clean data layer so it can be added later.
@@ -20,11 +30,25 @@ data file extracted from the FNRI Citizen Charter 2026.
 
 - **Framework:** React + Vite
 - **Styling:** Tailwind CSS
-- **Search:** Fuse.js (client-side, no backend required)
+- **Search:** Fuse.js (client-side, no backend required for Phase A)
 - **Language:** English only
-- **Deployment:** GitHub Pages (static export via `vite build`)
-- **Data:** Flat `services.json` file — single source of truth for all 3 entry points
-- **No backend, no auth, no database**
+- **Deployment:** GitHub Pages (Phase A static); Node.js backend required for Phase B upload tool
+- **Data:** `services.json` per agency — merged at runtime for multi-agency search
+- **AI Extraction:** watsonx.ai (IBM) — fits hackathon context, same prompt works for all ARTA-format PDFs
+- **Phase A:** No backend, no auth, no database
+- **Phase B:** Lightweight Node.js/Express backend + watsonx.ai API for PDF extraction
+
+---
+
+## Reference PDFs Available
+
+Three agency Citizen Charters are already available in `reference/` for testing the extraction pipeline:
+
+| Agency | File | Services | Complexity |
+|---|---|---|---|
+| DOST-FNRI | `DOST-FNRI_Citizen_s_Charter_2026_1st_edition.pdf` | 38 | Medium |
+| DOST-PNRI | `PNRI_Citizens-Charter_2025-1.pdf` | 52 | High (tiered fees) |
+| DOST-SEI | `sei-pdf-citizens_charter-2025_First_Edition.pdf` | 12 | Low |
 
 ---
 
@@ -305,30 +329,224 @@ hackathon demo.
 
 ---
 
+---
+
+### Sub-Task 9 — White-Label Agency Config
+
+**Status:** [ ] pending
+
+**Intent**
+Refactor the FNRI-specific hardcoded values (agency name, brand colors, tagline, logo) into a
+single `agency.config.json` file. This makes the entire codebase a reusable template — any agency
+can deploy their own Service Finder by swapping one config file and one `services.json`.
+
+**Expected Outcomes**
+- No agency name, color, or logo is hardcoded anywhere in the React components
+- A new agency can be deployed by editing only `src/data/agency.config.json` and `src/data/services.json`
+- FNRI instance still looks and works identically to Sub-Task 8 deployment
+- Config shape is documented with comments so non-developers can fill it in
+
+**Todo List**
+1. Create `src/data/agency.config.json` with fields: `agencyName`, `agencyAbbreviation`, `tagline`, `primaryColor`, `secondaryColor`, `logoUrl`, `contactEmail`, `contactPhone`, `officeAddress`, `websiteUrl`
+2. Create `src/hooks/useAgencyConfig.ts` — a simple hook that imports and returns the config
+3. Replace all hardcoded `"FNRI"` strings in `Header.tsx`, `index.html` title, and meta tags with config values
+4. Replace hardcoded color values (`#1a7a4a`, `#f5c518`) in Tailwind config with CSS custom properties driven by the config
+5. Verify FNRI instance still renders correctly with the config-driven values
+6. Add a `README-AGENCY-SETUP.md` documenting the two files an agency needs to change
+
+**Relevant Context**
+- CSS custom properties set via `useEffect` on `document.documentElement` is the simplest way to apply dynamic Tailwind colors
+- `agency.config.json` is the only file a non-developer needs to edit to rebrand the site
+- This sub-task is a prerequisite for Sub-Task 10 (multi-agency landing) and Sub-Task 11 (PDF upload)
+
+---
+
+### Sub-Task 10 — Multi-Agency Landing Page
+
+**Status:** [ ] pending
+
+**Intent**
+Add a landing page that presents all onboarded agencies as cards so citizens can choose their agency
+before entering the Service Finder — or search across all agencies at once. This is the entry point
+to the multi-agency platform.
+
+**Expected Outcomes**
+- A landing page at the app root shows all onboarded agencies as visual cards
+- Each agency card shows: agency name, abbreviation, logo/icon, and service count
+- Clicking an agency card loads that agency's Service Finder (Search + Browse + Wizard)
+- A cross-agency search bar on the landing page searches services across all agencies at once
+- Cross-agency results show an agency badge on each service card
+- The platform works with the 3 available agencies: FNRI, PNRI, SEI
+
+**Todo List**
+1. Create `src/data/agencies/` directory — move FNRI `services.json`, `categories.json`, `wizard.json`, and `agency.config.json` into `src/data/agencies/fnri/`
+2. Create corresponding `src/data/agencies/pnri/` and `src/data/agencies/sei/` directories with their config and services data (populated in Sub-Task 11)
+3. Create `src/data/agencies/index.ts` — exports a merged list of all agencies and their services
+4. Create `src/pages/LandingPage.tsx` — agency grid with cross-agency search bar
+5. Create `src/components/AgencyCard.tsx` — agency name, abbreviation, service count, color accent
+6. Update `App.tsx` routing state to support: `landing` → `agency/:id` view transitions
+7. Add agency badge (abbreviation chip) to `ServiceCard.tsx` for cross-agency search results
+8. Landing page cross-agency search reuses `useSearch.ts` hook with the merged services list
+9. Verify back navigation from agency Service Finder returns to the landing page
+
+**Relevant Context**
+- `src/data/agencies/index.ts` merges all agency `services.json` files, adding an `agencyId` field to each service
+- Agency color accents on `AgencyCard` are driven by `agency.config.json` `primaryColor`
+- This is the "Multi-Tenant Portal" vision described in earlier planning — one URL, all agencies
+
+---
+
+### Sub-Task 11 — watsonx.ai PDF Extraction Engine
+
+**Status:** [ ] pending
+
+**Intent**
+Build the AI extraction pipeline that reads a Citizen Charter PDF and returns a structured
+`services.json` array. Uses watsonx.ai with a purpose-built prompt engineered for the standard
+ARTA Citizen Charter table format (Republic Act 11032). This is the engine behind the upload tool.
+
+**Expected Outcomes**
+- A Node.js/Express API endpoint `POST /api/extract` accepts a PDF file and returns structured JSON
+- watsonx.ai correctly extracts all services from FNRI, PNRI, and SEI charters in the right schema
+- Extracted JSON matches the `services.json` schema used by the Service Finder frontend
+- Processing time, fees, requirements, and who-may-avail fields are all captured
+- The endpoint handles the three known complexity levels: simple (SEI), medium (FNRI), high/tiered fees (PNRI)
+
+**Todo List**
+1. Create a `server/` directory alongside `src/` for the Node.js backend
+2. Initialize `server/package.json` with dependencies: `express`, `multer` (file upload), `pdf-parse` (PDF text extraction), `ibm-watson` or `@ibm-cloud/watsonx-ai` SDK
+3. Create `server/index.js` — Express app with `POST /api/extract` route
+4. Create `server/extractServices.js` — receives PDF text, calls watsonx.ai with the extraction prompt
+5. Engineer the watsonx.ai prompt to:
+   - Identify all services in the ARTA-standard table format
+   - Extract: name, description, office, processingTime, fees, requirements, whoMayAvail, classification
+   - Return valid JSON array matching the `services.json` schema
+   - Handle tiered fee tables (PNRI pattern) by summarizing into a fees string
+6. Create `server/normalizeServices.js` — post-processes AI output: normalize time units, clean fee strings, assign auto-generated `id` fields
+7. Test extraction against all 3 reference PDFs and verify output quality
+8. Store watsonx.ai API key in `.env` — never hardcoded
+
+**Relevant Context**
+- All Philippine Citizen Charters follow ARTA RA 11032 format: Client Steps → Agency Action → Fees → Processing Time → Person Responsible
+- `pdf-parse` npm package extracts plain text from PDF — this text is sent to watsonx.ai
+- watsonx.ai model: `ibm/granite-13b-instruct-v2` or `meta-llama/llama-3-1-70b-instruct` — use whichever is available in the hackathon environment
+- PNRI has 52 services and complex tiered fees — the prompt must instruct the AI to summarize fee tables rather than reproduce them verbatim
+- `.env` variables needed: `WATSONX_API_KEY`, `WATSONX_PROJECT_ID`, `WATSONX_URL`
+
+---
+
+### Sub-Task 12 — Agency PDF Upload and Review UI
+
+**Status:** [ ] pending
+
+**Intent**
+Build the self-service web page where agency staff (non-technical) upload their Citizen Charter PDF,
+review the AI-extracted services, make edits if needed, and publish their Service Finder — all
+without developer involvement.
+
+**Expected Outcomes**
+- An `/upload` route shows a clean upload page: agency name field + PDF drag-and-drop zone
+- After upload, a loading state shows "Reading your charter..." while watsonx.ai processes it
+- A review screen shows all extracted services in an editable table (name, processing time, fees, category)
+- Staff can edit any field inline before approving
+- A "Publish" button saves the approved `services.json` and adds the agency to the platform
+- The new agency immediately appears on the landing page and its Service Finder is live
+- The upload page works for FNRI, PNRI, and SEI reference PDFs without errors
+
+**Todo List**
+1. Create `src/pages/UploadPage.tsx` — agency name input + PDF drag-and-drop zone (using HTML5 drag events, no library needed)
+2. On file drop/select, `POST` the PDF to `server/api/extract` and show a loading spinner
+3. Create `src/pages/ReviewPage.tsx` — displays extracted services in a scrollable, inline-editable table
+4. Each row in the review table is editable: click a cell to edit name, processingTime, fees, category, description
+5. Add a category dropdown per row (Laboratory, Training, Information, Surveys, Regulatory, Other) — category list is generic, not FNRI-specific
+6. "Add row" and "Delete row" buttons allow staff to correct missed or duplicate extractions
+7. "Publish" button: saves the final JSON, writes to `src/data/agencies/<slugified-agency-name>/services.json`, triggers a rebuild
+8. Show a success screen: "Your Service Finder is live!" with a shareable link
+9. Add a "Start over" option that clears the upload and returns to the upload page
+
+**Relevant Context**
+- For the hackathon demo, "Publish" can write to a local file and trigger `npm run build` — no database needed
+- Inline editing: use `contentEditable` on table cells or controlled inputs that toggle on click
+- The category dropdown in review must use generic categories (not FNRI-specific) since this serves all agencies
+- `slugify(agencyName)` produces the directory name: "DOST-PNRI" → `dost-pnri`
+
+---
+
 ## Architecture Summary
+
+### Phase A — FNRI MVP (Sub-Tasks 1–8)
 
 ```
 src/
   data/
-    services.json       # All 38 FNRI services — single source of truth
-    categories.json     # 5 category definitions with icons and colors
-    wizard.json         # 3 wizard questions and their answer options
+    agencies/
+      fnri/
+        services.json       # All 38 FNRI services
+        categories.json     # 5 FNRI category definitions
+        wizard.json         # FNRI wizard questions
+        agency.config.json  # FNRI branding and contact info
+      pnri/                 # Populated in Sub-Task 11
+      sei/                  # Populated in Sub-Task 11
+      index.ts              # Merges all agency services for cross-agency search
   components/
-    Layout.tsx          # App shell with header and bottom nav
-    Header.tsx          # FNRI branding bar
-    BottomNav.tsx       # 3-tab navigation
-    CategoryCard.tsx    # Visual card for Browse grid
-    ServiceCard.tsx     # Compact card for search/browse/wizard results
-    ServiceDetail.tsx   # Full detail drawer/modal (shared across all 3 entry points)
-    WizardStep.tsx      # Single wizard question screen
-    WizardResults.tsx   # Wizard results list
+    Layout.tsx
+    Header.tsx
+    BottomNav.tsx
+    AgencyCard.tsx          # Added in Sub-Task 10
+    CategoryCard.tsx
+    ServiceCard.tsx         # Agency badge added in Sub-Task 10
+    ServiceDetail.tsx
+    WizardStep.tsx
+    WizardResults.tsx
   hooks/
-    useSearch.ts        # Fuse.js wrapper returning ranked results
+    useAgencyConfig.ts      # Added in Sub-Task 9
+    useSearch.ts
   pages/
-    SearchPage.tsx      # Instant search entry point
-    BrowsePage.tsx      # Category browse entry point
-    WizardPage.tsx      # Guided wizard entry point
-  App.tsx               # Root — view state, renders Layout + active page
-  main.tsx              # Vite entry point
-  index.css             # Tailwind directives
+    LandingPage.tsx         # Added in Sub-Task 10
+    SearchPage.tsx
+    BrowsePage.tsx
+    WizardPage.tsx
+    UploadPage.tsx          # Added in Sub-Task 12
+    ReviewPage.tsx          # Added in Sub-Task 12
+  App.tsx
+  main.tsx
+  index.css
+```
+
+### Phase B — Multi-Agency Backend (Sub-Tasks 9–12)
+
+```
+server/
+  index.js                  # Express app, route definitions
+  extractServices.js        # watsonx.ai PDF extraction prompt + API call
+  normalizeServices.js      # Post-processing: time units, fee strings, IDs
+  .env                      # WATSONX_API_KEY, WATSONX_PROJECT_ID, WATSONX_URL
+  package.json
+```
+
+### Data Flow
+
+```
+Agency PDF Upload
+       │
+       ▼
+  pdf-parse (text extraction)
+       │
+       ▼
+  watsonx.ai (structured JSON extraction)
+       │
+       ▼
+  normalizeServices.js (clean + validate)
+       │
+       ▼
+  ReviewPage (agency staff edits + approves)
+       │
+       ▼
+  services.json saved to src/data/agencies/<slug>/
+       │
+       ▼
+  npm run build → GitHub Pages deploy
+       │
+       ▼
+  Agency live on LandingPage + Service Finder
 ```

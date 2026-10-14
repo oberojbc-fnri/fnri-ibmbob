@@ -1,7 +1,7 @@
-# FNRI Service Finder
+# Citizen Charter Service Finder
 ## Project Overview for Non-Technical Team Members
 
-**Project:** FNRI Citizen Charter Service Finder
+**Project:** Philippine Government Citizen Charter Service Finder Platform
 **Prepared for:** FNRI Team — Non-Technical Stakeholders
 **Purpose:** To explain what we are building, why, and how — in plain language
 
@@ -9,134 +9,150 @@
 
 ## 🧭 What Are We Building?
 
-We are building a **free, public website** that helps ordinary citizens quickly find the right FNRI service for their needs — without having to read through the entire Citizen Charter.
+We are building a **free, public website** that helps ordinary citizens quickly find the right government service for their needs — without having to read through an entire Citizen Charter document.
 
-Think of it like a **digital information desk**. Instead of calling FNRI or reading a long document, a citizen simply visits the website, types or answers a few questions, and immediately sees exactly which FNRI service they need — along with what to bring, how long it takes, and who to contact.
+Think of it like a **digital information desk**. Instead of calling an agency or reading a long document, a citizen simply visits the website, types or answers a few questions, and immediately sees exactly which service they need — along with what to bring, how long it takes, and who to contact.
+
+The platform starts with **FNRI** and is designed from day one to work for **any Philippine government agency** — because all agencies use the same standard Citizen Charter format required by law (Republic Act 11032).
 
 ---
 
-## 🙋 Who Is This For?
+## 🏛️ Who Is This For?
 
-This tool is designed for anyone who needs to interact with FNRI, including:
+### Citizens
+Anyone who needs to interact with a government agency:
 
 | Who | Example Need |
 |---|---|
-| 🧑‍🍳 Food business owners & MSMEs | "I need to get my product tested before selling it" |
-| 👨‍👩‍👧 Parents & caregivers | "I want to know if my child's diet is healthy" |
-| 🎓 Students & researchers | "I need nutrition survey data for my thesis" |
+| 🧑‍🍳 Food business owners and MSMEs | "I need to get my product tested before selling it" |
+| 👨‍👩‍👧 Parents and caregivers | "I want to know if my child's diet is healthy" |
+| 🎓 Students and researchers | "I need nutrition survey data for my thesis" |
 | 🏥 Health workers | "I want to attend a training on nutrition assessment" |
 | 🏛️ Government agencies | "We need FNRI to speak at our nutrition forum" |
+
+### Government Agencies
+Any agency that wants to make their Citizen Charter easier for citizens to use — without hiring developers or rebuilding their website.
 
 ---
 
 ## ❓ What Problem Does It Solve?
 
-Right now, citizens who want to use an FNRI service often face these challenges:
+Right now, citizens who want to use a government service often face these challenges:
 
 - ❌ The Citizen Charter is a long, technical document — hard to navigate
 - ❌ It's not always clear which office to contact or what documents to bring
 - ❌ Citizens may not even know the official name of the service they need
 - ❌ They have to call or visit in person just to find out basic information
+- ❌ Each agency has its own website with no consistent way to find services
 
-**Our website solves all of this** by letting citizens describe their need in everyday language and instantly getting the right answer.
+**Our platform solves all of this** for any government agency — in one place.
 
 ---
 
-## 🗺️ How Does It Work? (The Three Ways to Find a Service)
+## 📦 Two Parts of the Platform
+
+The platform has two parts that work together:
+
+```
+Part 1 — The Service Finder (what citizens use)
+Part 2 — The Upload Tool (what agency staff use to set it up)
+```
+
+---
+
+## Part 1 — The Service Finder (What Citizens See)
+
+### Three Ways to Find a Service
 
 We designed three different ways to find a service, because different people think differently.
 
----
+#### Way 1 — 🔍 Search (Type What You Need)
+The citizen types a few words — just like searching on Google.
 
-### Way 1 — 🔍 Search (Type What You Need)
+> **Example:** Type *"food testing"* → instantly see matching services from any agency
 
-The citizen types a few words describing what they need — just like searching on Google.
+#### Way 2 — 📂 Browse by Agency or Category
+For citizens who prefer to explore, the website shows all agencies as cards. Tap an agency, then browse its services by category.
 
-> **Example:** A citizen types *"food testing"* and immediately sees:
-> - Microbiological Laboratory Testing
-> - Chemical Laboratory Testing
-> - Technical Assistance and Test Quotation
+#### Way 3 — ❓ Guided Quiz
+Some citizens don't know what to search for. The website asks **3 simple questions**:
 
-The results appear **instantly as they type** — no need to press Enter or wait.
+> **Question 1:** Who are you? *(e.g., Food business owner / Student / Health worker)*
+> **Question 2:** What do you need? *(e.g., Test a product / Attend a training / Get data)*
+> **Question 3:** How do you prefer to engage? *(Visit in person / Online)*
 
----
+After answering, the website shows the most relevant services.
 
-### Way 2 — 📂 Browse by Category
-
-For citizens who prefer to explore, the website shows **five service categories** as picture cards:
-
-| 🧪 Laboratory | 📚 Training | 📄 Information | 📊 Surveys | 🫙 Sensory |
-|---|---|---|---|---|
-| Food & water testing | Workshops & seminars | Nutrition resources | Survey data requests | Product taste testing |
-
-The citizen taps a category and sees all the services under it.
-
----
-
-### Way 3 — ❓ Guided Quiz (For Citizens Who Don't Know What They Need)
-
-Some citizens don't know what to search for. For them, the website asks **3 simple questions**:
-
-> **Question 1:** Who are you?
-> *(e.g., Food business owner / Parent / Student / Health worker)*
->
-> **Question 2:** What do you need?
-> *(e.g., Test a product / Get nutrition info / Attend a training)*
->
-> **Question 3:** How do you prefer to engage?
-> *(e.g., Visit FNRI in person / Online or email)*
-
-After answering, the website shows the most relevant services for that citizen's profile.
-
----
-
-## 📋 What Information Will Citizens See?
-
-For every service, the website shows:
+### What Citizens See for Each Service
 
 | Information | Example |
 |---|---|
 | **What the service is** | "Get a full laboratory analysis of your food product's nutritional content" |
 | **Who can apply** | "Open to all — food businesses, individuals, researchers" |
 | **How long it takes** | "About 3 weeks (15 working days)" |
-| **How much it costs** | "PHP 1,500 for nutrition facts computation / Free for information requests" |
+| **How much it costs** | "PHP 1,500 / Free for information requests" |
 | **What to bring** | "500g food sample + filled-out request form" |
 | **Which office handles it** | "Service Laboratory Group — Chemical Laboratory" |
-| **How to contact them** | 📧 Email button · 📞 Phone number · 📍 Office location |
+| **How to contact them** | 📧 Email · 📞 Phone · 📍 Office location |
 
 All information is written in **plain, friendly English** — not technical jargon.
 
 ---
 
+## Part 2 — The Upload Tool (How Agencies Join the Platform)
+
+### The Key Insight: All Citizen Charters Look the Same
+
+By law (Republic Act 11032 — Ease of Doing Business Act), **every Philippine government agency must follow the same Citizen Charter format**. Every charter has the same columns:
+
+> Client Steps → Agency Action → Fees → Processing Time → Person Responsible
+
+This means our AI can read **any agency's charter** and understand it automatically.
+
+### How an Agency Gets On the Platform
+
+It takes about **15 minutes** — no technical knowledge needed:
+
+```
+Step 1 → Agency staff visits the Upload page
+Step 2 → Types their agency name
+Step 3 → Drags and drops their Citizen Charter PDF
+Step 4 → AI reads the charter and extracts all services (takes about 2 minutes)
+Step 5 → Staff reviews the list on screen — can edit anything
+Step 6 → Clicks "Publish"
+Step 7 → The agency's Service Finder is live immediately
+```
+
+### What the AI Does
+
+The AI (IBM watsonx) reads the charter PDF the same way a person would — but in seconds. It finds every service in the document and organizes the information into the right format for the website. Staff then review it to make sure everything looks correct before publishing.
+
+### Agencies Already Ready to Go
+
+We already have three agency charters in hand and ready to test:
+
+| Agency | Full Name | Services |
+|---|---|---|
+| FNRI | Food and Nutrition Research Institute | 38 |
+| PNRI | Philippine Nuclear Research Institute | 52 |
+| SEI | Science Education Institute | 12 |
+
+---
+
 ## 📱 Will It Work on Mobile?
 
-Yes — the website is **designed for mobile phones first**. This is important because most Filipino citizens access online services through their smartphones. Every button is large and easy to tap, and the layout works on any screen size.
+Yes — the website is **designed for mobile phones first**. Most Filipino citizens access online services through their smartphones. Every button is large and easy to tap, and the layout works on any screen size.
 
 ---
 
 ## 🔒 Is Any Data Collected from Citizens?
 
-**No.** The website does not:
+**No.** The public Service Finder does not:
 - Ask citizens to log in or register
 - Collect personal information
 - Store any search history
-- Require an internet connection to a server (the search works entirely within the browser)
 
-It is a simple, read-only information tool.
-
----
-
-## 📦 What Services Are Included?
-
-The website covers all **38 services** from the FNRI Citizen Charter 2026, grouped into 5 categories:
-
-| Category | Services Covered | Count |
-|---|---|---|
-| 🧪 Laboratory | Microbiological testing, chemical testing, blood analysis, proficiency testing, reference materials, nutrition facts computation | 8 |
-| 📚 Training | Meal management, food safety, cGMP, nutrition labeling, sensory evaluation, proximate analysis, and more | 19 |
-| 📄 Information | On-site and online access to FNRI resources, IEC materials, resource speakers | 6 |
-| 📊 Surveys | Nutrition survey data requests (phone, written, online), Public Use Files | 4 |
-| 🫙 Sensory | Sensory evaluation of food products | 1 |
+The Upload Tool (for agency staff only) requires the agency to log in with their agency credentials to prevent unauthorized uploads.
 
 ---
 
@@ -144,46 +160,70 @@ The website covers all **38 services** from the FNRI Citizen Charter 2026, group
 
 | What | Plain Explanation |
 |---|---|
-| **The website itself** | Built using modern web tools (React + Vite) that create fast, responsive pages |
-| **The look and feel** | Styled with Tailwind CSS — a design toolkit that makes it look clean on any screen |
-| **The search** | Powered by Fuse.js — a smart search tool that finds the right service even with typos |
-| **The service data** | Stored in a simple list file (`services.json`) built from the Citizen Charter |
-| **Where it lives** | Hosted for free on GitHub Pages — no monthly server cost |
-
-**No database. No login system. No server to maintain.** It is a lightweight, low-cost website.
+| **The website** | Built using modern web tools (React + Vite) that create fast, responsive pages |
+| **The look and feel** | Styled with Tailwind CSS — a design toolkit for clean, mobile-friendly pages |
+| **The search** | Powered by Fuse.js — a smart search that finds services even with typos |
+| **The AI extraction** | IBM watsonx reads PDF text and returns structured service data |
+| **The service data** | One file per agency (`services.json`) built from their Citizen Charter |
+| **Where it lives** | Hosted for free on GitHub Pages — no monthly server cost for citizens |
 
 ---
 
-## 🗓️ Build Phases at a Glance
+## 🗓️ Build Plan at a Glance
 
-| Phase | What Happens | Plain Description |
-|---|---|---|
-| **Phase 1** | Project Setup | Set up the blank website framework |
-| **Phase 2** | Service Data | Convert all 38 charter services into a clean, searchable format |
-| **Phase 3** | Layout & Navigation | Build the header, navigation bar, and page structure |
-| **Phase 4** | Search Feature | Build the instant search with result cards |
-| **Phase 5** | Browse Feature | Build the category cards and filtered service lists |
-| **Phase 6** | Guided Quiz | Build the 3-question wizard |
-| **Phase 7** | Quality Check | Test on mobile, check readability, ensure accessibility |
-| **Phase 8** | Go Live | Publish the website and share the link |
+### Phase A — FNRI Service Finder (Sub-Tasks 1–8)
+
+| Step | What Happens |
+|---|---|
+| 1 | Set up the blank website framework |
+| 2 | Convert all 38 FNRI charter services into a searchable format |
+| 3 | Build the header, navigation bar, and page structure |
+| 4 | Build the instant search with result cards |
+| 5 | Build the category cards and filtered service lists |
+| 6 | Build the 3-question guided quiz |
+| 7 | Test on mobile, check readability, ensure accessibility |
+| 8 | Publish the FNRI Service Finder live |
+
+### Phase B — Multi-Agency Platform (Sub-Tasks 9–12)
+
+| Step | What Happens |
+|---|---|
+| 9 | Make the website reusable — any agency can swap in their name, logo, and colors |
+| 10 | Add a landing page showing all agencies — citizens pick their agency or search across all |
+| 11 | Build the AI engine that reads a Citizen Charter PDF and extracts all services automatically |
+| 12 | Build the Upload and Review page — agency staff upload their PDF and publish in 15 minutes |
+
+---
+
+## 🎯 The Big Picture
+
+The goal is not just a tool for FNRI. It is a **platform for the entire Philippine government**.
+
+> *"Any Philippine government agency with a Citizen Charter can be onboarded in under 15 minutes — with no technical staff, no developer, no coding. An agency uploads their PDF, AI reads it, staff approves it, and citizens can find their services instantly."*
+
+There are over **1,800 government agencies** in the Philippines. All of them are required to have a Citizen Charter. This platform can serve all of them.
 
 ---
 
 ## 💬 What About a Chatbot?
 
-A chatbot was discussed as a **future enhancement** — it is not part of this first version. Once the Service Finder is live, the chatbot can be layered on top using AI (IBM watsonx), allowing citizens to ask follow-up questions in conversation. The data and structure we build now will make that easy to add later.
+A chatbot was discussed as a **future enhancement** — it is not part of this version. Once the platform is live, a chatbot powered by IBM watsonx can be added, allowing citizens to ask follow-up questions in conversation. The data and structure built now will make that easy to add later.
 
 ---
 
 ## ✅ What Does Success Look Like?
 
-The project is a success when:
+### Phase A (FNRI)
+- ✅ A citizen finds the right FNRI service in under 60 seconds
+- ✅ The website works on a mobile phone
+- ✅ All 38 FNRI services are findable and readable
+- ✅ The website is live and publicly accessible
 
-- ✅ A citizen can find the right FNRI service in **under 60 seconds**
-- ✅ The website works smoothly on a **mobile phone**
-- ✅ All 38 services from the charter are **findable and readable**
-- ✅ The website is **live and publicly accessible** via a URL
-- ✅ Citizens who don't know what they need can use the **quiz to be guided**
+### Phase B (Multi-Agency)
+- ✅ PNRI and SEI are onboarded using the Upload Tool
+- ✅ Citizens can search across all three agencies at once
+- ✅ An agency staff member with no technical background can onboard a new agency in 15 minutes
+- ✅ The same platform works for any future agency that uploads their charter
 
 ---
 
