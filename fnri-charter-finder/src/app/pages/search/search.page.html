@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-title>{{ agencyName }}</ion-title>
-    <ion-note slot="end" style="color:rgba(255,255,255,0.8); font-size:12px; padding-right:16px;">{{ tagline }}</ion-note>
+    <ion-note slot="end" class="text-xs pr-4" style="color:rgba(255,255,255,0.8)">{{ tagline }}</ion-note>
   </ion-toolbar>
   <ion-toolbar>
     <ion-searchbar
@@ -16,60 +16,71 @@
 </ion-header>
 
 <ion-content>
+
   <!-- Empty state -->
-  <div *ngIf="!hasSearched" class="empty-state">
-    <ion-icon name="search-outline" class="empty-icon"></ion-icon>
-    <h2>Find an FNRI service</h2>
-    <p>Type what you need in the search bar above</p>
-    <div class="suggestions">
-      <p class="suggestions-label">Try searching for:</p>
-      <div class="suggestion-chips">
-        <ion-chip outline (click)="onSearchInput({target:{value:'food testing'}})">food testing</ion-chip>
-        <ion-chip outline (click)="onSearchInput({target:{value:'nutrition training'}})">nutrition training</ion-chip>
-        <ion-chip outline (click)="onSearchInput({target:{value:'survey data'}})">survey data</ion-chip>
-        <ion-chip outline (click)="onSearchInput({target:{value:'nutrition label'}})">nutrition label</ion-chip>
-      </div>
+  <div *ngIf="!hasSearched" class="flex flex-col items-center justify-center pt-16 px-6 text-center">
+    <span class="material-symbols-outlined text-6xl text-gray-300 mb-4">search</span>
+    <h2 class="text-lg font-semibold text-gray-700 mb-1">Find an FNRI service</h2>
+    <p class="text-sm text-gray-500 mb-6">Type what you need in the search bar above</p>
+    <p class="text-xs text-gray-400 mb-3 uppercase tracking-wide">Try searching for:</p>
+    <div class="flex flex-wrap gap-2 justify-center">
+      <button class="px-3 py-1.5 rounded-full border border-gray-300 text-sm text-gray-600 bg-white"
+        (click)="onSearchInput({target:{value:'food testing'}})">food testing</button>
+      <button class="px-3 py-1.5 rounded-full border border-gray-300 text-sm text-gray-600 bg-white"
+        (click)="onSearchInput({target:{value:'nutrition training'}})">nutrition training</button>
+      <button class="px-3 py-1.5 rounded-full border border-gray-300 text-sm text-gray-600 bg-white"
+        (click)="onSearchInput({target:{value:'survey data'}})">survey data</button>
+      <button class="px-3 py-1.5 rounded-full border border-gray-300 text-sm text-gray-600 bg-white"
+        (click)="onSearchInput({target:{value:'nutrition label'}})">nutrition label</button>
     </div>
   </div>
 
   <!-- No results -->
-  <div *ngIf="hasSearched && results.length === 0" class="empty-state">
-    <ion-icon name="search-circle-outline" class="empty-icon"></ion-icon>
-    <h2>No services found</h2>
-    <p>Try different words, or use Browse or Guide Me tabs</p>
+  <div *ngIf="hasSearched && results.length === 0" class="flex flex-col items-center justify-center pt-16 px-6 text-center">
+    <span class="material-symbols-outlined text-6xl text-gray-300 mb-4">manage_search</span>
+    <h2 class="text-lg font-semibold text-gray-700 mb-1">No services found</h2>
+    <p class="text-sm text-gray-500">Try different words, or use Browse or Guide Me tabs</p>
   </div>
 
   <!-- Results -->
-  <ion-list *ngIf="results.length > 0" lines="none" class="results-list">
+  <ion-list *ngIf="results.length > 0" lines="none" class="px-4 pt-2 pb-24 bg-transparent">
     <ion-item
       *ngFor="let service of results"
       button
       detail="false"
       (click)="openDetail(service)"
-      class="service-item">
+      class="mb-3 rounded-xl overflow-hidden"
+      style="--background: transparent; --padding-start: 0; --inner-padding-end: 0;">
       <ion-label>
-        <div class="service-card">
-          <div class="service-header">
-            <h2 class="service-name">{{ service.plainName }}</h2>
-            <ion-badge [style.background]="getCategoryColor(service.category)" class="category-badge">
+        <div class="bg-white rounded-xl p-4 shadow-sm">
+          <div class="flex items-start justify-between gap-2 mb-1">
+            <h2 class="text-sm font-semibold text-gray-800 leading-tight flex-1">{{ service.plainName }}</h2>
+            <span class="text-xs font-medium px-2 py-0.5 rounded-full text-white flex-shrink-0"
+              [style.background]="getCategoryColor(service.category)">
               {{ service.category | titlecase }}
-            </ion-badge>
+            </span>
           </div>
-          <p class="service-desc">{{ service.description }}</p>
-          <div class="service-chips">
-            <ion-chip class="chip-time" outline>
-              <ion-icon name="time-outline"></ion-icon>
-              <ion-label>{{ service.processingTime }}</ion-label>
-            </ion-chip>
-            <ion-chip [class]="service.fees === 'Free' ? 'chip-free' : 'chip-fee'" outline>
-              <ion-icon [name]="service.fees === 'Free' ? 'gift-outline' : 'cash-outline'"></ion-icon>
-              <ion-label>{{ service.fees === 'Free' ? 'Free' : 'With fee' }}</ion-label>
-            </ion-chip>
+          <p class="text-xs text-gray-500 leading-relaxed mb-3 line-clamp-3">{{ service.description }}</p>
+          <div class="flex gap-2 flex-wrap">
+            <span class="inline-flex items-center gap-1 text-xs border border-gray-300 rounded-full px-2 py-0.5 text-gray-600">
+              <span class="material-symbols-outlined" style="font-size:13px">schedule</span>
+              {{ service.processingTime }}
+            </span>
+            <span class="inline-flex items-center gap-1 text-xs rounded-full px-2 py-0.5 border"
+              [class]="service.fees === 'Free'
+                ? 'border-green-500 text-green-700'
+                : 'border-red-400 text-red-600'">
+              <span class="material-symbols-outlined" style="font-size:13px">
+                {{ service.fees === 'Free' ? 'redeem' : 'payments' }}
+              </span>
+              {{ service.fees === 'Free' ? 'Free' : 'With fee' }}
+            </span>
           </div>
         </div>
       </ion-label>
     </ion-item>
   </ion-list>
+
 </ion-content>
 
 <!-- Service Detail Modal -->
@@ -80,69 +91,68 @@
         <ion-title>Service Details</ion-title>
         <ion-buttons slot="end">
           <ion-button (click)="closeDetail()" aria-label="Close">
-            <ion-icon name="close-outline"></ion-icon>
+            <span class="material-symbols-outlined">close</span>
           </ion-button>
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
-    <ion-content class="modal-content" *ngIf="selectedService">
-      <div class="detail-container">
-        <ion-badge [style.background]="getCategoryColor(selectedService.category)" class="detail-badge">
+    <ion-content *ngIf="selectedService">
+      <div class="p-4 pb-12">
+        <span class="inline-block text-xs font-semibold px-2 py-0.5 rounded-full text-white mb-3"
+          [style.background]="getCategoryColor(selectedService.category)">
           {{ selectedService.category | titlecase }}
-        </ion-badge>
-        <h1 class="detail-title">{{ selectedService.plainName }}</h1>
-        <p class="detail-desc">{{ selectedService.description }}</p>
+        </span>
+        <h1 class="text-xl font-bold text-gray-800 mb-2">{{ selectedService.plainName }}</h1>
+        <p class="text-sm text-gray-500 leading-relaxed mb-4">{{ selectedService.description }}</p>
 
-        <ion-list lines="none" class="detail-list">
-          <ion-item>
-            <ion-icon name="business-outline" slot="start" color="primary"></ion-icon>
-            <ion-label>
-              <p class="detail-label">Office</p>
-              <p class="detail-value">{{ selectedService.office }}</p>
-            </ion-label>
-          </ion-item>
-          <ion-item>
-            <ion-icon name="time-outline" slot="start" color="primary"></ion-icon>
-            <ion-label>
-              <p class="detail-label">Processing Time</p>
-              <p class="detail-value">{{ selectedService.processingTime }}</p>
-            </ion-label>
-          </ion-item>
-          <ion-item>
-            <ion-icon name="cash-outline" slot="start" color="primary"></ion-icon>
-            <ion-label>
-              <p class="detail-label">Fees</p>
-              <p class="detail-value">{{ selectedService.fees }}</p>
-            </ion-label>
-          </ion-item>
-          <ion-item>
-            <ion-icon name="people-outline" slot="start" color="primary"></ion-icon>
-            <ion-label>
-              <p class="detail-label">Who May Apply</p>
-              <p class="detail-value">{{ selectedService.whoMayAvail }}</p>
-            </ion-label>
-          </ion-item>
-        </ion-list>
+        <div class="space-y-3 mb-4">
+          <div class="flex items-start gap-3">
+            <span class="material-symbols-outlined text-primary mt-0.5" style="font-size:20px">domain</span>
+            <div>
+              <p class="text-xs text-gray-400 uppercase tracking-wide">Office</p>
+              <p class="text-sm text-gray-700">{{ selectedService.office }}</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="material-symbols-outlined text-primary mt-0.5" style="font-size:20px">schedule</span>
+            <div>
+              <p class="text-xs text-gray-400 uppercase tracking-wide">Processing Time</p>
+              <p class="text-sm text-gray-700">{{ selectedService.processingTime }}</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="material-symbols-outlined text-primary mt-0.5" style="font-size:20px">payments</span>
+            <div>
+              <p class="text-xs text-gray-400 uppercase tracking-wide">Fees</p>
+              <p class="text-sm text-gray-700">{{ selectedService.fees }}</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="material-symbols-outlined text-primary mt-0.5" style="font-size:20px">group</span>
+            <div>
+              <p class="text-xs text-gray-400 uppercase tracking-wide">Who May Apply</p>
+              <p class="text-sm text-gray-700">{{ selectedService.whoMayAvail }}</p>
+            </div>
+          </div>
+        </div>
 
-        <div class="requirements-section" *ngIf="selectedService.requirements?.length">
-          <h3 class="section-title">What to Bring</h3>
-          <ul class="requirements-list">
-            <li *ngFor="let req of selectedService.requirements">{{ req }}</li>
+        <div *ngIf="selectedService.requirements?.length" class="mb-4">
+          <h3 class="text-sm font-semibold text-gray-800 mb-2">What to Bring</h3>
+          <ul class="list-disc list-inside space-y-1">
+            <li *ngFor="let req of selectedService.requirements" class="text-sm text-gray-600">{{ req }}</li>
           </ul>
         </div>
 
-        <div class="cta-section">
-          <h3 class="section-title">Contact FNRI</h3>
-          <div class="cta-buttons">
-            <ion-button expand="block" color="primary" href="mailto:servicelab@fnri.dost.gov.ph">
-              <ion-icon name="mail-outline" slot="start"></ion-icon>
-              Email Us
-            </ion-button>
-            <ion-button expand="block" fill="outline" color="primary" href="https://www.fnri.dost.gov.ph" target="_blank">
-              <ion-icon name="globe-outline" slot="start"></ion-icon>
-              Visit Website
-            </ion-button>
-          </div>
+        <div class="mt-5 space-y-2">
+          <h3 class="text-sm font-semibold text-gray-800 mb-2">Contact FNRI</h3>
+          <ion-button expand="block" color="primary" href="mailto:servicelab@fnri.dost.gov.ph">
+            <span class="material-symbols-outlined mr-2" style="font-size:18px">mail</span>
+            Email Us
+          </ion-button>
+          <ion-button expand="block" fill="outline" color="primary" href="https://www.fnri.dost.gov.ph" target="_blank">
+            <span class="material-symbols-outlined mr-2" style="font-size:18px">language</span>
+            Visit Website
+          </ion-button>
         </div>
       </div>
     </ion-content>

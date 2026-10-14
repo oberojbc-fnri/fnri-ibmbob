@@ -2,7 +2,7 @@
   {
     "id": "q1",
     "question": "What best describes what you need?",
-    "icon": "help-circle-outline",
+    "icon": "help_circle",
     "answers": [
       { "label": "Test a food or product sample", "tag": "testing" },
       { "label": "Learn about food and nutrition", "tag": "training" },
@@ -13,7 +13,7 @@
   {
     "id": "q2",
     "question": "Who are you?",
-    "icon": "person-circle-outline",
+    "icon": "person",
     "answers": [
       { "label": "Student or researcher", "tag": "researcher" },
       { "label": "Food manufacturer or business", "tag": "industry" },
@@ -25,7 +25,7 @@
   {
     "id": "q3",
     "question": "Is there a fee involved acceptable to you?",
-    "icon": "cash-outline",
+    "icon": "payments",
     "answers": [
       { "label": "Free services only", "tag": "free" },
       { "label": "I can pay for the service", "tag": "paid" },

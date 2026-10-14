@@ -2,35 +2,35 @@
   {
     "id": "laboratory",
     "label": "Laboratory Testing",
-    "icon": "flask-outline",
+    "icon": "science",
     "color": "#0055a5",
     "description": "Food safety, nutrition analysis, and physicochemical testing services"
   },
   {
     "id": "training",
     "label": "Training & Capacity Building",
-    "icon": "school-outline",
+    "icon": "school",
     "color": "#2d9e5f",
     "description": "Workshops, seminars, and professional development on food and nutrition"
   },
   {
     "id": "consultancy",
     "label": "Technical Consultancy",
-    "icon": "chatbubbles-outline",
+    "icon": "support_agent",
     "color": "#7c5cd8",
     "description": "Expert advice on nutrition labeling, product development, and food regulations"
   },
   {
     "id": "data",
     "label": "Research & Data",
-    "icon": "bar-chart-outline",
+    "icon": "bar_chart",
     "color": "#e8333a",
     "description": "Access to FNRI surveys, databases, and nutrition research outputs"
   },
   {
     "id": "library",
     "label": "Library & Information",
-    "icon": "library-outline",
+    "icon": "local_library",
     "color": "#f5a623",
     "description": "Access to publications, references, and nutrition information resources"
   }
