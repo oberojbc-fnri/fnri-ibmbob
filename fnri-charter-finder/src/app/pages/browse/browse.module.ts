@@ -4,9 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { BrowsePageRoutingModule } from './browse-routing.module';
 import { BrowsePage } from './browse.page';
+import { MaterialModule } from '../../material.module';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, IonicModule, BrowsePageRoutingModule],
+  imports: [CommonModule, FormsModule, IonicModule, BrowsePageRoutingModule, MaterialModule],
   declarations: [BrowsePage],
 })
 export class BrowsePageModule {}

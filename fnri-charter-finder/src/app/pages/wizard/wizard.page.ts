@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DataService, WizardQuestion, Service } from '../../services/data.service';
-import { AgencyConfigService } from '../../services/agency-config.service';
 
 type WizardState = 'questions' | 'results';
 
@@ -10,25 +10,23 @@ type WizardState = 'questions' | 'results';
   styleUrls: ['wizard.page.scss'],
 })
 export class WizardPage implements OnInit {
+  @ViewChild('detailTpl') detailTpl!: TemplateRef<any>;
+
   questions: WizardQuestion[] = [];
   currentIndex = 0;
   selectedTags: string[] = [];
   state: WizardState = 'questions';
   results: Service[] = [];
   selectedService: Service | null = null;
-  isModalOpen = false;
-  agencyName = '';
-  contactEmail = '';
+  private dialogRef: MatDialogRef<any> | null = null;
 
   constructor(
     private dataService: DataService,
-    private agencyConfigService: AgencyConfigService,
+    private dialog: MatDialog,
   ) {}
 
   ngOnInit() {
     this.questions = this.dataService.getWizardQuestions();
-    this.agencyName = this.agencyConfigService.config.agencyName;
-    this.contactEmail = this.agencyConfigService.contactEmail;
   }
 
   get currentQuestion(): WizardQuestion {
@@ -36,7 +34,7 @@ export class WizardPage implements OnInit {
   }
 
   get progress(): number {
-    return ((this.currentIndex) / this.questions.length) * 100;
+    return (this.currentIndex / this.questions.length) * 100;
   }
 
   selectAnswer(tag: string) {
@@ -46,13 +44,9 @@ export class WizardPage implements OnInit {
     if (this.currentIndex < this.questions.length - 1) {
       this.currentIndex++;
     } else {
-      this.showResults();
+      this.results = this.dataService.getServicesByTags(this.selectedTags);
+      this.state = 'results';
     }
-  }
-
-  showResults() {
-    this.results = this.dataService.getServicesByTags(this.selectedTags);
-    this.state = 'results';
   }
 
   restart() {
@@ -64,11 +58,10 @@ export class WizardPage implements OnInit {
 
   openService(service: Service) {
     this.selectedService = service;
-    this.isModalOpen = true;
-  }
-
-  closeService() {
-    this.isModalOpen = false;
-    this.selectedService = null;
+    this.dialogRef = this.dialog.open(this.detailTpl, {
+      maxWidth: '560px',
+      width: '95vw',
+      panelClass: 'detail-dialog',
+    });
   }
 }
