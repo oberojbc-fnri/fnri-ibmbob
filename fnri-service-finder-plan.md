@@ -191,7 +191,7 @@ without any SCSS override.
 
 ### Sub-Task 1 — Project Scaffold
 
-**Status:** [ ] pending
+**Status:** [x] complete
 
 **Intent**
 Bootstrap the Ionic + Angular project structure and configure GitHub Pages deployment so every
@@ -224,7 +224,7 @@ subsequent sub-task builds on a working foundation.
 
 ### Sub-Task 2 — Services Data File
 
-**Status:** [ ] pending
+**Status:** [x] complete
 
 **Intent**
 Create the single source-of-truth data file that powers all three entry points. Every service from
@@ -264,7 +264,7 @@ replace charter jargon so search results are meaningful to ordinary citizens.
 
 ### Sub-Task 3 — Core Layout and Navigation Shell
 
-**Status:** [ ] pending
+**Status:** [x] complete
 
 **Intent**
 Build the persistent Ionic app shell — IonHeader, IonTabs, and IonToolbar — that all pages live
@@ -296,7 +296,7 @@ inside. Establishes the visual identity and mobile-first layout baseline using I
 
 ### Sub-Task 4 — Instant Search Page
 
-**Status:** [ ] pending
+**Status:** [x] complete
 
 **Intent**
 Implement the primary entry point: an IonSearchbar where citizens type their need in plain language
@@ -329,7 +329,7 @@ and see matching services appear instantly as they type, with the best match ran
 
 ### Sub-Task 5 — Browse by Category Page
 
-**Status:** [ ] pending
+**Status:** [x] complete
 
 **Intent**
 Provide a visual, zero-typing path using Ionic's IonGrid and IonCard for citizens who prefer to
@@ -360,7 +360,7 @@ explore services by type rather than searching.
 
 ### Sub-Task 6 — Guided Wizard Page
 
-**Status:** [ ] pending
+**Status:** [x] complete
 
 **Intent**
 Serve citizens who do not know what they need by walking them through 3 focused questions using
@@ -393,7 +393,7 @@ Ionic's step-by-step UI pattern and returning a personalized set of matching ser
 
 ### Sub-Task 7 — Polish, Accessibility, and Mobile QA
 
-**Status:** [ ] pending
+**Status:** [x] complete
 
 **Intent**
 Ensure the app meets the mobile-first UX standard: readable on small screens, accessible to users
@@ -428,7 +428,7 @@ with disabilities, fast on slow connections, and visually cohesive.
 
 ### Sub-Task 8 — GitHub Pages Deployment
 
-**Status:** [ ] pending
+**Status:** [x] complete
 
 **Intent**
 Deploy the Angular + Ionic build to GitHub Pages so it is publicly accessible via a shareable URL
@@ -458,7 +458,7 @@ for the hackathon demo.
 
 ### Sub-Task 9 — White-Label Agency Config
 
-**Status:** [ ] pending
+**Status:** [x] complete
 
 **Intent**
 Refactor FNRI-specific hardcoded values into `agency.config.json` so any agency can deploy their own
@@ -488,7 +488,7 @@ Service Finder by swapping one config file and one `services.json`. No code chan
 
 ### Sub-Task 10 — Multi-Agency Landing Page
 
-**Status:** [ ] pending
+**Status:** [x] complete
 
 **Intent**
 Add a landing page that presents all onboarded agencies as Ionic cards so citizens can choose their
@@ -522,7 +522,7 @@ agency or search across all agencies at once. This is the entry point to the mul
 
 ### Sub-Task 11 — watsonx.ai PDF Extraction Engine
 
-**Status:** [ ] pending
+**Status:** [x] complete
 
 **Intent**
 Build the AI extraction pipeline that reads a Citizen Charter PDF and returns a structured
@@ -560,7 +560,7 @@ Build the AI extraction pipeline that reads a Citizen Charter PDF and returns a 
 
 ### Sub-Task 12 — Agency PDF Upload and Review UI
 
-**Status:** [ ] pending
+**Status:** [x] complete
 
 **Intent**
 Build the self-service Angular + Ionic pages where agency staff (non-technical) upload their charter

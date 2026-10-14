@@ -14,6 +14,8 @@ export class BrowsePage implements OnInit {
   selectedService: Service | null = null;
   isServiceModalOpen = false;
   agencyName = '';
+  contactEmail = '';
+  websiteUrl = '';
 
   constructor(
     private dataService: DataService,
@@ -23,6 +25,8 @@ export class BrowsePage implements OnInit {
   ngOnInit() {
     this.categories = this.dataService.getCategories();
     this.agencyName = this.agencyConfigService.config.agencyName;
+    this.contactEmail = this.agencyConfigService.contactEmail;
+    this.websiteUrl = this.agencyConfigService.websiteUrl;
   }
 
   selectCategory(cat: Category) {

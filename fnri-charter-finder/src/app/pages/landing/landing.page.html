@@ -1,0 +1,158 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>DOST Service Finder</ion-title>
+    <ion-note slot="end" style="color:rgba(255,255,255,0.8)" class="text-xs pr-4">All agencies</ion-note>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar
+      [(ngModel)]="query"
+      (ionInput)="onSearchInput($event)"
+      placeholder="Search across all agencies…"
+      debounce="0"
+      show-clear-button="focus"
+      animated="true">
+    </ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <!-- Cross-agency search results -->
+  <div *ngIf="hasSearched">
+    <div *ngIf="results.length === 0" class="flex flex-col items-center justify-center pt-16 px-6 text-center">
+      <span class="material-symbols-outlined text-6xl text-gray-300 mb-4">manage_search</span>
+      <h2 class="text-lg font-semibold text-gray-700 mb-1">No services found</h2>
+      <p class="text-sm text-gray-500">Try different keywords or browse an agency below</p>
+    </div>
+
+    <ion-list *ngIf="results.length > 0" lines="none" class="px-4 pt-2 pb-6 bg-transparent">
+      <ion-item
+        *ngFor="let service of results"
+        button detail="false"
+        (click)="openService(service)"
+        class="mb-3 rounded-xl overflow-hidden"
+        style="--background: transparent; --padding-start: 0; --inner-padding-end: 0;">
+        <ion-label>
+          <div class="bg-white rounded-xl p-4 shadow-sm">
+            <div class="flex items-start justify-between gap-2 mb-1">
+              <h2 class="text-sm font-semibold text-gray-800 leading-tight flex-1">{{ service.plainName }}</h2>
+              <span class="text-xs font-semibold px-2 py-0.5 rounded-full text-white flex-shrink-0"
+                [style.background]="service.agencyColor">
+                {{ service.agencyName }}
+              </span>
+            </div>
+            <p class="text-xs text-gray-500 leading-relaxed mb-3 line-clamp-2">{{ service.description }}</p>
+            <div class="flex gap-2 flex-wrap">
+              <span class="inline-flex items-center gap-1 text-xs border border-gray-300 rounded-full px-2 py-0.5 text-gray-600">
+                <span class="material-symbols-outlined" style="font-size:13px">schedule</span>
+                {{ service.processingTime }}
+              </span>
+              <span class="inline-flex items-center gap-1 text-xs rounded-full px-2 py-0.5 border"
+                [class]="service.fees === 'Free' ? 'border-green-500 text-green-700' : 'border-red-400 text-red-600'">
+                <span class="material-symbols-outlined" style="font-size:13px">
+                  {{ service.fees === 'Free' ? 'redeem' : 'payments' }}
+                </span>
+                {{ service.fees === 'Free' ? 'Free' : 'With fee' }}
+              </span>
+            </div>
+          </div>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <!-- Agency grid (shown when not searching) -->
+  <div *ngIf="!hasSearched" class="px-4 pt-4 pb-24">
+    <h2 class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-4">Choose an agency</h2>
+    <div class="flex flex-col gap-3">
+      <div
+        *ngFor="let agency of agencies"
+        (click)="goToAgency(agency)"
+        class="bg-white rounded-2xl p-4 shadow-sm border-l-4 cursor-pointer active:opacity-70"
+        [style.border-left-color]="agency.primaryColor">
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
+            [style.background]="agency.primaryColor + '18'">
+            <span class="material-symbols-outlined text-2xl" [style.color]="agency.primaryColor">domain</span>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 mb-0.5">
+              <h3 class="text-sm font-bold text-gray-800">{{ agency.agencyName }}</h3>
+              <span class="text-xs font-semibold px-1.5 py-0.5 rounded text-white"
+                [style.background]="agency.primaryColor">{{ agency.agencyAbbreviation }}</span>
+            </div>
+            <p class="text-xs text-gray-500 leading-snug line-clamp-1">{{ agency.fullName }}</p>
+            <p class="text-xs text-gray-400 mt-0.5">{{ agency.serviceCount }} services</p>
+          </div>
+          <span class="material-symbols-outlined text-gray-300">chevron_right</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</ion-content>
+
+<!-- Service Detail Modal -->
+<ion-modal [isOpen]="isModalOpen" (didDismiss)="closeService()" [breakpoints]="[0, 0.5, 0.92]" [initialBreakpoint]="0.92" backdropDismiss="true">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Service Details</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="closeService()" aria-label="Close">
+            <span class="material-symbols-outlined">close</span>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content *ngIf="selectedService">
+      <div class="p-4 pb-12">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="inline-block text-xs font-semibold px-2 py-0.5 rounded-full text-white"
+            [style.background]="selectedService.agencyColor">
+            {{ selectedService.agencyName }}
+          </span>
+          <span class="text-xs text-gray-400 capitalize">{{ selectedService.category }}</span>
+        </div>
+        <h1 class="text-xl font-bold text-gray-800 mb-2">{{ selectedService.plainName }}</h1>
+        <p class="text-sm text-gray-500 leading-relaxed mb-4">{{ selectedService.description }}</p>
+        <div class="space-y-3 mb-4">
+          <div class="flex items-start gap-3">
+            <span class="material-symbols-outlined text-primary mt-0.5" style="font-size:20px">domain</span>
+            <div>
+              <p class="text-xs text-gray-400 uppercase tracking-wide">Office</p>
+              <p class="text-sm text-gray-700">{{ selectedService.office }}</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="material-symbols-outlined text-primary mt-0.5" style="font-size:20px">schedule</span>
+            <div>
+              <p class="text-xs text-gray-400 uppercase tracking-wide">Processing Time</p>
+              <p class="text-sm text-gray-700">{{ selectedService.processingTime }}</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="material-symbols-outlined text-primary mt-0.5" style="font-size:20px">payments</span>
+            <div>
+              <p class="text-xs text-gray-400 uppercase tracking-wide">Fees</p>
+              <p class="text-sm text-gray-700">{{ selectedService.fees }}</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="material-symbols-outlined text-primary mt-0.5" style="font-size:20px">group</span>
+            <div>
+              <p class="text-xs text-gray-400 uppercase tracking-wide">Who May Apply</p>
+              <p class="text-sm text-gray-700">{{ selectedService.whoMayAvail }}</p>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="selectedService.requirements?.length" class="mb-4">
+          <h3 class="text-sm font-semibold text-gray-800 mb-2">What to Bring</h3>
+          <ul class="list-disc list-inside space-y-1">
+            <li *ngFor="let req of selectedService.requirements" class="text-sm text-gray-600">{{ req }}</li>
+          </ul>
+        </div>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>

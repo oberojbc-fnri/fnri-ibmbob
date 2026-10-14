@@ -1,0 +1,93 @@
+[
+  {
+    "id": "pnri-s001",
+    "plainName": "Nuclear Technique Application in Agriculture",
+    "officialName": "Nuclear Technique Application Services for Agriculture",
+    "description": "Application of nuclear and isotopic techniques for crop improvement, soil and water management, and pest control in agriculture.",
+    "category": "laboratory",
+    "office": "Isotope Application Division",
+    "whoMayAvail": "Farmers, agricultural researchers, LGUs, academic institutions",
+    "requirements": ["Letter of request", "Project description"],
+    "processingTime": "10-15 working days",
+    "fees": "Free (for government); with fee for private sector",
+    "tags": ["testing", "researcher", "government", "agriculture", "nuclear", "isotope"]
+  },
+  {
+    "id": "pnri-s002",
+    "plainName": "Radiation Dosimetry Services",
+    "officialName": "Radiation Dosimetry and Personal Monitoring Services",
+    "description": "Provision of film badges and TLD dosimeters for monitoring radiation exposure of workers in radiation facilities.",
+    "category": "laboratory",
+    "office": "Health Physics Division",
+    "whoMayAvail": "Radiation workers, hospitals, industrial facilities using radioactive materials",
+    "requirements": ["Registration form", "Radiation facility license"],
+    "processingTime": "1-2 working days (issuance); quarterly reading",
+    "fees": "With fee (quarterly subscription)",
+    "tags": ["testing", "industry", "government", "paid", "radiation", "dosimetry", "health physics"]
+  },
+  {
+    "id": "pnri-s003",
+    "plainName": "Radioactive Waste Management",
+    "officialName": "Radioactive Waste Collection and Disposal Services",
+    "description": "Collection, treatment, conditioning, and disposal of radioactive waste from hospitals, industries, and research facilities.",
+    "category": "laboratory",
+    "office": "Radioactive Waste Management Division",
+    "whoMayAvail": "Licensed radiation facilities generating radioactive waste",
+    "requirements": ["Waste characterization form", "Facility license", "Payment arrangement"],
+    "processingTime": "By schedule (quarterly collection rounds)",
+    "fees": "With fee (based on volume and type)",
+    "tags": ["testing", "industry", "government", "paid", "radioactive waste", "nuclear", "disposal"]
+  },
+  {
+    "id": "pnri-s004",
+    "plainName": "Food Irradiation Services",
+    "officialName": "Food Irradiation for Preservation and Phytosanitary Treatment",
+    "description": "Gamma irradiation services for food preservation, quarantine treatment, and shelf-life extension for export and domestic markets.",
+    "category": "laboratory",
+    "office": "Nuclear Research and Development Division",
+    "whoMayAvail": "Food exporters, food manufacturers, agricultural traders",
+    "requirements": ["Application form", "Food sample specifications", "Payment"],
+    "processingTime": "3-7 working days",
+    "fees": "With fee (per batch)",
+    "tags": ["testing", "industry", "paid", "food irradiation", "preservation", "gamma", "export"]
+  },
+  {
+    "id": "pnri-s005",
+    "plainName": "Nuclear Analytical Services (NAA/XRF)",
+    "officialName": "Nuclear Analytical Techniques — Neutron Activation Analysis and X-Ray Fluorescence",
+    "description": "Elemental analysis of environmental, geological, biological, and industrial samples using NAA and XRF techniques.",
+    "category": "laboratory",
+    "office": "Nuclear Analytical Services Division",
+    "whoMayAvail": "Environmental agencies, mining companies, researchers, regulatory bodies",
+    "requirements": ["Request form", "Sample description", "Payment"],
+    "processingTime": "10-20 working days",
+    "fees": "With fee (per element/sample)",
+    "tags": ["testing", "researcher", "industry", "paid", "NAA", "XRF", "elemental analysis", "environment"]
+  },
+  {
+    "id": "pnri-s006",
+    "plainName": "Radiation Technology Training",
+    "officialName": "Training on Radiation Protection and Nuclear Technology Applications",
+    "description": "Short courses and specialized training on radiation protection, nuclear safety, reactor operation, and nuclear technology applications.",
+    "category": "training",
+    "office": "Training and Information Division",
+    "whoMayAvail": "Government employees, health workers, industrial radiation workers, researchers",
+    "requirements": ["Registration form", "Endorsement letter", "Training fee payment"],
+    "processingTime": "3-5 days (per batch schedule)",
+    "fees": "With fee",
+    "tags": ["training", "government", "professional", "paid", "radiation protection", "nuclear safety"]
+  },
+  {
+    "id": "pnri-s007",
+    "plainName": "Sterilization Services for Medical Devices",
+    "officialName": "Radiation Sterilization of Medical Devices and Healthcare Products",
+    "description": "Gamma radiation sterilization services for single-use medical devices, healthcare products, and laboratory materials.",
+    "category": "laboratory",
+    "office": "Nuclear Research and Development Division",
+    "whoMayAvail": "Medical device manufacturers, hospitals, pharmaceutical companies",
+    "requirements": ["Application form", "Product specifications", "Sterilization protocol", "Payment"],
+    "processingTime": "5-10 working days",
+    "fees": "With fee",
+    "tags": ["testing", "industry", "paid", "sterilization", "medical devices", "gamma irradiation"]
+  }
+]

@@ -1,0 +1,67 @@
+[
+  {
+    "id": "sei-s001",
+    "plainName": "DOST Scholarship Application Assistance",
+    "officialName": "Assistance on DOST Undergraduate Scholarship Applications",
+    "description": "Guidance and processing of applications for the DOST Science and Technology Scholarship Program for incoming college students.",
+    "category": "information",
+    "office": "Scholarship Division",
+    "whoMayAvail": "Incoming college freshmen, graduating high school students, high school graduates",
+    "requirements": ["Accomplished application form", "Grade transcript / Form 138", "Certificate of acceptance from DOST-accredited school"],
+    "processingTime": "Within the scholarship application period (annually)",
+    "fees": "Free",
+    "tags": ["data", "public", "researcher", "free", "scholarship", "DOST", "college", "student"]
+  },
+  {
+    "id": "sei-s002",
+    "plainName": "Merit Scholarship (Graduate) Application",
+    "officialName": "DOST-SEI Graduate Scholarship Program Processing",
+    "description": "Application processing for the DOST Graduate Scholarship Programs (Accelerated Science and Technology Human Resource Development Program — ASTHRDP).",
+    "category": "information",
+    "office": "Graduate Scholarship Division",
+    "whoMayAvail": "Professionals, faculty members, and researchers pursuing graduate degrees in science and technology",
+    "requirements": ["Application form", "Transcript of records", "Endorsement from institution", "Research proposal (PhD applicants)"],
+    "processingTime": "30-45 working days (evaluation period)",
+    "fees": "Free",
+    "tags": ["data", "researcher", "professional", "free", "graduate scholarship", "ASTHRDP", "PhD", "masters"]
+  },
+  {
+    "id": "sei-s003",
+    "plainName": "Science Camp and Youth Programs",
+    "officialName": "National Science and Technology Youth Programs (Regional Science Olympiad, STUFAIRS)",
+    "description": "Administration and information on national science competitions, regional science olympiads, and science fairs for elementary and high school students.",
+    "category": "training",
+    "office": "Science and Technology Education Division",
+    "whoMayAvail": "Elementary and high school students, science teachers, school administrators",
+    "requirements": ["School endorsement", "Registration form (per program)"],
+    "processingTime": "Per program schedule",
+    "fees": "Free",
+    "tags": ["training", "public", "free", "science olympiad", "youth", "high school", "competition", "STUFAIRS"]
+  },
+  {
+    "id": "sei-s004",
+    "plainName": "Science and Technology Education Research Support",
+    "officialName": "Technical Assistance for S&T Education Research",
+    "description": "Support for researchers and educators developing science and technology curricula, learning materials, and education research in the Philippines.",
+    "category": "consultancy",
+    "office": "Research and Development Division",
+    "whoMayAvail": "Science educators, curriculum developers, academic researchers in S&T education",
+    "requirements": ["Letter of request", "Research concept paper"],
+    "processingTime": "5-10 working days",
+    "fees": "Free",
+    "tags": ["consultancy", "researcher", "government", "free", "S&T education", "curriculum", "research support"]
+  },
+  {
+    "id": "sei-s005",
+    "plainName": "DOST Scholarship Database and Records Request",
+    "officialName": "Verification of DOST Scholarship Status and Records",
+    "description": "Verification and certification of DOST scholarship grants, scholarship status, and scholar records for employment, government transactions, and continuance.",
+    "category": "information",
+    "office": "Records Management Division",
+    "whoMayAvail": "DOST scholars and alumni, employers, government agencies",
+    "requirements": ["Written request or email", "Valid ID", "Purpose statement"],
+    "processingTime": "3-5 working days",
+    "fees": "Free",
+    "tags": ["data", "public", "free", "scholarship records", "verification", "certification", "DOST scholar"]
+  }
+]

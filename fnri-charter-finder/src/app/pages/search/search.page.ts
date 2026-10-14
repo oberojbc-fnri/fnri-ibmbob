@@ -19,6 +19,8 @@ export class SearchPage implements OnInit, OnDestroy {
 
   agencyName = '';
   tagline = '';
+  contactEmail = '';
+  websiteUrl = '';
 
   private querySubject = new Subject<string>();
   private sub!: Subscription;
@@ -32,6 +34,8 @@ export class SearchPage implements OnInit, OnDestroy {
   ngOnInit() {
     this.agencyName = this.agencyConfigService.config.agencyName;
     this.tagline = this.agencyConfigService.config.tagline;
+    this.contactEmail = this.agencyConfigService.contactEmail;
+    this.websiteUrl = this.agencyConfigService.websiteUrl;
     this.sub = this.querySubject.pipe(debounceTime(300)).subscribe(q => {
       this.results = this.searchService.search(q);
     });

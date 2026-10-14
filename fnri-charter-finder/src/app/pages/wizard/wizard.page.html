@@ -136,9 +136,9 @@
           </ul>
         </div>
         <div class="mt-5">
-          <ion-button expand="block" color="primary" href="mailto:servicelab@fnri.dost.gov.ph">
+          <ion-button expand="block" color="primary" [href]="'mailto:' + contactEmail">
             <span class="material-symbols-outlined mr-2" style="font-size:18px">mail</span>
-            Email FNRI
+            Email {{ agencyName }}
           </ion-button>
         </div>
       </div>

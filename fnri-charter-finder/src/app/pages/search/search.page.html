@@ -144,12 +144,12 @@
         </div>
 
         <div class="mt-5 space-y-2">
-          <h3 class="text-sm font-semibold text-gray-800 mb-2">Contact FNRI</h3>
-          <ion-button expand="block" color="primary" href="mailto:servicelab@fnri.dost.gov.ph">
+          <h3 class="text-sm font-semibold text-gray-800 mb-2">Contact {{ agencyName }}</h3>
+          <ion-button expand="block" color="primary" [href]="'mailto:' + contactEmail">
             <span class="material-symbols-outlined mr-2" style="font-size:18px">mail</span>
             Email Us
           </ion-button>
-          <ion-button expand="block" fill="outline" color="primary" href="https://www.fnri.dost.gov.ph" target="_blank">
+          <ion-button expand="block" fill="outline" color="primary" [href]="websiteUrl" target="_blank">
             <span class="material-symbols-outlined mr-2" style="font-size:18px">language</span>
             Visit Website
           </ion-button>

@@ -1,0 +1,102 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button routerLink="/landing" aria-label="Back to agencies">
+        <span class="material-symbols-outlined">arrow_back</span>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Upload Charter PDF</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="px-5 pt-6 pb-24 max-w-lg mx-auto">
+
+    <!-- Intro -->
+    <div class="text-center mb-8">
+      <span class="material-symbols-outlined text-6xl text-primary mb-3 block">upload_file</span>
+      <h1 class="text-xl font-bold text-gray-800 mb-1">Onboard your agency</h1>
+      <p class="text-sm text-gray-500 leading-relaxed">
+        Upload your Citizen Charter PDF and we'll extract all your services automatically using AI.
+        You can review and edit before publishing.
+      </p>
+    </div>
+
+    <!-- Agency Name -->
+    <div class="mb-5">
+      <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Agency Name *</label>
+      <ion-input
+        [(ngModel)]="agencyName"
+        placeholder="e.g. DOST-PNRI"
+        fill="outline"
+        class="rounded-xl"
+        [disabled]="isUploading">
+      </ion-input>
+    </div>
+
+    <!-- Agency ID -->
+    <div class="mb-5">
+      <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Agency Slug (URL identifier)</label>
+      <ion-input
+        [(ngModel)]="agencyId"
+        placeholder="e.g. pnri"
+        fill="outline"
+        class="rounded-xl"
+        [disabled]="isUploading">
+      </ion-input>
+      <p class="text-xs text-gray-400 mt-1">Lowercase letters and hyphens only</p>
+    </div>
+
+    <!-- Drop Zone -->
+    <div class="mb-5">
+      <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Citizen Charter PDF *</label>
+      <div
+        class="border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-colors"
+        [class.border-primary]="isDragOver"
+        [class.bg-blue-50]="isDragOver"
+        [class.border-gray-300]="!isDragOver"
+        (dragover)="onDragOver($event)"
+        (dragleave)="onDragLeave()"
+        (drop)="onDrop($event)"
+        (click)="fileInput.click()">
+        <input #fileInput type="file" accept=".pdf,application/pdf" class="hidden" (change)="onFileSelect($event)">
+        <span class="material-symbols-outlined text-4xl text-gray-300 mb-2 block">
+          {{ selectedFile ? 'picture_as_pdf' : 'cloud_upload' }}
+        </span>
+        <p *ngIf="!selectedFile" class="text-sm text-gray-500">Drag and drop your PDF here, or <span class="text-primary font-medium">browse</span></p>
+        <p *ngIf="selectedFile" class="text-sm font-semibold text-gray-800">{{ selectedFile.name }}</p>
+        <p *ngIf="selectedFile" class="text-xs text-gray-400 mt-0.5">{{ (selectedFile.size / 1024 / 1024).toFixed(1) }} MB</p>
+      </div>
+    </div>
+
+    <!-- Error -->
+    <div *ngIf="errorMessage" class="mb-4 bg-red-50 border border-red-200 rounded-xl px-4 py-3">
+      <p class="text-sm text-red-600">{{ errorMessage }}</p>
+    </div>
+
+    <!-- Progress -->
+    <div *ngIf="isUploading" class="mb-5">
+      <div class="flex items-center gap-2 mb-2">
+        <ion-spinner name="crescent" class="text-primary" style="width:18px;height:18px"></ion-spinner>
+        <p class="text-sm text-gray-600">Reading your charter with AI…</p>
+      </div>
+      <ion-progress-bar [value]="uploadProgress / 100" color="primary"></ion-progress-bar>
+      <p class="text-xs text-gray-400 mt-1 text-right">{{ uploadProgress }}%</p>
+    </div>
+
+    <!-- Submit -->
+    <ion-button
+      expand="block"
+      color="primary"
+      [disabled]="!canUpload() || isUploading"
+      (click)="uploadAndExtract()">
+      <span class="material-symbols-outlined mr-2" style="font-size:18px">auto_awesome</span>
+      {{ isUploading ? 'Extracting services…' : 'Extract Services with AI' }}
+    </ion-button>
+
+    <p class="text-xs text-gray-400 text-center mt-4 leading-relaxed">
+      Your PDF is processed by IBM watsonx.ai. No data is stored permanently until you publish.
+    </p>
+
+  </div>
+</ion-content>

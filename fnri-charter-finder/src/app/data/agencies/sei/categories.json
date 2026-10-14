@@ -1,0 +1,5 @@
+[
+  { "id": "information", "label": "Scholarships & Information", "icon": "school",        "color": "#7c1d8f", "description": "DOST scholarship programs and records" },
+  { "id": "training",    "label": "Youth Programs",              "icon": "emoji_events",  "color": "#0055a5", "description": "Science competitions, olympiads, and youth programs" },
+  { "id": "consultancy", "label": "Research Support",            "icon": "support_agent", "color": "#2d9e5f", "description": "S&T education research and curriculum development" }
+]

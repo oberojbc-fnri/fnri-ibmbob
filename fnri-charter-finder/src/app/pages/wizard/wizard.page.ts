@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService, WizardQuestion, Service } from '../../services/data.service';
+import { AgencyConfigService } from '../../services/agency-config.service';
 
 type WizardState = 'questions' | 'results';
 
@@ -16,11 +17,18 @@ export class WizardPage implements OnInit {
   results: Service[] = [];
   selectedService: Service | null = null;
   isModalOpen = false;
+  agencyName = '';
+  contactEmail = '';
 
-  constructor(private dataService: DataService) {}
+  constructor(
+    private dataService: DataService,
+    private agencyConfigService: AgencyConfigService,
+  ) {}
 
   ngOnInit() {
     this.questions = this.dataService.getWizardQuestions();
+    this.agencyName = this.agencyConfigService.config.agencyName;
+    this.contactEmail = this.agencyConfigService.contactEmail;
   }
 
   get currentQuestion(): WizardQuestion {

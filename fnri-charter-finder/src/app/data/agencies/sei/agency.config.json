@@ -1,0 +1,18 @@
+{
+  "agencyId": "sei",
+  "agencyName": "DOST-SEI",
+  "agencyAbbreviation": "SEI",
+  "fullName": "Science Education Institute",
+  "tagline": "Service Finder",
+  "department": "Department of Science and Technology",
+  "logo": "assets/logo-sei.png",
+  "primaryColor": "#7c1d8f",
+  "secondaryColor": "#e8333a",
+  "accentColor": "#f5a623",
+  "contact": {
+    "email": "info@sei.dost.gov.ph",
+    "phone": "(02) 8837-2071",
+    "website": "https://www.sei.dost.gov.ph",
+    "address": "DOST Compound, General Santos Avenue, Bicutan, Taguig City"
+  }
+}

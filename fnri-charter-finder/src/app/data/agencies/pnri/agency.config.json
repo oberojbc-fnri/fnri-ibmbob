@@ -1,0 +1,18 @@
+{
+  "agencyId": "pnri",
+  "agencyName": "DOST-PNRI",
+  "agencyAbbreviation": "PNRI",
+  "fullName": "Philippine Nuclear Research Institute",
+  "tagline": "Service Finder",
+  "department": "Department of Science and Technology",
+  "logo": "assets/logo-pnri.png",
+  "primaryColor": "#1a6e3c",
+  "secondaryColor": "#f5a623",
+  "accentColor": "#0055a5",
+  "contact": {
+    "email": "info@pnri.dost.gov.ph",
+    "phone": "(02) 9290-1974",
+    "website": "https://www.pnri.dost.gov.ph",
+    "address": "Commonwealth Avenue, Diliman, Quezon City"
+  }
+}

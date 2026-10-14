@@ -7,8 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "predeploy": "ng build",
-    "deploy": "firebase deploy --only hosting"
+    "deploy": "ng build --base-href /fnri-ibmbob/ && npx angular-cli-ghpages --dir=dist/fnri-ibmbob"
   },
   "private": true,
   "dependencies": {

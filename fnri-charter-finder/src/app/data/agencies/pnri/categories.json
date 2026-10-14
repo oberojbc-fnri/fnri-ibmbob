@@ -1,0 +1,5 @@
+[
+  { "id": "laboratory", "label": "Laboratory Testing", "icon": "science", "color": "#1a6e3c", "description": "Nuclear analytical, dosimetry, and irradiation testing services" },
+  { "id": "training",   "label": "Training",           "icon": "school",  "color": "#0055a5", "description": "Radiation protection and nuclear technology training" },
+  { "id": "consultancy","label": "Technical Services", "icon": "support_agent", "color": "#7c5cd8", "description": "Expert advisory on nuclear technology and applications" }
+]

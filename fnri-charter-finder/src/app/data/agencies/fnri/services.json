@@ -1,0 +1,634 @@
+[
+  {
+    "id": "s001",
+    "plainName": "Proximate Analysis",
+    "officialName": "Proximate Analysis (Moisture, Ash, Protein, Fat, Carbohydrate)",
+    "description": "Laboratory determination of the basic nutritional composition of food products, including moisture, ash, protein, fat, and carbohydrate content.",
+    "category": "laboratory",
+    "office": "Analytical Services Laboratory (ASL)",
+    "whoMayAvail": "Food manufacturers, researchers, students, and individuals with food samples requiring nutritional analysis",
+    "requirements": [
+      "Duly accomplished Request Form",
+      "Food sample (minimum 200g per parameter)",
+      "Payment or billing letter for government agencies"
+    ],
+    "processingTime": "5-10 working days",
+    "fees": "Varies by parameter (see fee schedule)",
+    "tags": ["testing", "industry", "researcher", "paid", "proximate", "nutrition", "composition"]
+  },
+  {
+    "id": "s002",
+    "plainName": "Micronutrient Analysis",
+    "officialName": "Micronutrient Analysis (Vitamins and Minerals)",
+    "description": "Laboratory testing for vitamins (A, C, B-complex) and minerals (iron, zinc, calcium, iodine, sodium) in food samples.",
+    "category": "laboratory",
+    "office": "Analytical Services Laboratory (ASL)",
+    "whoMayAvail": "Food manufacturers, researchers, government agencies",
+    "requirements": [
+      "Duly accomplished Request Form",
+      "Food sample (minimum 200g per parameter)",
+      "Payment or billing arrangement"
+    ],
+    "processingTime": "7-15 working days",
+    "fees": "Varies by micronutrient tested",
+    "tags": ["testing", "industry", "researcher", "paid", "vitamins", "minerals", "micronutrient"]
+  },
+  {
+    "id": "s003",
+    "plainName": "Food Safety Testing (Microbiological)",
+    "officialName": "Microbiological Analysis of Food",
+    "description": "Testing for pathogenic and indicator microorganisms in food samples including Total Plate Count, E. coli, Salmonella, Listeria, and other pathogens.",
+    "category": "laboratory",
+    "office": "Analytical Services Laboratory (ASL)",
+    "whoMayAvail": "Food manufacturers, exporters, regulatory bodies, researchers",
+    "requirements": [
+      "Duly accomplished Request Form",
+      "Sealed food sample in sterile container",
+      "Sample collected under aseptic conditions",
+      "Payment or billing letter"
+    ],
+    "processingTime": "5-10 working days",
+    "fees": "Varies by test parameter",
+    "tags": ["testing", "industry", "paid", "microbiology", "food safety", "bacteria", "pathogen"]
+  },
+  {
+    "id": "s004",
+    "plainName": "Nutritional Labeling Assistance",
+    "officialName": "Technical Assistance on Nutritional Labeling",
+    "description": "Expert guidance on preparing FDA-compliant nutrition facts panels for food products, including calculation and layout of the Nutrition Facts label.",
+    "category": "consultancy",
+    "office": "Food Technology Division (FTD)",
+    "whoMayAvail": "Food manufacturers and processors, MSMEs, food entrepreneurs",
+    "requirements": [
+      "Letter of request",
+      "Product specifications or ingredient list",
+      "Existing label draft (if available)"
+    ],
+    "processingTime": "3-5 working days",
+    "fees": "Free",
+    "tags": ["consultancy", "industry", "free", "nutrition label", "FDA", "labeling", "compliance"]
+  },
+  {
+    "id": "s005",
+    "plainName": "Nutrition Information Service",
+    "officialName": "Nutrition Information and Consultation Service",
+    "description": "Free consultation and information dissemination on nutrition, dietary guidelines, food composition, and healthy eating for the general public.",
+    "category": "consultancy",
+    "office": "Nutrition Monitoring and Assessment Division (NMAD)",
+    "whoMayAvail": "General public, students, health workers, media practitioners",
+    "requirements": [
+      "Walk-in or written request/inquiry",
+      "Valid ID (for in-person)"
+    ],
+    "processingTime": "Same day (walk-in) or 1-3 working days (written)",
+    "fees": "Free",
+    "tags": ["consultancy", "public", "professional", "free", "nutrition", "diet", "consultation", "healthy eating"]
+  },
+  {
+    "id": "s006",
+    "plainName": "Food Product Development Consultancy",
+    "officialName": "Technical Consultancy on Food Product Development",
+    "description": "Assistance in developing new food products including formulation, process optimization, shelf-life evaluation, and sensory evaluation guidance.",
+    "category": "consultancy",
+    "office": "Food Technology Division (FTD)",
+    "whoMayAvail": "MSMEs, food entrepreneurs, cooperatives, LGUs with food-based livelihood programs",
+    "requirements": [
+      "Letter of request with project description",
+      "Sample ingredients or prototype product"
+    ],
+    "processingTime": "Depends on scope; initial consultation within 3 working days",
+    "fees": "Free (initial consultation); paid for extended services",
+    "tags": ["consultancy", "industry", "product development", "formulation", "MSME", "food technology"]
+  },
+  {
+    "id": "s007",
+    "plainName": "Basic Nutrition Training",
+    "officialName": "Training on Basic Nutrition Concepts and Applications",
+    "description": "Short-course training on fundamental nutrition concepts, dietary assessment, and nutrition education for health and non-health practitioners.",
+    "category": "training",
+    "office": "Human Nutrition Research Division (HNRD)",
+    "whoMayAvail": "Government employees, health workers, teachers, NGO staff",
+    "requirements": [
+      "Registration form",
+      "Endorsement letter from supervisor/employer",
+      "Training fee payment"
+    ],
+    "processingTime": "3-5 days (scheduled training dates)",
+    "fees": "With fee (see training schedule for rates)",
+    "tags": ["training", "government", "professional", "paid", "nutrition", "education", "capacity building"]
+  },
+  {
+    "id": "s008",
+    "plainName": "Dietary Assessment Methods Training",
+    "officialName": "Training on Dietary Assessment Methods",
+    "description": "Training on 24-hour dietary recall, food frequency questionnaire, weighed food record, and other dietary assessment methods used in nutrition surveys.",
+    "category": "training",
+    "office": "Human Nutrition Research Division (HNRD)",
+    "whoMayAvail": "Nutritionists, dietitians, researchers, public health workers",
+    "requirements": [
+      "Registration form",
+      "Professional license (RND preferred)",
+      "Training fee payment"
+    ],
+    "processingTime": "2-3 days (scheduled dates)",
+    "fees": "With fee",
+    "tags": ["training", "professional", "researcher", "paid", "dietary assessment", "survey methods"]
+  },
+  {
+    "id": "s009",
+    "plainName": "Food Composition Database Access",
+    "officialName": "Access to Philippine Food Composition Tables and Database",
+    "description": "Provision of the Philippine Food Composition Tables (PFCT) data, including nutrient values of Filipino foods for research and application.",
+    "category": "data",
+    "office": "Food Analysis and Nutrition Evaluation Laboratory (FANEL)",
+    "whoMayAvail": "Researchers, students, nutritionists, dietitians, food technologists",
+    "requirements": [
+      "Written or email request",
+      "Intended use/purpose statement"
+    ],
+    "processingTime": "1-3 working days",
+    "fees": "Free (electronic); with fee for printed edition",
+    "tags": ["data", "researcher", "professional", "free", "food composition", "PFCT", "database", "nutrient values"]
+  },
+  {
+    "id": "s010",
+    "plainName": "National Nutrition Survey Data Request",
+    "officialName": "Request for National Nutrition Survey (NNS) Data",
+    "description": "Access to anonymized datasets and published reports from FNRI's periodic National Nutrition Survey covering anthropometry, dietary intake, and micronutrient status.",
+    "category": "data",
+    "office": "Nutrition Monitoring and Assessment Division (NMAD)",
+    "whoMayAvail": "Researchers, academics, government planners, international organizations",
+    "requirements": [
+      "Data request form",
+      "Research proposal or study description",
+      "Endorsement from institution",
+      "Data use agreement"
+    ],
+    "processingTime": "5-10 working days",
+    "fees": "Free",
+    "tags": ["data", "researcher", "government", "free", "NNS", "survey", "national nutrition survey", "statistics"]
+  },
+  {
+    "id": "s011",
+    "plainName": "Library and Information Services",
+    "officialName": "FNRI Library and Documentation Services",
+    "description": "Access to FNRI's library collection including nutrition and food science books, journals, theses, technical reports, and Philippine nutrition policy documents.",
+    "category": "library",
+    "office": "FNRI Library",
+    "whoMayAvail": "Students, researchers, professionals, government employees, general public",
+    "requirements": [
+      "Valid ID for registration",
+      "Library request slip"
+    ],
+    "processingTime": "Same day",
+    "fees": "Free",
+    "tags": ["library", "researcher", "student", "public", "free", "books", "references", "publications"]
+  },
+  {
+    "id": "s012",
+    "plainName": "FNRI Publications Purchase",
+    "officialName": "Sale of FNRI Publications and Technical Reports",
+    "description": "Purchase of printed FNRI publications including NNS reports, food composition tables, recommended dietary allowances, and nutrition education materials.",
+    "category": "library",
+    "office": "FNRI Library / Publications Section",
+    "whoMayAvail": "General public, institutions, government agencies",
+    "requirements": [
+      "Visit FNRI or send written request",
+      "Payment for selected publications"
+    ],
+    "processingTime": "Same day (walk-in) or 3-5 days (mail order)",
+    "fees": "With fee (price varies per publication)",
+    "tags": ["library", "public", "paid", "publications", "reports", "books", "RDA"]
+  },
+  {
+    "id": "s013",
+    "plainName": "Heavy Metals Testing",
+    "officialName": "Heavy Metals Analysis in Food and Biological Samples",
+    "description": "Analysis of heavy metals (lead, cadmium, mercury, arsenic) in food, water, and biological samples using atomic absorption spectrophotometry.",
+    "category": "laboratory",
+    "office": "Analytical Services Laboratory (ASL)",
+    "whoMayAvail": "Food manufacturers, regulatory agencies, researchers, exporters",
+    "requirements": [
+      "Duly accomplished Request Form",
+      "Sample with minimum volume/weight as specified",
+      "Payment arrangement"
+    ],
+    "processingTime": "7-15 working days",
+    "fees": "With fee",
+    "tags": ["testing", "industry", "researcher", "paid", "heavy metals", "lead", "cadmium", "mercury", "food safety"]
+  },
+  {
+    "id": "s014",
+    "plainName": "Sensory Evaluation / Consumer Acceptance Test",
+    "officialName": "Sensory Evaluation and Consumer Acceptance Testing",
+    "description": "Objective sensory analysis of food products (taste, texture, appearance, aroma) using trained panelists and consumer acceptance studies.",
+    "category": "laboratory",
+    "office": "Food Technology Division (FTD)",
+    "whoMayAvail": "Food manufacturers, MSMEs, R&D units developing or improving food products",
+    "requirements": [
+      "Letter of request with product description",
+      "Sufficient food samples (quantity per protocol)",
+      "Payment arrangement"
+    ],
+    "processingTime": "5-10 working days (after scheduling)",
+    "fees": "With fee",
+    "tags": ["testing", "industry", "paid", "sensory", "consumer acceptance", "taste", "food product"]
+  },
+  {
+    "id": "s015",
+    "plainName": "Food Iodine Content Testing",
+    "officialName": "Iodine Content Determination in Salt and Food Products",
+    "description": "Testing for iodine content in iodized salt and fortified food products to ensure compliance with the Asin Law and food fortification standards.",
+    "category": "laboratory",
+    "office": "Analytical Services Laboratory (ASL)",
+    "whoMayAvail": "Salt producers, food manufacturers, regulatory bodies, LGUs",
+    "requirements": [
+      "Request Form",
+      "Salt or food sample (minimum 100g)",
+      "Payment"
+    ],
+    "processingTime": "3-5 working days",
+    "fees": "With fee",
+    "tags": ["testing", "industry", "government", "paid", "iodine", "salt", "fortification", "asin law"]
+  },
+  {
+    "id": "s016",
+    "plainName": "Vitamin A Determination",
+    "officialName": "Vitamin A Determination in Food Products",
+    "description": "Laboratory analysis of Vitamin A (retinol) content in food products and fortified foods using HPLC methods.",
+    "category": "laboratory",
+    "office": "Analytical Services Laboratory (ASL)",
+    "whoMayAvail": "Food manufacturers, researchers, government regulatory bodies",
+    "requirements": [
+      "Request Form",
+      "Food sample (minimum 200g)",
+      "Payment"
+    ],
+    "processingTime": "5-10 working days",
+    "fees": "With fee",
+    "tags": ["testing", "industry", "researcher", "paid", "vitamin A", "retinol", "HPLC", "fortification"]
+  },
+  {
+    "id": "s017",
+    "plainName": "Nutrition Labeling Regulation Guidance",
+    "officialName": "Technical Advisory on Nutrition Labeling Regulations (FDA AO)",
+    "description": "Advisory services on compliance with FDA Administrative Orders on nutrition labeling, including front-of-pack nutrition labels and health claims.",
+    "category": "consultancy",
+    "office": "Food Technology Division (FTD)",
+    "whoMayAvail": "Food manufacturers, importers, distributors, legal practitioners",
+    "requirements": [
+      "Written request or email inquiry",
+      "Product label draft or description"
+    ],
+    "processingTime": "2-5 working days",
+    "fees": "Free",
+    "tags": ["consultancy", "industry", "free", "FDA", "nutrition label", "health claims", "regulation", "compliance"]
+  },
+  {
+    "id": "s018",
+    "plainName": "Food Fortification Technical Assistance",
+    "officialName": "Technical Assistance on Food Fortification Compliance",
+    "description": "Guidance on mandatory food fortification requirements under the Food Fortification Law (RA 8976) covering rice, oil, flour, and sugar fortification standards.",
+    "category": "consultancy",
+    "office": "Food Technology Division (FTD)",
+    "whoMayAvail": "Food manufacturers, millers, refiners subject to mandatory fortification",
+    "requirements": [
+      "Letter of request",
+      "Product description and current formulation"
+    ],
+    "processingTime": "3-5 working days",
+    "fees": "Free",
+    "tags": ["consultancy", "industry", "free", "fortification", "RA 8976", "flour", "oil", "rice", "sugar"]
+  },
+  {
+    "id": "s019",
+    "plainName": "Nutritional Status Assessment Support",
+    "officialName": "Technical Assistance on Nutritional Status Assessment",
+    "description": "Support for LGUs and health facilities in conducting nutritional status assessments including anthropometric measurement protocols and data analysis.",
+    "category": "consultancy",
+    "office": "Nutrition Monitoring and Assessment Division (NMAD)",
+    "whoMayAvail": "LGU nutrition officers, health centers, DOH units, NGOs",
+    "requirements": [
+      "Letter of request with description of needs",
+      "Endorsement from local health authority"
+    ],
+    "processingTime": "3-7 working days",
+    "fees": "Free",
+    "tags": ["consultancy", "government", "free", "nutritional status", "anthropometry", "LGU", "assessment"]
+  },
+  {
+    "id": "s020",
+    "plainName": "Nutrition in Emergencies Training",
+    "officialName": "Training on Nutrition in Emergencies (NiE)",
+    "description": "Specialized training for emergency responders and health workers on rapid nutritional assessment, management of acute malnutrition, and nutrition programming during disasters.",
+    "category": "training",
+    "office": "Human Nutrition Research Division (HNRD)",
+    "whoMayAvail": "NDRRMC personnel, local DRRMO staff, health workers, NGO field staff",
+    "requirements": [
+      "Registration form",
+      "Endorsement from agency head",
+      "Training fee or authorized billing"
+    ],
+    "processingTime": "3-5 days (scheduled training)",
+    "fees": "With fee (reduced rate for government)",
+    "tags": ["training", "government", "paid", "emergency", "NDRRMC", "disaster", "malnutrition", "rapid assessment"]
+  },
+  {
+    "id": "s021",
+    "plainName": "Food Technology Short Course",
+    "officialName": "Short Course on Food Technology and Processing",
+    "description": "Practical training on food processing, preservation methods, quality control, and Good Manufacturing Practices (GMP) for food entrepreneurs and processors.",
+    "category": "training",
+    "office": "Food Technology Division (FTD)",
+    "whoMayAvail": "MSMEs, food entrepreneurs, cooperatives, LGU livelihood program beneficiaries",
+    "requirements": [
+      "Registration form",
+      "Training fee payment",
+      "Business permit or DTI registration (for commercial applicants)"
+    ],
+    "processingTime": "3-5 days (per batch schedule)",
+    "fees": "With fee",
+    "tags": ["training", "industry", "paid", "food technology", "processing", "GMP", "MSME", "preservation"]
+  },
+  {
+    "id": "s022",
+    "plainName": "Statistical Analysis Support for Nutrition Research",
+    "officialName": "Technical Assistance on Statistical Analysis for Nutrition Studies",
+    "description": "Guidance on appropriate statistical methods, sample size calculation, and data analysis for nutrition research and surveys.",
+    "category": "consultancy",
+    "office": "Nutrition Monitoring and Assessment Division (NMAD)",
+    "whoMayAvail": "Researchers, graduate students, academic institutions conducting nutrition studies",
+    "requirements": [
+      "Letter of request with study description",
+      "Draft research design or questionnaire"
+    ],
+    "processingTime": "3-5 working days",
+    "fees": "Free",
+    "tags": ["consultancy", "researcher", "free", "statistics", "research methods", "survey design", "sample size"]
+  },
+  {
+    "id": "s023",
+    "plainName": "Iron Content Testing",
+    "officialName": "Iron Determination in Food and Biological Samples",
+    "description": "Quantitative determination of iron content in food samples, fortified products, and biological matrices using spectrophotometric methods.",
+    "category": "laboratory",
+    "office": "Analytical Services Laboratory (ASL)",
+    "whoMayAvail": "Food manufacturers, health researchers, regulatory bodies",
+    "requirements": [
+      "Request Form",
+      "Food or biological sample",
+      "Payment"
+    ],
+    "processingTime": "5-7 working days",
+    "fees": "With fee",
+    "tags": ["testing", "industry", "researcher", "paid", "iron", "mineral", "fortification", "anemia"]
+  },
+  {
+    "id": "s024",
+    "plainName": "Recommended Nutrient Intakes Data",
+    "officialName": "Access to Recommended Energy and Nutrient Intakes (RENI) for Filipinos",
+    "description": "Provision of the Recommended Energy and Nutrient Intakes (RENI) reference values for Filipinos for use in meal planning, product development, and research.",
+    "category": "data",
+    "office": "Human Nutrition Research Division (HNRD)",
+    "whoMayAvail": "Nutritionists, dietitians, food companies, researchers, educators",
+    "requirements": [
+      "Written or email request"
+    ],
+    "processingTime": "1-2 working days",
+    "fees": "Free",
+    "tags": ["data", "professional", "researcher", "free", "RENI", "RDA", "nutrient intakes", "dietary reference"]
+  },
+  {
+    "id": "s025",
+    "plainName": "Anthropometric Reference Data",
+    "officialName": "Access to Philippine Anthropometric Reference Data",
+    "description": "Access to FNRI-generated anthropometric reference data for Filipino children and adults from the National Nutrition Survey for growth monitoring applications.",
+    "category": "data",
+    "office": "Nutrition Monitoring and Assessment Division (NMAD)",
+    "whoMayAvail": "Health professionals, researchers, LGU nutrition workers",
+    "requirements": [
+      "Written or email request",
+      "Intended use statement"
+    ],
+    "processingTime": "2-3 working days",
+    "fees": "Free",
+    "tags": ["data", "professional", "government", "free", "anthropometry", "growth", "Filipino children", "BMI"]
+  },
+  {
+    "id": "s026",
+    "plainName": "Nutrition Education Materials",
+    "officialName": "Request for FNRI Nutrition Education and IEC Materials",
+    "description": "Provision of information, education, and communication (IEC) materials including posters, flyers, and booklets on nutrition, feeding guides, and healthy eating.",
+    "category": "library",
+    "office": "FNRI Publications and IEC Section",
+    "whoMayAvail": "Schools, LGUs, health centers, NGOs, community organizations",
+    "requirements": [
+      "Written request stating purpose and quantity needed"
+    ],
+    "processingTime": "2-5 working days (subject to stock availability)",
+    "fees": "Free (limited quantities); with fee for bulk orders",
+    "tags": ["library", "public", "government", "free", "nutrition education", "IEC", "materials", "posters", "leaflets"]
+  },
+  {
+    "id": "s027",
+    "plainName": "Shelf Life Testing",
+    "officialName": "Shelf Life Evaluation of Food Products",
+    "description": "Accelerated and real-time shelf life studies for food products to determine spoilage indicators, best-before dates, and packaging suitability.",
+    "category": "laboratory",
+    "office": "Food Technology Division (FTD)",
+    "whoMayAvail": "Food manufacturers, MSMEs, exporters seeking shelf life data for labeling or marketing",
+    "requirements": [
+      "Letter of request with product description",
+      "Representative food samples",
+      "Target shelf life and storage conditions",
+      "Payment arrangement"
+    ],
+    "processingTime": "Depends on target shelf life (weeks to months)",
+    "fees": "With fee",
+    "tags": ["testing", "industry", "paid", "shelf life", "spoilage", "packaging", "best before", "accelerated study"]
+  },
+  {
+    "id": "s028",
+    "plainName": "Nutrition Survey Consultancy for LGUs",
+    "officialName": "Technical Assistance for LGU-Level Nutrition Surveys",
+    "description": "End-to-end technical support for LGUs planning and conducting local nutrition surveys including questionnaire design, training of enumerators, and data analysis.",
+    "category": "consultancy",
+    "office": "Nutrition Monitoring and Assessment Division (NMAD)",
+    "whoMayAvail": "Provincial, city, and municipal nutrition offices; DILG-attached programs",
+    "requirements": [
+      "Official letter of request from LGU head",
+      "Background on planned survey scope"
+    ],
+    "processingTime": "Initial consultation: 5 working days; full engagement: by agreement",
+    "fees": "Free (technical assistance); LGU provides logistics",
+    "tags": ["consultancy", "government", "free", "LGU", "nutrition survey", "enumerator", "local government"]
+  },
+  {
+    "id": "s029",
+    "plainName": "Aflatoxin Testing",
+    "officialName": "Aflatoxin Determination in Food and Feed Samples",
+    "description": "Quantitative analysis of aflatoxins (B1, B2, G1, G2) in peanuts, corn, spices, and other susceptible commodities using ELISA or HPLC methods.",
+    "category": "laboratory",
+    "office": "Analytical Services Laboratory (ASL)",
+    "whoMayAvail": "Food manufacturers, exporters, regulatory agencies, commodity traders",
+    "requirements": [
+      "Request Form",
+      "Representative sample (minimum 500g for bulk commodities)",
+      "Payment"
+    ],
+    "processingTime": "5-10 working days",
+    "fees": "With fee",
+    "tags": ["testing", "industry", "paid", "aflatoxin", "mycotoxin", "peanuts", "corn", "food safety", "ELISA"]
+  },
+  {
+    "id": "s030",
+    "plainName": "Research Collaboration",
+    "officialName": "Research Collaboration and Joint Study Agreement",
+    "description": "Formal collaboration with FNRI for joint nutrition and food science research, including co-authorship, use of FNRI facilities and datasets, and technical exchange.",
+    "category": "data",
+    "office": "Office of the Director (OD) / Research Management Division",
+    "whoMayAvail": "Academic institutions, international organizations, government agencies, research foundations",
+    "requirements": [
+      "Concept paper or research proposal",
+      "MOA or MOU draft",
+      "Institutional endorsement letter"
+    ],
+    "processingTime": "15-30 working days (review and approval)",
+    "fees": "Free (terms defined in MOA)",
+    "tags": ["data", "researcher", "government", "free", "collaboration", "MOA", "joint research", "partnership"]
+  },
+  {
+    "id": "s031",
+    "plainName": "FNRI Facility Use / Rental",
+    "officialName": "Use of FNRI Facilities (Training Rooms, Sensory Lab)",
+    "description": "Rental of FNRI's training rooms, seminar halls, and sensory evaluation laboratory for conferences, workshops, and evaluation activities.",
+    "category": "consultancy",
+    "office": "Administrative Division",
+    "whoMayAvail": "Government agencies, academic institutions, professional organizations",
+    "requirements": [
+      "Letter of request with proposed date and purpose",
+      "Rental fee payment as per schedule"
+    ],
+    "processingTime": "3-5 working days for approval",
+    "fees": "With fee (see facility rental schedule)",
+    "tags": ["consultancy", "government", "paid", "facility rental", "training room", "seminar hall", "venue"]
+  },
+  {
+    "id": "s032",
+    "plainName": "Nutrition Planning for Institutional Feeding",
+    "officialName": "Technical Assistance on Institutional Feeding Program Nutrition Planning",
+    "description": "Support for schools, hospitals, and prisons in planning nutritionally adequate menus and feeding programs aligned with RENI and dietary guidelines.",
+    "category": "consultancy",
+    "office": "Human Nutrition Research Division (HNRD)",
+    "whoMayAvail": "DepEd schools, DOH hospitals, BUCOR facilities, DSWD centers, LGU feeding program coordinators",
+    "requirements": [
+      "Letter of request with description of feeding program",
+      "Current menu or food budget information"
+    ],
+    "processingTime": "5-10 working days",
+    "fees": "Free",
+    "tags": ["consultancy", "government", "free", "feeding program", "menu planning", "school feeding", "hospital diet"]
+  },
+  {
+    "id": "s033",
+    "plainName": "Dietary Supplement Analysis",
+    "officialName": "Analysis of Dietary Supplements and Herbal Products",
+    "description": "Chemical analysis and nutritional characterization of dietary supplements, herbal preparations, and functional food ingredients.",
+    "category": "laboratory",
+    "office": "Analytical Services Laboratory (ASL)",
+    "whoMayAvail": "Manufacturers of dietary supplements, herbal medicine companies, researchers",
+    "requirements": [
+      "Request Form",
+      "Product sample (minimum 100g or as specified)",
+      "Product information / ingredient list",
+      "Payment"
+    ],
+    "processingTime": "7-15 working days",
+    "fees": "With fee",
+    "tags": ["testing", "industry", "researcher", "paid", "dietary supplement", "herbal", "functional food", "nutraceutical"]
+  },
+  {
+    "id": "s034",
+    "plainName": "Graduate Student Research Support",
+    "officialName": "Research Assistance for Graduate Students",
+    "description": "Advisory support for graduate students conducting nutrition and food science thesis/dissertation research, including methodology guidance and data interpretation.",
+    "category": "consultancy",
+    "office": "Research Management Division",
+    "whoMayAvail": "MS and PhD students in nutrition, food science, public health, and related fields",
+    "requirements": [
+      "Letter of request from student and adviser",
+      "Research proposal / concept paper",
+      "University endorsement"
+    ],
+    "processingTime": "5-7 working days",
+    "fees": "Free",
+    "tags": ["consultancy", "researcher", "free", "graduate student", "thesis", "dissertation", "research support"]
+  },
+  {
+    "id": "s035",
+    "plainName": "Fiber Content Testing",
+    "officialName": "Dietary Fiber Determination in Food Products",
+    "description": "Laboratory analysis of total dietary fiber, soluble fiber, and insoluble fiber content in food samples for labeling and research purposes.",
+    "category": "laboratory",
+    "office": "Analytical Services Laboratory (ASL)",
+    "whoMayAvail": "Food manufacturers, researchers, health food companies",
+    "requirements": [
+      "Request Form",
+      "Food sample (minimum 200g)",
+      "Payment"
+    ],
+    "processingTime": "5-10 working days",
+    "fees": "With fee",
+    "tags": ["testing", "industry", "researcher", "paid", "fiber", "dietary fiber", "soluble", "insoluble"]
+  },
+  {
+    "id": "s036",
+    "plainName": "Nutrition Month Activity Support",
+    "officialName": "Technical Support for Nutrition Month Activities (July)",
+    "description": "FNRI provides speakers, IEC materials, and technical resource persons for Nutrition Month (July) activities organized by LGUs, schools, and agencies.",
+    "category": "consultancy",
+    "office": "Office of the Director (OD)",
+    "whoMayAvail": "LGUs, schools, government agencies, NGOs organizing Nutrition Month events",
+    "requirements": [
+      "Invitation letter with activity details",
+      "At least 2 weeks advance notice"
+    ],
+    "processingTime": "Subject to availability of resource persons",
+    "fees": "Free (resource persons); requestor covers travel costs",
+    "tags": ["consultancy", "government", "public", "free", "nutrition month", "July", "speaker", "IEC", "event support"]
+  },
+  {
+    "id": "s037",
+    "plainName": "Calorie / Energy Content Testing",
+    "officialName": "Energy Content Determination (Gross Energy by Bomb Calorimetry)",
+    "description": "Determination of the gross energy content of food products using bomb calorimetry, used for nutrition labeling and research.",
+    "category": "laboratory",
+    "office": "Analytical Services Laboratory (ASL)",
+    "whoMayAvail": "Food manufacturers, researchers",
+    "requirements": [
+      "Request Form",
+      "Food sample (minimum 50g)",
+      "Payment"
+    ],
+    "processingTime": "3-7 working days",
+    "fees": "With fee",
+    "tags": ["testing", "industry", "researcher", "paid", "energy", "calories", "calorimetry", "nutrition label"]
+  },
+  {
+    "id": "s038",
+    "plainName": "Cholesterol and Fatty Acid Testing",
+    "officialName": "Cholesterol and Fatty Acid Profile Analysis",
+    "description": "Analysis of total cholesterol, saturated fat, trans fat, monounsaturated, and polyunsaturated fatty acid profile in food products using gas chromatography.",
+    "category": "laboratory",
+    "office": "Analytical Services Laboratory (ASL)",
+    "whoMayAvail": "Food manufacturers, researchers, health-focused food companies",
+    "requirements": [
+      "Request Form",
+      "Food sample (minimum 100g)",
+      "Payment"
+    ],
+    "processingTime": "7-10 working days",
+    "fees": "With fee",
+    "tags": ["testing", "industry", "researcher", "paid", "cholesterol", "fatty acids", "trans fat", "saturated fat", "GC"]
+  }
+]
