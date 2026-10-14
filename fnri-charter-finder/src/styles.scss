@@ -192,6 +192,14 @@ app-root {
   flex-shrink: 0;
 }
 
+/* On desktop the permanent sidenav already provides identity/branding.
+   Hide every page's toolbar brand strip so only the search field shows. */
+@media (min-width: 960px) {
+  .page-toolbar-brand {
+    display: none !important;
+  }
+}
+
 /* Agency-scoped banner strip inside the search toolbar */
 .agency-banner {
   display: flex;

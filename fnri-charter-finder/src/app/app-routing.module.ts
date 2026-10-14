@@ -28,9 +28,11 @@ const routes: Routes = [
     path: 'wizard',
     loadChildren: () => import('./pages/wizard/wizard.module').then(m => m.WizardPageModule)
   },
+  // ── Default redirect ─────────────────────────────────────────
+  { path: '', redirectTo: 'search', pathMatch: 'full' },
   // ── Mobile Ionic tabs shell ───────────────────────────────────
   {
-    path: '',
+    path: 'tabs',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
   }
 ];
