@@ -1,0 +1,558 @@
+
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FNRI Service Finder — Pitch Deck</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+    background: #f0f2f5;
+    color: #1f2328;
+    padding: 32px 16px 48px;
+  }
+  h1.doc-title {
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #57606a;
+    margin-bottom: 6px;
+  }
+  p.doc-sub {
+    text-align: center;
+    font-size: 12px;
+    color: #57606a;
+    margin-bottom: 32px;
+  }
+
+  /* ── Slide wrapper ── */
+  .slide {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto 24px;
+    overflow: hidden;
+    page-break-inside: avoid;
+  }
+
+  /* ── Slide header band ── */
+  .slide-header {
+    padding: 10px 20px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  .slide-num {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #57606a;
+  }
+  .slide-timer {
+    font-size: 11px;
+    color: #57606a;
+    background: #f7f8fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 20px;
+    padding: 2px 10px;
+  }
+
+  /* ── Slide body ── */
+  .slide-body {
+    padding: 28px 28px 24px;
+  }
+  .slide-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1f2328;
+    line-height: 1.25;
+    margin-bottom: 6px;
+  }
+  .slide-sub {
+    font-size: 14px;
+    color: #57606a;
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+
+  /* ── Hero slide (slide 1) ── */
+  .slide.hero .slide-body {
+    background: #1a2a4a;
+    padding: 44px 36px;
+    text-align: center;
+  }
+  .slide.hero .slide-title {
+    color: #ffffff;
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+  .slide.hero .slide-sub {
+    color: #a8c0e0;
+    font-size: 15px;
+    margin-bottom: 22px;
+  }
+  .hero-tag {
+    display: inline-block;
+    background: #3b82d4;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin: 4px 4px;
+  }
+
+  /* ── Two-column layout ── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 4px;
+  }
+  .three-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+    margin-top: 4px;
+  }
+
+  /* ── Card ── */
+  .card {
+    background: #f7f8fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 14px 16px;
+  }
+  .card-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #57606a;
+    margin-bottom: 4px;
+  }
+  .card-value {
+    font-size: 14px;
+    color: #1f2328;
+    line-height: 1.5;
+  }
+  .card-icon {
+    font-size: 20px;
+    margin-bottom: 6px;
+  }
+  .card-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1f2328;
+    margin-bottom: 4px;
+  }
+  .card-desc {
+    font-size: 12px;
+    color: #57606a;
+    line-height: 1.5;
+  }
+
+  /* ── Problem list ── */
+  .problem-list {
+    list-style: none;
+    margin-top: 4px;
+  }
+  .problem-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 9px 0;
+    border-bottom: 1px solid #f0f2f5;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #1f2328;
+  }
+  .problem-list li:last-child { border-bottom: none; }
+  .pill-no {
+    flex-shrink: 0;
+    background: #fde8e8;
+    color: #c0392b;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-top: 2px;
+  }
+  .pill-yes {
+    flex-shrink: 0;
+    background: #e6f4ea;
+    color: #1a7f37;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-top: 2px;
+  }
+
+  /* ── Step list ── */
+  .step-list {
+    list-style: none;
+    margin-top: 4px;
+    counter-reset: steps;
+  }
+  .step-list li {
+    counter-increment: steps;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f2f5;
+    font-size: 14px;
+    color: #1f2328;
+    line-height: 1.5;
+  }
+  .step-list li:last-child { border-bottom: none; }
+  .step-list li::before {
+    content: counter(steps);
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    background: #3b82d4;
+    color: #fff;
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1px;
+  }
+
+  /* ── Stat row ── */
+  .stat-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+    margin-top: 4px;
+  }
+  .stat-card {
+    background: #f7f8fa;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 16px;
+    text-align: center;
+  }
+  .stat-num {
+    font-size: 30px;
+    font-weight: 800;
+    color: #3b82d4;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-label {
+    font-size: 12px;
+    color: #57606a;
+    line-height: 1.4;
+  }
+
+  /* ── Table ── */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px;
+    font-size: 13px;
+  }
+  .data-table th {
+    background: #f7f8fa;
+    border: 1px solid #e5e7eb;
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #57606a;
+  }
+  .data-table td {
+    border: 1px solid #e5e7eb;
+    padding: 8px 12px;
+    color: #1f2328;
+    vertical-align: top;
+  }
+  .data-table tr:nth-child(even) td { background: #f7f8fa; }
+
+  /* ── Quote block ── */
+  .quote-block {
+    border-left: 4px solid #3b82d4;
+    padding: 12px 16px;
+    background: #f0f5ff;
+    border-radius: 0 6px 6px 0;
+    margin-top: 16px;
+    font-size: 14px;
+    color: #1a2a4a;
+    line-height: 1.6;
+    font-style: italic;
+  }
+
+  /* ── CTA slide ── */
+  .slide.cta .slide-body {
+    background: #1a2a4a;
+    text-align: center;
+    padding: 36px 36px;
+  }
+  .slide.cta .slide-title { color: #fff; font-size: 24px; margin-bottom: 10px; }
+  .slide.cta .slide-sub { color: #a8c0e0; font-size: 14px; margin-bottom: 20px; }
+  .cta-items {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+  .cta-item {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 6px;
+    padding: 12px 18px;
+    font-size: 13px;
+    color: #fff;
+    text-align: left;
+    min-width: 180px;
+  }
+  .cta-item strong { display: block; font-size: 15px; margin-bottom: 3px; color: #7ec8f7; }
+
+  /* ── Speaker notes ── */
+  .notes {
+    background: #fffbea;
+    border-top: 1px dashed #e0d08a;
+    padding: 10px 20px;
+    font-size: 12px;
+    color: #7a6300;
+    line-height: 1.6;
+  }
+  .notes strong { color: #5a4800; }
+
+  /* ── Footer ── */
+  footer {
+    text-align: center;
+    font-size: 12px;
+    color: #57606a;
+    margin-top: 36px;
+    padding-top: 16px;
+    border-top: 1px solid #e5e7eb;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+</style>
+</head>
+<body>
+
+<h1 class="doc-title">Google Slides Pitch Deck — 5-Minute Format</h1>
+<p class="doc-sub">Citizen Charter Service Finder  |  FNRI-IBM Bob-a-thon  |  7 slides · ~40 sec each</p>
+
+
+<div class="slide hero">
+  <div class="slide-header" style="background:#162038;border-color:#2a3d5c">
+    <span class="slide-num" style="color:#6a8aaf">Slide 1 of 7</span>
+    <span class="slide-timer" style="background:#1a2a4a;border-color:#2a3d5c;color:#6a8aaf">0:00 – 0:30</span>
+  </div>
+  <div class="slide-body">
+    <div class="slide-title">Citizen Charter Service Finder</div>
+    <div class="slide-sub">Find any government service in under 60 seconds — no documents, no calls, no confusion.</div>
+    <div>
+      <span class="hero-tag">FNRI Pilot</span>
+      <span class="hero-tag">IBM watsonx</span>
+      <span class="hero-tag">Multi-Agency Ready</span>
+    </div>
+    <div style="margin-top:20px;font-size:12px;color:#6a8aaf">FNRI-IBM Bob-a-thon  ·  October 2026</div>
+  </div>
+  <div class="notes"><strong>Speaker note:</strong> "Every government agency has a Citizen Charter. Almost no citizen can actually use it. We built a tool that fixes that — starting with FNRI, ready for any agency in the Philippines."</div>
+</div>
+
+
+<div class="slide">
+  <div class="slide-header">
+    <span class="slide-num">Slide 2 of 7</span>
+    <span class="slide-timer">0:30 – 1:10</span>
+  </div>
+  <div class="slide-body">
+    <div class="slide-title">The Problem</div>
+    <div class="slide-sub">Citizen Charters exist — but citizens can't use them.</div>
+    <ul class="problem-list">
+      <li><span class="pill-no">NOW</span>Long, technical PDF documents — impossible to navigate quickly</li>
+      <li><span class="pill-no">NOW</span>Citizens don't know the official name of the service they need</li>
+      <li><span class="pill-no">NOW</span>No consistent way to find which office to go to, or what to bring</li>
+      <li><span class="pill-no">NOW</span>They call or visit in person just to ask basic questions</li>
+      <li><span class="pill-no">NOW</span>1,800+ agencies — each with its own disconnected approach</li>
+    </ul>
+  </div>
+  <div class="notes"><strong>Speaker note:</strong> "Republic Act 11032 requires every agency to publish a Citizen Charter. The law is there. The information is there. But the format is designed for compliance, not for citizens."</div>
+</div>
+
+
+<div class="slide">
+  <div class="slide-header">
+    <span class="slide-num">Slide 3 of 7</span>
+    <span class="slide-timer">1:10 – 2:00</span>
+  </div>
+  <div class="slide-body">
+    <div class="slide-title">Our Solution</div>
+    <div class="slide-sub">A free public website — three ways to find exactly the service you need.</div>
+    <div class="three-col">
+      <div class="card">
+        <div class="card-icon">🔍</div>
+        <div class="card-title">Search</div>
+        <div class="card-desc">Type a few words — like Google. Smart search handles typos and returns instant results.</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">📂</div>
+        <div class="card-title">Browse</div>
+        <div class="card-desc">Explore agencies and service categories as cards. Tap to drill down.</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">❓</div>
+        <div class="card-title">Guided Quiz</div>
+        <div class="card-desc">3 simple questions — Who are you? What do you need? Prefer to visit or go online?</div>
+      </div>
+    </div>
+    <div class="quote-block">
+      For each result, citizens see: what the service is, who can apply, how long it takes, how much it costs, what to bring, and who to contact — in plain language.
+    </div>
+  </div>
+  <div class="notes"><strong>Speaker note:</strong> "We support three discovery modes because different citizens think differently. The quiz is especially powerful for first-time users who don't know the name of what they need."</div>
+</div>
+
+
+<div class="slide">
+  <div class="slide-header">
+    <span class="slide-num">Slide 4 of 7</span>
+    <span class="slide-timer">2:00 – 2:45</span>
+  </div>
+  <div class="slide-body">
+    <div class="slide-title">The AI Upload Engine</div>
+    <div class="slide-sub">Any agency can onboard in 15 minutes — no developer needed.</div>
+    <ul class="step-list">
+      <li>Agency staff visits the Upload page and types their agency name</li>
+      <li>Drags and drops their official Citizen Charter PDF</li>
+      <li>IBM watsonx reads the PDF and extracts all services automatically (~2 min)</li>
+      <li>Staff reviews the results on screen — edits anything if needed</li>
+      <li>Clicks "Publish" — the agency Service Finder goes live immediately</li>
+    </ul>
+    <div style="margin-top:16px;background:#f0f5ff;border:1px solid #c8d8f0;border-radius:6px;padding:12px 16px;font-size:13px;color:#1a2a4a">
+      <strong>Why it works for every agency:</strong> RA 11032 mandates the exact same charter format — Client Steps → Agency Action → Fees → Processing Time → Person Responsible — so our AI model understands any agency's document out of the box.
+    </div>
+  </div>
+  <div class="notes"><strong>Speaker note:</strong> "The standardised format is the key insight. Because every charter looks the same by law, the AI doesn't need to be retrained per agency. One model, any charter."</div>
+</div>
+
+
+<div class="slide">
+  <div class="slide-header">
+    <span class="slide-num">Slide 5 of 7</span>
+    <span class="slide-timer">2:45 – 3:25</span>
+  </div>
+  <div class="slide-body">
+    <div class="slide-title">Scale &amp; Scope</div>
+    <div class="slide-sub">Built for FNRI. Designed for the entire Philippine government.</div>
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="stat-num">1,800+</div>
+        <div class="stat-label">Philippine government agencies — all required to have a Citizen Charter</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">15 min</div>
+        <div class="stat-label">Time for any agency to go live on the platform</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Agencies already in hand and ready to onboard (FNRI · PNRI · SEI)</div>
+      </div>
+    </div>
+    <table class="data-table" style="margin-top:16px">
+      <thead>
+        <tr><th>Agency</th><th>Full Name</th><th>Services</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>FNRI</strong></td><td>Food and Nutrition Research Institute</td><td>38</td><td style="color:#1a7f37;font-weight:600">Phase A — Pilot</td></tr>
+        <tr><td><strong>PNRI</strong></td><td>Philippine Nuclear Research Institute</td><td>52</td><td style="color:#3b82d4;font-weight:600">Phase B — Ready</td></tr>
+        <tr><td><strong>SEI</strong></td><td>Science Education Institute</td><td>12</td><td style="color:#3b82d4;font-weight:600">Phase B — Ready</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="notes"><strong>Speaker note:</strong> "We're not building a one-off tool for FNRI. We're building the infrastructure layer for all 1,800 agencies — and we're already 3 agencies deep before launch."</div>
+</div>
+
+
+<div class="slide">
+  <div class="slide-header">
+    <span class="slide-num">Slide 6 of 7</span>
+    <span class="slide-timer">3:25 – 4:15</span>
+  </div>
+  <div class="slide-body">
+    <div class="slide-title">Tech Stack &amp; Roadmap</div>
+    <div class="slide-sub">Modern, mobile-first, zero server cost for citizens.</div>
+    <div class="two-col">
+      <div>
+        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#57606a;margin-bottom:10px">Technology</div>
+        <table class="data-table">
+          <tbody>
+            <tr><td style="font-weight:600">Frontend</td><td>Ionic + Angular</td></tr>
+            <tr><td style="font-weight:600">Search</td><td>Fuse.js (typo-tolerant)</td></tr>
+            <tr><td style="font-weight:600">AI Extraction</td><td>IBM watsonx</td></tr>
+            <tr><td style="font-weight:600">Hosting</td><td>GitHub Pages (free)</td></tr>
+            <tr><td style="font-weight:600">Privacy</td><td>No login · No data collected</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#57606a;margin-bottom:10px">Roadmap</div>
+        <div class="card" style="margin-bottom:10px">
+          <div class="card-label" style="color:#1a7f37">Phase A — FNRI Pilot</div>
+          <div class="card-desc">Sub-tasks 1–8: Build, populate all 38 services, test on mobile, publish live.</div>
+        </div>
+        <div class="card">
+          <div class="card-label" style="color:#3b82d4">Phase B — Multi-Agency</div>
+          <div class="card-desc">Sub-tasks 9–12: Theming engine, agency landing page, AI upload tool, PNRI + SEI onboarding.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="notes"><strong>Speaker note:</strong> "GitHub Pages means zero hosting cost. Fuse.js means the search works even if you misspell. IBM watsonx is the AI backbone that makes the upload tool possible."</div>
+</div>
+
+
+<div class="slide cta">
+  <div class="slide-header" style="background:#162038;border-color:#2a3d5c">
+    <span class="slide-num" style="color:#6a8aaf">Slide 7 of 7</span>
+    <span class="slide-timer" style="background:#1a2a4a;border-color:#2a3d5c;color:#6a8aaf">4:15 – 5:00</span>
+  </div>
+  <div class="slide-body">
+    <div class="slide-title">What Does Success Look Like?</div>
+    <div class="slide-sub">Simple measures. Real impact.</div>
+    <div class="cta-items">
+      <div class="cta-item"><strong>60 seconds</strong>Any citizen finds the right FNRI service in under a minute</div>
+      <div class="cta-item"><strong>Mobile-first</strong>Works on any smartphone — no app download needed</div>
+      <div class="cta-item"><strong>15 minutes</strong>Any agency — zero technical staff — goes live</div>
+      <div class="cta-item"><strong>1,800 agencies</strong>The same platform, the same AI, for all of them</div>
+    </div>
+    <div style="margin-top:24px;font-size:14px;color:#a8c0e0;font-style:italic;line-height:1.7">
+      "Any Philippine government agency with a Citizen Charter can be onboarded in under 15 minutes — no developer, no coding. Upload a PDF. AI reads it. Staff approves. Citizens find services instantly."
+    </div>
+  </div>
+  <div class="notes"><strong>Speaker note:</strong> "The ask is simple: let us launch FNRI as the proof of concept. Once citizens can find any of the 38 FNRI services in 60 seconds, we expand to every agency in the country."</div>
+</div>
+
+
+<footer>
+  <div style="margin-bottom:6px;font-weight:600;color:#1f2328">Slide timing guide: 7 slides · ~40 seconds each · 5 minutes total</div>
+  <div>Copy each slide's content into Google Slides. Use the speaker notes as your spoken script.</div>
+  <div style="margin-top:12px;color:#9ca3af">Made with IBM Bob</div>
+</footer>
+
+</body>
+</html>

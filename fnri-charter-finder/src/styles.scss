@@ -1,58 +1,94 @@
-/* ─── Angular Material theme (must be first) ─── */
+/* ═══════════════════════════════════════════════════════════
+   Angular Material theme — must come first
+═══════════════════════════════════════════════════════════ */
 @use '@angular/material' as mat;
 
-/* ─── Tailwind (preflight off – Material handles CSS reset) ─── */
+/* ─── Tailwind base (preflight off — Material handles reset) ─── */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @include mat.core();
 
-/* FNRI brand palette mapped to Material Design 3 */
-$fnri-primary: mat.define-palette(mat.$indigo-palette, 700, 500, 900);
-$fnri-accent:  mat.define-palette(mat.$red-palette, 600, 400, 800);
-$fnri-warn:    mat.define-palette(mat.$orange-palette);
+/* ── MD3-aligned palette ── Google Blue primary */
+$cc-primary: mat.define-palette(mat.$blue-palette, 600, 400, 800);
+$cc-accent:  mat.define-palette(mat.$teal-palette, 500, 300, 700);
+$cc-warn:    mat.define-palette(mat.$red-palette, 600);
 
-$fnri-theme: mat.define-light-theme((
+$cc-theme: mat.define-light-theme((
   color: (
-    primary: $fnri-primary,
-    accent:  $fnri-accent,
-    warn:    $fnri-warn,
+    primary: $cc-primary,
+    accent:  $cc-accent,
+    warn:    $cc-warn,
   ),
   typography: mat.define-typography-config(
-    $font-family: 'Roboto, sans-serif',
+    $font-family: '"Google Sans", Roboto, sans-serif',
+    $headline-5: mat.define-typography-level(20px, 28px, 600),
+    $subtitle-1: mat.define-typography-level(15px, 22px, 500),
+    $body-1:     mat.define-typography-level(14px, 20px, 400),
+    $body-2:     mat.define-typography-level(13px, 18px, 400),
+    $caption:    mat.define-typography-level(12px, 16px, 400),
   ),
   density: 0,
 ));
 
-@include mat.all-component-themes($fnri-theme);
+@include mat.all-component-themes($cc-theme);
 
 /* ─── Ionic core (routing shell only) ─── */
 @import "@ionic/angular/css/core.css";
 @import "@ionic/angular/css/normalize.css";
 @import "@ionic/angular/css/structure.css";
 
-/* ─── Global tokens ─── */
+/* ═══════════════════════════════════════════════════════════
+   MD3 Design Tokens
+═══════════════════════════════════════════════════════════ */
 :root {
-  --md-primary:       #3949ab;   /* indigo-700  */
-  --md-on-primary:    #ffffff;
-  --md-primary-cont: #e8eaf6;    /* indigo-50   */
-  --md-secondary:    #c62828;    /* red-800     */
-  --md-surface:      #f5f5f5;
-  --md-surface-high: #ffffff;
-  --md-on-surface:   #1c1b1f;
-  --md-outline:      #c4c7c5;
-  --md-success:      #2e7d32;
+  /* ── Color ── */
+  --md-primary:          #1a73e8;   /* Google Blue 600        */
+  --md-primary-dark:     #1557b0;   /* pressed / hover state  */
+  --md-on-primary:       #ffffff;
+  --md-primary-cont:     #e8f0fe;   /* primary container      */
+  --md-on-primary-cont:  #1a3e72;
 
-  /* keep Ionic router happy */
-  --ion-color-primary: #3949ab;
-  --ion-background-color: #f5f5f5;
-  --ion-font-family: 'Roboto', sans-serif;
+  --md-secondary:        #00796b;   /* teal-700               */
+  --md-secondary-cont:   #e0f2f1;
+
+  --md-surface:          #f8f9fa;   /* neutral background     */
+  --md-surface-1:        #ffffff;   /* card surface           */
+  --md-surface-2:        #f1f3f4;   /* input background       */
+  --md-on-surface:       #202124;   /* Google gray-900        */
+  --md-on-surface-var:   #5f6368;   /* Google gray-600        */
+  --md-outline:          #dadce0;   /* Google gray-200        */
+  --md-outline-var:      #e8eaed;
+
+  --md-success:          #1e8e3e;
+  --md-success-cont:     #e6f4ea;
+  --md-error:            #d93025;
+  --md-error-cont:       #fce8e6;
+
+  /* ── Elevation shadows (MD3 tonal) ── */
+  --md-shadow-1: 0 1px 2px rgba(60,64,67,.10), 0 1px 3px 1px rgba(60,64,67,.08);
+  --md-shadow-2: 0 1px 2px rgba(60,64,67,.12), 0 2px 6px 2px rgba(60,64,67,.10);
+  --md-shadow-3: 0 4px 8px 3px rgba(60,64,67,.12), 0 1px 3px rgba(60,64,67,.10);
+
+  /* ── Radii ── */
+  --md-radius-sm:   8px;
+  --md-radius-md:   12px;
+  --md-radius-lg:   16px;
+  --md-radius-xl:   24px;
+  --md-radius-pill: 50px;
+
+  /* ── keep Ionic router happy ── */
+  --ion-color-primary:      #1a73e8;
+  --ion-background-color:   #f8f9fa;
+  --ion-font-family:        'Google Sans', Roboto, sans-serif;
 }
 
-/* ─── Material Symbols ─── */
-.material-symbols-outlined {
-  font-family: 'Material Symbols Outlined';
+/* ═══════════════════════════════════════════════════════════
+   Material Symbols — Outlined (default) + Rounded variant
+═══════════════════════════════════════════════════════════ */
+.material-symbols-outlined,
+.material-symbols-rounded {
   font-weight: normal;
   font-style: normal;
   font-size: 24px;
@@ -63,107 +99,554 @@ $fnri-theme: mat.define-light-theme((
   white-space: nowrap;
   direction: ltr;
   -webkit-font-smoothing: antialiased;
-  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
   vertical-align: middle;
   user-select: none;
 }
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+.material-symbols-rounded {
+  font-family: 'Material Symbols Rounded';
+  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+/* Filled icon variant helper */
+.icon-filled {
+  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
 
-/* ─── App shell layout ─── */
+/* ═══════════════════════════════════════════════════════════
+   App Shell Layout
+═══════════════════════════════════════════════════════════ */
 html, body { height: 100%; margin: 0; }
-body { background: var(--md-surface); font-family: 'Roboto', sans-serif; }
+body {
+  background: var(--md-surface);
+  font-family: 'Google Sans', Roboto, sans-serif;
+  color: var(--md-on-surface);
+  -webkit-font-smoothing: antialiased;
+}
 
-/* app-root must fill the full viewport so the sidenav container can too */
 app-root {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 
-/* Hide Ionic tab-bar on desktop (≥ 960 px) */
+/* Hide Ionic tab-bar on desktop */
 @media (min-width: 960px) {
   ion-tab-bar { display: none !important; }
 }
 
-/* ─── Material overrides for density / spacing ─── */
-.mat-mdc-card          { border-radius: 12px !important; }
-.mat-mdc-raised-button { border-radius: 20px !important; }
-.mat-mdc-outlined-button { border-radius: 20px !important; }
-.mat-mdc-chip-set .mat-mdc-chip { border-radius: 8px !important; }
-
-/* ─── Service card ─── */
-.svc-card {
-  cursor: pointer;
-  transition: box-shadow 0.2s;
-  &:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.12) !important; }
+/* ═══════════════════════════════════════════════════════════
+   Angular Material Component Overrides (MD3 feel)
+═══════════════════════════════════════════════════════════ */
+/* Cards */
+.mat-mdc-card {
+  border-radius: var(--md-radius-md) !important;
+  box-shadow: var(--md-shadow-1) !important;
+  border: 1px solid var(--md-outline-var);
 }
 
-/* ─── Page toolbar — sticky so it never scrolls away inside ion-page ─── */
+/* Buttons */
+.mat-mdc-raised-button   { border-radius: var(--md-radius-pill) !important; font-family: 'Google Sans', Roboto, sans-serif !important; font-weight: 500 !important; letter-spacing: 0.01em !important; }
+.mat-mdc-outlined-button { border-radius: var(--md-radius-pill) !important; font-family: 'Google Sans', Roboto, sans-serif !important; font-weight: 500 !important; }
+.mat-mdc-button          { border-radius: var(--md-radius-pill) !important; font-family: 'Google Sans', Roboto, sans-serif !important; }
+.mat-mdc-stroked-button  { border-radius: var(--md-radius-pill) !important; }
+
+/* Chips — pill shape */
+.mat-mdc-chip-set .mat-mdc-chip { border-radius: var(--md-radius-pill) !important; font-family: 'Google Sans', Roboto, sans-serif !important; font-size: 12px !important; }
+
+/* Toolbar */
+.mat-toolbar {
+  font-family: 'Google Sans', Roboto, sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.01em;
+}
+
+/* Form field */
+.mat-mdc-form-field {
+  font-family: 'Google Sans', Roboto, sans-serif !important;
+}
+.mat-mdc-form-field .mat-mdc-text-field-wrapper {
+  border-radius: var(--md-radius-pill) !important;
+  background: var(--md-surface-2) !important;
+}
+.mat-mdc-form-field.mat-form-field-appearance-outline .mdc-notched-outline__leading { border-radius: var(--md-radius-pill) 0 0 var(--md-radius-pill) !important; }
+.mat-mdc-form-field.mat-form-field-appearance-outline .mdc-notched-outline__trailing { border-radius: 0 var(--md-radius-pill) var(--md-radius-pill) 0 !important; }
+
+/* Progress bar */
+.mat-mdc-progress-bar { border-radius: var(--md-radius-pill) !important; height: 6px !important; }
+.mat-mdc-progress-bar .mdc-linear-progress__bar-inner { border-radius: var(--md-radius-pill) !important; }
+
+/* ═══════════════════════════════════════════════════════════
+   Page Shell
+═══════════════════════════════════════════════════════════ */
+/* Sticky toolbar inside page components.
+   z-index kept low so it never escapes .app-content's stacking context
+   and never paints over the sidenav. */
 .page-toolbar {
-  position: sticky !important;
+  position: sticky;
   top: 0;
   z-index: 10;
   flex-shrink: 0;
 }
 
-/* ─── Detail sheet scrollable content ─── */
-.detail-scroll { max-height: 80vh; overflow-y: auto; padding: 24px; }
+/* Agency-scoped banner strip inside the search toolbar */
+.agency-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px 8px 4px;
+  height: 48px;
+}
 
-/* ─── Responsive sidenav (desktop only) ─── */
-.app-sidenav-container {
-  flex: 1;          /* fills the height app-root gives it */
+/* Page scroll area */
+.page-scroll {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Desktop App Shell — flex row, sidenav + content
+═══════════════════════════════════════════════════════════ */
+
+/* ── Shell wrapper ── */
+.app-shell {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
   height: 100%;
   overflow: hidden;
 }
-/* mat-sidenav-content must scroll independently */
-.mat-drawer-content {
-  overflow-y: auto !important;
-}
+
+/* ── Side navigation ── */
 .app-sidenav {
-  width: 220px;
-  background: var(--md-primary-cont);
-  border-right: none !important;
-  padding-top: 16px;
-}
-.app-sidenav .nav-logo {
-  padding: 8px 20px 20px;
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--md-primary);
-  letter-spacing: 0.01em;
+  /* expanded width */
+  --sidenav-width: 240px;
+  /* collapsed (icon-rail) width */
+  --sidenav-rail: 64px;
+
+  width: var(--sidenav-width);
+  min-width: var(--sidenav-width);
+  flex-shrink: 0;
+  height: 100%;
+  background: var(--md-surface-1);
+  border-right: 1px solid var(--md-outline-var);
+  padding: 12px 0 0;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+  /* Sit above the content stacking context */
+  position: relative;
+  z-index: 1;
+  transition: width 0.22s cubic-bezier(.4,0,.2,1),
+              min-width 0.22s cubic-bezier(.4,0,.2,1);
 }
-.nav-logo-icon {
-  font-size: 22px !important;
-  margin-bottom: 4px;
-  color: var(--md-primary);
+
+/* Collapsed state — applied via .sidenav-collapsed on the shell */
+.sidenav-collapsed .app-sidenav {
+  width: var(--sidenav-rail);
+  min-width: var(--sidenav-rail);
 }
-.app-sidenav .nav-subtitle {
+
+/* ── Main content area ── */
+.app-content {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  /* Isolate this stacking context so .page-toolbar (z-index:10) inside
+     it never paints over the sidenav (z-index:1 on the sibling) */
+  isolation: isolate;
+}
+
+/* Routed page hosts fill the content area */
+.app-content app-landing,
+.app-content app-search,
+.app-content app-browse,
+.app-content app-wizard {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ── Logo lockup ── */
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 8px 14px 16px;
+  min-width: 0;
+  flex-shrink: 0;
+}
+.nav-logo-mark {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  background: var(--md-primary);
+  border-radius: var(--md-radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #fff;
+  font-size: 20px;
+}
+.nav-logo-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  /* hide text by clipping when collapsed */
+  opacity: 1;
+  transition: opacity 0.15s;
+}
+.sidenav-collapsed .nav-logo-text {
+  opacity: 0;
+  pointer-events: none;
+}
+.nav-logo-name {
+  font-family: 'Google Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--md-on-surface);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.nav-logo-sub {
   font-size: 11px;
-  color: #5c6bc0;
-  display: block;
+  color: var(--md-on-surface-var);
   font-weight: 400;
+  white-space: nowrap;
 }
+
+/* Toggle button inside the logo row */
+.nav-toggle-btn {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-radius: var(--md-radius-sm);
+  color: var(--md-on-surface-var);
+  transition: background 0.15s, color 0.15s;
+
+  &:hover {
+    background: var(--md-surface-2);
+    color: var(--md-on-surface);
+  }
+}
+/* When collapsed, the logo-text is hidden so the toggle needs a
+   little left push to stay centred in the 64px rail */
+.sidenav-collapsed .nav-toggle-btn {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ── Section label ── */
+.sidenav-section-label {
+  font-family: 'Google Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--md-on-surface-var);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 12px 20px 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  /* fade out on collapse */
+  opacity: 1;
+  max-height: 32px;
+  transition: opacity 0.15s, max-height 0.15s, padding 0.15s;
+}
+.sidenav-collapsed .sidenav-section-label {
+  opacity: 0;
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  pointer-events: none;
+}
+
+/* ── Nav link ── */
 .sidenav-link {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 12px 20px;
-  text-decoration: none;
+  gap: 12px;
+  /* left-pad so the icon sits centred in the 64px rail */
+  padding: 0 12px 0 20px;
+  height: 48px;
   color: var(--md-on-surface);
+  font-family: 'Google Sans', sans-serif;
   font-size: 14px;
   font-weight: 500;
-  border-radius: 0 50px 50px 0;
+  border-radius: 0 var(--md-radius-pill) var(--md-radius-pill) 0;
   margin-right: 12px;
-  transition: background 0.15s;
-  &:hover, &.active { background: rgba(57, 73, 171, 0.12); color: var(--md-primary); }
-  .material-symbols-outlined { font-size: 22px; color: inherit; }
+  width: calc(100% - 12px);
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+
+  .sidenav-link-icon {
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 20px;
+  }
+
+  .sidenav-link-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: 1;
+    min-width: 0;
+    opacity: 1;
+    transition: opacity 0.12s;
+  }
+
+  &:hover {
+    background: rgba(26, 115, 232, 0.08);
+    color: var(--md-primary);
+  }
+
+  &.active {
+    background: var(--md-primary-cont);
+    color: var(--md-primary);
+    font-weight: 600;
+
+    .sidenav-link-icon {
+      font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+  }
 }
-.sidenav-section-label {
+
+/* Hide labels when collapsed */
+.sidenav-collapsed .sidenav-link .sidenav-link-label {
+  opacity: 0;
+  pointer-events: none;
+}
+/* Centre the icon in the 64px rail */
+.sidenav-collapsed .sidenav-link {
+  padding-left: 20px;
+  justify-content: flex-start;
+}
+
+/* ── Agency shortcut row ── */
+.sidenav-agency-link {
+  height: 40px !important;
+  font-size: 13px !important;
+  padding-left: 20px !important;
+}
+.sidenav-agency-dot {
+  width: 8px;
+  height: 8px;
+  min-width: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.sidenav-agency-abbr {
+  margin-left: auto;
+  font-size: 10px;
+  font-weight: 700;
+  font-family: 'Google Sans', sans-serif;
+  opacity: 0.8;
+}
+
+.sidenav-spacer {
+  flex: 1;
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   Service Card
+═══════════════════════════════════════════════════════════ */
+.svc-card {
+  cursor: pointer;
+  transition: box-shadow 0.2s ease, transform 0.15s ease;
+  border-left: 3px solid transparent;
+
+  &:hover {
+    box-shadow: var(--md-shadow-3) !important;
+    transform: translateY(-1px);
+  }
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+/* Fee chip variants */
+.chip-free {
+  background: var(--md-success-cont) !important;
+  color: var(--md-success) !important;
+  border: none !important;
+}
+.chip-paid {
+  background: var(--md-error-cont) !important;
+  color: var(--md-error) !important;
+  border: none !important;
+}
+.chip-time {
+  background: var(--md-surface-2) !important;
+  color: var(--md-on-surface-var) !important;
+  border: none !important;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Detail Dialog (shared across all pages)
+═══════════════════════════════════════════════════════════ */
+.detail-scroll {
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 0 24px 24px;
+}
+
+/* Tonal info row */
+.detail-info-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--md-surface-2);
+  border-radius: var(--md-radius-md);
+}
+.detail-info-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--md-radius-sm);
+  background: var(--md-primary-cont);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--md-primary);
+  font-size: 18px;
+}
+.detail-info-label {
   font-size: 11px;
   font-weight: 600;
-  color: #9e9e9e;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  padding: 16px 20px 6px;
+  color: var(--md-on-surface-var);
+  margin-bottom: 2px;
+}
+.detail-info-value {
+  font-size: 14px;
+  color: var(--md-on-surface);
+  line-height: 1.4;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Category badge pills
+═══════════════════════════════════════════════════════════ */
+.cat-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: var(--md-radius-pill);
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Mobile bottom tab bar (Ionic override)
+═══════════════════════════════════════════════════════════ */
+ion-tab-bar {
+  --background: var(--md-surface-1);
+  --border: 1px solid var(--md-outline-var);
+  height: 64px;
+}
+ion-tab-button {
+  --color: var(--md-on-surface-var);
+  --color-selected: var(--md-primary);
+  font-family: 'Google Sans', Roboto, sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+}
+ion-label {
+  font-family: 'Google Sans', Roboto, sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Wizard answer button
+═══════════════════════════════════════════════════════════ */
+.wizard-answer-btn {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  text-align: left !important;
+  justify-content: flex-start !important;
+  height: auto !important;
+  padding: 14px 16px !important;
+  border-radius: var(--md-radius-lg) !important;
+  background: var(--md-surface-1) !important;
+  border: 1.5px solid var(--md-outline) !important;
+  color: var(--md-on-surface) !important;
+  font-family: 'Google Sans', sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  transition: background 0.15s, border-color 0.15s, box-shadow 0.15s !important;
+  width: 100% !important;
+  line-height: 1.4 !important;
+  white-space: normal !important;
+
+  &:hover {
+    background: var(--md-primary-cont) !important;
+    border-color: var(--md-primary) !important;
+    color: var(--md-primary) !important;
+    box-shadow: var(--md-shadow-1) !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Landing page hero
+═══════════════════════════════════════════════════════════ */
+.landing-hero {
+  background: linear-gradient(135deg, var(--md-primary) 0%, #1557b0 100%);
+  color: #fff;
+  padding: 28px 20px 24px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Utility
+═══════════════════════════════════════════════════════════ */
+.text-primary   { color: var(--md-primary) !important; }
+.text-on-surface { color: var(--md-on-surface) !important; }
+.bg-primary-cont { background: var(--md-primary-cont) !important; }
+.bg-surface      { background: var(--md-surface) !important; }
+.bg-surface-1    { background: var(--md-surface-1) !important; }
+
+/* Google-style divider */
+.md-divider {
+  height: 1px;
+  background: var(--md-outline-var);
+  margin: 12px 0;
 }

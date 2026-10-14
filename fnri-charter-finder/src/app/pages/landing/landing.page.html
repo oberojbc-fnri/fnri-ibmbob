@@ -1,158 +1,211 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>CitizenCharter PH</ion-title>
-    <ion-note slot="end" style="color:rgba(255,255,255,0.8)" class="text-xs pr-4">All agencies</ion-note>
-  </ion-toolbar>
-  <ion-toolbar>
-    <ion-searchbar
-      [(ngModel)]="query"
-      (ionInput)="onSearchInput($event)"
-      placeholder="Search across all agencies…"
-      debounce="0"
-      show-clear-button="focus"
-      animated="true">
-    </ion-searchbar>
-  </ion-toolbar>
-</ion-header>
+<!-- ── Toolbar ─────────────────────────────────────────────── -->
+<div class="page-toolbar" style="background:var(--md-primary)">
+  <div style="display:flex;align-items:center;padding:0 16px;height:56px;gap:12px">
+    <span class="material-symbols-outlined" style="color:rgba(255,255,255,0.9);font-size:22px">account_balance</span>
+    <span style="color:#fff;font-family:'Google Sans',sans-serif;font-size:16px;font-weight:600;flex:1">
+      CitizenCharter PH
+    </span>
+    <span style="color:rgba(255,255,255,0.7);font-size:11px;font-family:'Google Sans',sans-serif">
+      All agencies
+    </span>
+  </div>
+</div>
 
-<ion-content>
+<!-- ── Scrollable content ──────────────────────────────────── -->
+<div class="page-scroll">
+
+  <!-- Hero + search strip -->
+  <div class="landing-hero">
+    <p style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.7);margin:0 0 6px;font-family:'Google Sans',sans-serif">
+      Find a Government Service
+    </p>
+    <h1 style="font-family:'Google Sans',sans-serif;font-size:22px;font-weight:700;color:#fff;line-height:1.25;margin:0 0 16px">
+      Search across all Citizen Charters
+    </h1>
+
+    <!-- Search bar (plain input — works in both Ionic and Material shells) -->
+    <div style="background:rgba(255,255,255,0.15);border-radius:50px;display:flex;align-items:center;gap:8px;padding:0 16px;height:48px;backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.25)">
+      <span class="material-symbols-outlined" style="color:rgba(255,255,255,0.8);font-size:20px">search</span>
+      <input
+        [(ngModel)]="query"
+        (input)="onSearchInput($event)"
+        placeholder="Search all agencies…"
+        style="background:none;border:none;outline:none;color:#fff;font-family:'Google Sans',sans-serif;font-size:14px;flex:1;min-width:0"
+        autocomplete="off">
+      <button *ngIf="query" (click)="clearSearch()"
+        style="background:none;border:none;cursor:pointer;color:rgba(255,255,255,0.8);padding:4px;display:flex;align-items:center">
+        <span class="material-symbols-outlined" style="font-size:18px">close</span>
+      </button>
+    </div>
+  </div>
 
   <!-- Cross-agency search results -->
   <div *ngIf="hasSearched">
-    <div *ngIf="results.length === 0" class="flex flex-col items-center justify-center pt-16 px-6 text-center">
-      <span class="material-symbols-outlined text-6xl text-gray-300 mb-4">manage_search</span>
-      <h2 class="text-lg font-semibold text-gray-700 mb-1">No services found</h2>
-      <p class="text-sm text-gray-500">Try different keywords or browse an agency below</p>
+    <div *ngIf="results.length === 0"
+      style="display:flex;flex-direction:column;align-items:center;padding:48px 24px;text-align:center">
+      <span class="material-symbols-outlined" style="font-size:52px;color:var(--md-outline);margin-bottom:12px">manage_search</span>
+      <h2 style="font-family:'Google Sans',sans-serif;font-size:17px;font-weight:600;color:var(--md-on-surface);margin:0 0 4px">No services found</h2>
+      <p style="font-size:13px;color:var(--md-on-surface-var);margin:0">Try different keywords or browse an agency below</p>
     </div>
 
-    <ion-list *ngIf="results.length > 0" lines="none" class="px-4 pt-2 pb-6 bg-transparent">
-      <ion-item
-        *ngFor="let service of results"
-        button detail="false"
+    <div *ngIf="results.length > 0" style="padding:8px 16px 4px">
+      <p style="font-size:12px;color:var(--md-on-surface-var);font-weight:500;margin:0 0 8px">
+        {{ results.length }} result{{ results.length !== 1 ? 's' : '' }} found
+      </p>
+    </div>
+
+    <div *ngIf="results.length > 0" style="padding:0 16px 24px;display:flex;flex-direction:column;gap:10px">
+      <div *ngFor="let service of results"
         (click)="openService(service)"
-        class="mb-3 rounded-xl overflow-hidden"
-        style="--background: transparent; --padding-start: 0; --inner-padding-end: 0;">
-        <ion-label>
-          <div class="bg-white rounded-xl p-4 shadow-sm">
-            <div class="flex items-start justify-between gap-2 mb-1">
-              <h2 class="text-sm font-semibold text-gray-800 leading-tight flex-1">{{ service.plainName }}</h2>
-              <span class="text-xs font-semibold px-2 py-0.5 rounded-full text-white flex-shrink-0"
-                [style.background]="service.agencyColor">
-                {{ service.agencyName }}
-              </span>
-            </div>
-            <p class="text-xs text-gray-500 leading-relaxed mb-3 line-clamp-2">{{ service.description }}</p>
-            <div class="flex gap-2 flex-wrap">
-              <span class="inline-flex items-center gap-1 text-xs border border-gray-300 rounded-full px-2 py-0.5 text-gray-600">
-                <span class="material-symbols-outlined" style="font-size:13px">schedule</span>
-                {{ service.processingTime }}
-              </span>
-              <span class="inline-flex items-center gap-1 text-xs rounded-full px-2 py-0.5 border"
-                [class]="service.fees === 'Free' ? 'border-green-500 text-green-700' : 'border-red-400 text-red-600'">
-                <span class="material-symbols-outlined" style="font-size:13px">
-                  {{ service.fees === 'Free' ? 'redeem' : 'payments' }}
-                </span>
-                {{ service.fees === 'Free' ? 'Free' : 'With fee' }}
-              </span>
-            </div>
-          </div>
-        </ion-label>
-      </ion-item>
-    </ion-list>
-  </div>
+        style="background:var(--md-surface-1);border-radius:14px;padding:14px 14px 12px;cursor:pointer;border:1px solid var(--md-outline-var);border-left:3px solid;transition:box-shadow 0.18s"
+        [style.border-left-color]="service.agencyColor">
 
-  <!-- Agency grid (shown when not searching) -->
-  <div *ngIf="!hasSearched" class="px-4 pt-4 pb-24">
-    <h2 class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-4">Choose an agency</h2>
-    <div class="flex flex-col gap-3">
-      <div
-        *ngFor="let agency of agencies"
-        (click)="goToAgency(agency)"
-        class="bg-white rounded-2xl p-4 shadow-sm border-l-4 cursor-pointer active:opacity-70"
-        [style.border-left-color]="agency.primaryColor">
-        <div class="flex items-center gap-4">
-          <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
-            [style.background]="agency.primaryColor + '18'">
-            <span class="material-symbols-outlined text-2xl" [style.color]="agency.primaryColor">domain</span>
-          </div>
-          <div class="flex-1 min-w-0">
-            <div class="flex items-center gap-2 mb-0.5">
-              <h3 class="text-sm font-bold text-gray-800">{{ agency.agencyName }}</h3>
-              <span class="text-xs font-semibold px-1.5 py-0.5 rounded text-white"
-                [style.background]="agency.primaryColor">{{ agency.agencyAbbreviation }}</span>
-            </div>
-            <p class="text-xs text-gray-500 leading-snug line-clamp-1">{{ agency.fullName }}</p>
-            <p class="text-xs text-gray-400 mt-0.5">{{ agency.serviceCount }} services</p>
-          </div>
-          <span class="material-symbols-outlined text-gray-300">chevron_right</span>
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:6px">
+          <h2 style="font-family:'Google Sans',sans-serif;font-size:14px;font-weight:600;color:var(--md-on-surface);line-height:1.35;margin:0;flex:1">
+            {{ service.plainName }}
+          </h2>
+          <span style="font-size:10px;font-weight:700;padding:3px 8px;border-radius:50px;color:#fff;flex-shrink:0;font-family:'Google Sans',sans-serif"
+            [style.background]="service.agencyColor">
+            {{ service.agencyName }}
+          </span>
+        </div>
+
+        <p style="font-size:12px;color:var(--md-on-surface-var);line-height:1.5;margin:0 0 10px" class="line-clamp-2">
+          {{ service.description }}
+        </p>
+
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <span style="display:inline-flex;align-items:center;gap:3px;font-size:11px;background:var(--md-surface-2);color:var(--md-on-surface-var);border-radius:50px;padding:3px 9px;font-family:'Google Sans',sans-serif">
+            <span class="material-symbols-outlined" style="font-size:12px">schedule</span>
+            {{ service.processingTime }}
+          </span>
+          <span style="display:inline-flex;align-items:center;gap:3px;font-size:11px;border-radius:50px;padding:3px 9px;font-family:'Google Sans',sans-serif"
+            [style.background]="service.fees === 'Free' ? 'var(--md-success-cont)' : 'var(--md-error-cont)'"
+            [style.color]="service.fees === 'Free' ? 'var(--md-success)' : 'var(--md-error)'">
+            <span class="material-symbols-outlined" style="font-size:12px">
+              {{ service.fees === 'Free' ? 'redeem' : 'payments' }}
+            </span>
+            {{ service.fees === 'Free' ? 'Free' : 'With fee' }}
+          </span>
         </div>
       </div>
     </div>
   </div>
 
-</ion-content>
+  <!-- Agency list (shown when not searching) -->
+  <div *ngIf="!hasSearched" style="padding:16px 16px 40px">
+    <p style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--md-on-surface-var);margin:0 0 12px;font-family:'Google Sans',sans-serif">
+      Choose an agency
+    </p>
+    <div style="display:flex;flex-direction:column;gap:10px;max-width:640px">
+      <div *ngFor="let agency of agencies"
+        (click)="goToAgency(agency)"
+        style="background:var(--md-surface-1);border-radius:16px;overflow:hidden;cursor:pointer;border:1px solid var(--md-outline-var);border-left:4px solid;transition:box-shadow 0.18s"
+        [style.border-left-color]="agency.primaryColor">
 
-<!-- Service Detail Modal -->
-<ion-modal [isOpen]="isModalOpen" (didDismiss)="closeService()" [breakpoints]="[0, 0.5, 0.92]" [initialBreakpoint]="0.92" backdropDismiss="true">
-  <ng-template>
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Service Details</ion-title>
-        <ion-buttons slot="end">
-          <ion-button (click)="closeService()" aria-label="Close">
-            <span class="material-symbols-outlined">close</span>
-          </ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content *ngIf="selectedService">
-      <div class="p-4 pb-12">
-        <div class="flex items-center gap-2 mb-3">
-          <span class="inline-block text-xs font-semibold px-2 py-0.5 rounded-full text-white"
-            [style.background]="selectedService.agencyColor">
-            {{ selectedService.agencyName }}
-          </span>
-          <span class="text-xs text-gray-400 capitalize">{{ selectedService.category }}</span>
-        </div>
-        <h1 class="text-xl font-bold text-gray-800 mb-2">{{ selectedService.plainName }}</h1>
-        <p class="text-sm text-gray-500 leading-relaxed mb-4">{{ selectedService.description }}</p>
-        <div class="space-y-3 mb-4">
-          <div class="flex items-start gap-3">
-            <span class="material-symbols-outlined text-primary mt-0.5" style="font-size:20px">domain</span>
-            <div>
-              <p class="text-xs text-gray-400 uppercase tracking-wide">Office</p>
-              <p class="text-sm text-gray-700">{{ selectedService.office }}</p>
-            </div>
+        <div style="padding:14px 14px 14px 16px;display:flex;align-items:center;gap:14px">
+          <div style="width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0"
+            [style.background]="agency.primaryColor + '18'">
+            <span class="material-symbols-outlined icon-filled" style="font-size:24px" [style.color]="agency.primaryColor">domain</span>
           </div>
-          <div class="flex items-start gap-3">
-            <span class="material-symbols-outlined text-primary mt-0.5" style="font-size:20px">schedule</span>
-            <div>
-              <p class="text-xs text-gray-400 uppercase tracking-wide">Processing Time</p>
-              <p class="text-sm text-gray-700">{{ selectedService.processingTime }}</p>
+
+          <div style="flex:1;min-width:0">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px">
+              <h3 style="font-family:'Google Sans',sans-serif;font-size:14px;font-weight:700;color:var(--md-on-surface);margin:0">
+                {{ agency.agencyName }}
+              </h3>
+              <span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;color:#fff;flex-shrink:0;font-family:'Google Sans',sans-serif"
+                [style.background]="agency.primaryColor">
+                {{ agency.agencyAbbreviation }}
+              </span>
             </div>
+            <p style="font-size:12px;color:var(--md-on-surface-var);margin:0 0 4px;line-height:1.3" class="line-clamp-1">
+              {{ agency.fullName }}
+            </p>
+            <span style="display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:600;padding:2px 8px;border-radius:50px;font-family:'Google Sans',sans-serif"
+              [style.background]="agency.primaryColor + '18'"
+              [style.color]="agency.primaryColor">
+              <span class="material-symbols-outlined" style="font-size:11px">inventory_2</span>
+              {{ agency.serviceCount }} services
+            </span>
           </div>
-          <div class="flex items-start gap-3">
-            <span class="material-symbols-outlined text-primary mt-0.5" style="font-size:20px">payments</span>
-            <div>
-              <p class="text-xs text-gray-400 uppercase tracking-wide">Fees</p>
-              <p class="text-sm text-gray-700">{{ selectedService.fees }}</p>
-            </div>
-          </div>
-          <div class="flex items-start gap-3">
-            <span class="material-symbols-outlined text-primary mt-0.5" style="font-size:20px">group</span>
-            <div>
-              <p class="text-xs text-gray-400 uppercase tracking-wide">Who May Apply</p>
-              <p class="text-sm text-gray-700">{{ selectedService.whoMayAvail }}</p>
-            </div>
-          </div>
-        </div>
-        <div *ngIf="selectedService.requirements?.length" class="mb-4">
-          <h3 class="text-sm font-semibold text-gray-800 mb-2">What to Bring</h3>
-          <ul class="list-disc list-inside space-y-1">
-            <li *ngFor="let req of selectedService.requirements" class="text-sm text-gray-600">{{ req }}</li>
-          </ul>
+
+          <span class="material-symbols-outlined" style="font-size:20px;color:var(--md-outline)">chevron_right</span>
         </div>
       </div>
-    </ion-content>
-  </ng-template>
-</ion-modal>
+    </div>
+  </div>
+
+</div><!-- /.page-scroll -->
+
+<!-- ── Service Detail Dialog (Material — works in both shells) ── -->
+<ng-template #detailTpl>
+  <div class="detail-scroll" *ngIf="selectedService">
+    <div style="height:6px;margin:-1px -24px 20px;border-radius:4px 4px 0 0"
+      [style.background]="selectedService.agencyColor"></div>
+
+    <!-- Agency + category badges -->
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap">
+      <span style="font-size:11px;font-weight:700;padding:3px 10px;border-radius:50px;color:#fff;font-family:'Google Sans',sans-serif"
+        [style.background]="selectedService.agencyColor">
+        {{ selectedService.agencyName }}
+      </span>
+      <span style="font-size:12px;color:var(--md-on-surface-var);text-transform:capitalize;font-family:'Google Sans',sans-serif">
+        {{ selectedService.category }}
+      </span>
+    </div>
+
+    <h1 style="font-family:'Google Sans',sans-serif;font-size:20px;font-weight:700;color:var(--md-on-surface);line-height:1.3;margin:0 0 8px">
+      {{ selectedService.plainName }}
+    </h1>
+    <p style="font-size:13px;color:var(--md-on-surface-var);line-height:1.6;margin:0 0 20px">
+      {{ selectedService.description }}
+    </p>
+
+    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px">
+      <div class="detail-info-row">
+        <div class="detail-info-icon"><span class="material-symbols-outlined icon-filled" style="font-size:18px">domain</span></div>
+        <div><p class="detail-info-label">Office</p><p class="detail-info-value">{{ selectedService.office }}</p></div>
+      </div>
+      <div class="detail-info-row">
+        <div class="detail-info-icon"><span class="material-symbols-outlined icon-filled" style="font-size:18px">schedule</span></div>
+        <div><p class="detail-info-label">Processing Time</p><p class="detail-info-value">{{ selectedService.processingTime }}</p></div>
+      </div>
+      <div class="detail-info-row"
+        [style.background]="selectedService.fees === 'Free' ? 'var(--md-success-cont)' : 'var(--md-error-cont)'">
+        <div class="detail-info-icon"
+          [style.background]="selectedService.fees === 'Free' ? '#c8e6c9' : '#ffcdd2'"
+          [style.color]="selectedService.fees === 'Free' ? 'var(--md-success)' : 'var(--md-error)'">
+          <span class="material-symbols-outlined icon-filled" style="font-size:18px">
+            {{ selectedService.fees === 'Free' ? 'redeem' : 'payments' }}
+          </span>
+        </div>
+        <div>
+          <p class="detail-info-label">Fees</p>
+          <p class="detail-info-value"
+            [style.color]="selectedService.fees === 'Free' ? 'var(--md-success)' : 'var(--md-error)'">
+            {{ selectedService.fees }}
+          </p>
+        </div>
+      </div>
+      <div class="detail-info-row">
+        <div class="detail-info-icon"><span class="material-symbols-outlined icon-filled" style="font-size:18px">group</span></div>
+        <div><p class="detail-info-label">Who May Apply</p><p class="detail-info-value">{{ selectedService.whoMayAvail }}</p></div>
+      </div>
+    </div>
+
+    <div *ngIf="selectedService.requirements?.length" style="margin-bottom:20px">
+      <p style="font-size:13px;font-weight:600;color:var(--md-on-surface);margin:0 0 10px;display:flex;align-items:center;gap:6px">
+        <span class="material-symbols-outlined icon-filled" style="font-size:16px;color:var(--md-primary)">checklist</span>
+        What to Bring
+      </p>
+      <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px">
+        <li *ngFor="let req of selectedService.requirements"
+          style="display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--md-on-surface);line-height:1.4">
+          <span class="material-symbols-outlined" style="font-size:14px;color:var(--md-primary);flex-shrink:0;margin-top:1px">check_circle</span>
+          {{ req }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</ng-template>

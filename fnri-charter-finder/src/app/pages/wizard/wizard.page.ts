@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
+import { Router } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DataService, WizardQuestion, Service } from '../../services/data.service';
-import { AgencyConfigService } from '../../services/agency-config.service';
+import { AgencyContextService } from '../../services/agency-context.service';
+import { AGENCIES, AgencyMeta } from '../../data/agencies/index';
 
 type WizardState = 'questions' | 'results';
 
@@ -19,20 +21,22 @@ export class WizardPage implements OnInit {
   state: WizardState = 'questions';
   results: Service[] = [];
   selectedService: Service | null = null;
-  agencyName = '';
-  contactEmail = '';
+  /** Active agency filter — null means all-agencies */
+  agency: AgencyMeta | null = null;
   private dialogRef: MatDialogRef<any> | null = null;
 
   constructor(
     private dataService: DataService,
     private dialog: MatDialog,
-    private agencyConfigService: AgencyConfigService,
+    private agencyContext: AgencyContextService,
+    private router: Router,
   ) {}
 
   ngOnInit() {
-    this.questions = this.dataService.getWizardQuestions();
-    this.agencyName = this.agencyConfigService.config.agencyName;
-    this.contactEmail = this.agencyConfigService.contactEmail;
+    this.agency = this.agencyContext.agency;
+    this.questions = this.agency
+      ? this.dataService.getWizardQuestionsForAgency(this.agency.id)
+      : this.dataService.getWizardQuestions();
   }
 
   get currentQuestion(): WizardQuestion {
@@ -44,13 +48,13 @@ export class WizardPage implements OnInit {
   }
 
   selectAnswer(tag: string) {
-    if (tag !== 'any') {
-      this.selectedTags.push(tag);
-    }
+    if (tag !== 'any') this.selectedTags.push(tag);
     if (this.currentIndex < this.questions.length - 1) {
       this.currentIndex++;
     } else {
-      this.results = this.dataService.getServicesByTags(this.selectedTags);
+      this.results = this.agency
+        ? this.dataService.getServicesByTagsForAgency(this.selectedTags, this.agency.id)
+        : this.dataService.getServicesByTags(this.selectedTags);
       this.state = 'results';
     }
   }
@@ -65,9 +69,17 @@ export class WizardPage implements OnInit {
   openService(service: Service) {
     this.selectedService = service;
     this.dialogRef = this.dialog.open(this.detailTpl, {
-      maxWidth: '560px',
-      width: '95vw',
-      panelClass: 'detail-dialog',
+      maxWidth: '560px', width: '95vw', panelClass: 'detail-dialog',
     });
+  }
+
+  getAgencyContact(service: Service | null): { email: string; website: string } {
+    const ag = AGENCIES.find(a => a.id === service?.agencyId);
+    return { email: ag?.contact.email ?? '', website: ag?.contact.website ?? '' };
+  }
+
+  goBackToAllAgencies() {
+    this.agencyContext.clear();
+    this.router.navigate(['/landing']);
   }
 }

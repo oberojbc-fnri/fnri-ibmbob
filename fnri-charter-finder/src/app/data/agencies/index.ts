@@ -11,6 +11,9 @@ import seiConfig      from './sei/agency.config.json';
 import fnriCategories from './fnri/categories.json';
 import pnriCategories from './pnri/categories.json';
 import seiCategories  from './sei/categories.json';
+import fnriWizard     from './fnri/wizard.json';
+import pnriWizard     from './pnri/wizard.json';
+import seiWizard      from './sei/wizard.json';
 
 export interface AgencyMeta {
   id: string;
@@ -40,6 +43,26 @@ export interface AgencyService {
   agencyId: string;
   agencyName: string;
   agencyColor: string;
+}
+
+export interface CategoryDef {
+  id: string;
+  label: string;
+  icon: string;
+  color: string;
+  description: string;
+}
+
+export interface WizardAnswerDef {
+  label: string;
+  tag: string;
+}
+
+export interface WizardQuestionDef {
+  id: string;
+  question: string;
+  icon: string;
+  answers: WizardAnswerDef[];
 }
 
 function tag<T extends object>(items: T[], agencyId: string, agencyName: string, agencyColor: string): AgencyService[] {
@@ -96,3 +119,39 @@ export const CATEGORIES_BY_AGENCY: Record<string, any[]> = {
   pnri: pnriCategories,
   sei:  seiCategories,
 };
+
+/** Merged, deduplicated category list across all agencies.
+ *  Per-agency categories with the same id are merged — first definition wins for label/icon/color.
+ *  Agency-specific categories (e.g. "information" for SEI) are appended. */
+export const ALL_CATEGORIES: CategoryDef[] = (() => {
+  const seen = new Set<string>();
+  const result: CategoryDef[] = [];
+  for (const cat of [...fnriCategories, ...pnriCategories, ...seiCategories] as CategoryDef[]) {
+    if (!seen.has(cat.id)) {
+      seen.add(cat.id);
+      result.push(cat);
+    }
+  }
+  return result;
+})();
+
+/** Merged wizard questions — union of all unique question IDs, answers deduplicated by tag. */
+export const ALL_WIZARD_QUESTIONS: WizardQuestionDef[] = (() => {
+  const allQs = [...fnriWizard, ...pnriWizard, ...seiWizard] as WizardQuestionDef[];
+  const byId = new Map<string, WizardQuestionDef>();
+  for (const q of allQs) {
+    if (!byId.has(q.id)) {
+      byId.set(q.id, { ...q, answers: [...q.answers] });
+    } else {
+      const existing = byId.get(q.id)!;
+      const existingTags = new Set(existing.answers.map(a => a.tag));
+      for (const a of q.answers) {
+        if (!existingTags.has(a.tag)) {
+          existing.answers.push(a);
+          existingTags.add(a.tag);
+        }
+      }
+    }
+  }
+  return [...byId.values()];
+})();

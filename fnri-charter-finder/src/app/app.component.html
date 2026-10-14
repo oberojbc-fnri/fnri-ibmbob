@@ -1,38 +1,90 @@
 <!-- ═══════════════════════════════════════════════════════════
-     DESKTOP (≥960px): pure Material layout, no Ionic shell
+     DESKTOP (≥960px): MD3 Navigation Drawer + router outlet
 ════════════════════════════════════════════════════════════ -->
 <ng-container *ngIf="isDesktop$ | async; else mobileShell">
-  <mat-sidenav-container class="app-sidenav-container">
-    <mat-sidenav class="app-sidenav" mode="side" opened>
+  <div class="app-shell" [class.sidenav-collapsed]="sidenavCollapsed">
+
+    <!-- ── Side navigation ──────────────────────────────────── -->
+    <nav class="app-sidenav" aria-label="Main navigation">
+
+      <!-- Logo + toggle trigger -->
       <div class="nav-logo">
-        <span class="material-symbols-outlined nav-logo-icon">account_balance</span>
-        CitizenCharter
-        <span class="nav-subtitle">Service Finder · PH</span>
+        <div class="nav-logo-mark"
+          [style.background]="activeAgency ? activeAgency.primaryColor : 'var(--md-primary)'">
+          <span class="material-symbols-outlined" style="font-size:20px;color:#fff">
+            {{ activeAgency ? 'domain' : 'account_balance' }}
+          </span>
+        </div>
+        <div class="nav-logo-text">
+          <span class="nav-logo-name">{{ activeAgency ? activeAgency.agencyName : 'CitizenCharter' }}</span>
+          <span class="nav-logo-sub">{{ activeAgency ? activeAgency.fullName : 'Service Finder · PH' }}</span>
+        </div>
+        <button class="nav-toggle-btn" (click)="toggleSidenav()"
+          [attr.aria-label]="sidenavCollapsed ? 'Expand navigation' : 'Collapse navigation'"
+          [title]="sidenavCollapsed ? 'Expand' : 'Collapse'">
+          <span class="material-symbols-outlined" style="font-size:20px">
+            {{ sidenavCollapsed ? 'menu' : 'menu_open' }}
+          </span>
+        </button>
       </div>
+
+      <!-- ── Navigation ──────────────────────────────────── -->
       <div class="sidenav-section-label">Navigation</div>
-      <a class="sidenav-link" routerLink="/search" routerLinkActive="active">
-        <span class="material-symbols-outlined">search</span>Search
-      </a>
-      <a class="sidenav-link" routerLink="/browse" routerLinkActive="active">
-        <span class="material-symbols-outlined">grid_view</span>Browse
-      </a>
-      <a class="sidenav-link" routerLink="/wizard" routerLinkActive="active">
-        <span class="material-symbols-outlined">auto_awesome</span>Guide Me
-      </a>
-      <div class="sidenav-section-label" style="margin-top:auto">Agencies</div>
-      <a class="sidenav-link" routerLink="/landing" routerLinkActive="active">
-        <span class="material-symbols-outlined">apps</span>All Agencies
-      </a>
-    </mat-sidenav>
-    <mat-sidenav-content>
-      <!-- Named outlet so Ionic tabs routes still resolve -->
+
+      <button class="sidenav-link" [class.active]="isRoute('/search')" (click)="navigateTo('/search')"
+        title="Search">
+        <span class="sidenav-link-icon material-symbols-outlined">search</span>
+        <span class="sidenav-link-label">Search</span>
+      </button>
+      <button class="sidenav-link" [class.active]="isRoute('/browse')" (click)="navigateTo('/browse')"
+        title="Browse">
+        <span class="sidenav-link-icon material-symbols-outlined">grid_view</span>
+        <span class="sidenav-link-label">Browse</span>
+      </button>
+      <button class="sidenav-link" [class.active]="isRoute('/wizard')" (click)="navigateTo('/wizard')"
+        title="Guide Me">
+        <span class="sidenav-link-icon material-symbols-outlined">auto_awesome</span>
+        <span class="sidenav-link-label">Guide Me</span>
+      </button>
+
+      <div class="sidenav-spacer"></div>
+
+      <!-- ── Agencies ─────────────────────────────────────── -->
+      <div class="sidenav-section-label">Agencies</div>
+
+      <button class="sidenav-link"
+        [class.active]="isRoute('/landing') && !activeAgency"
+        (click)="goToAllAgencies()"
+        title="All Agencies">
+        <span class="sidenav-link-icon material-symbols-outlined">apps</span>
+        <span class="sidenav-link-label">All Agencies</span>
+      </button>
+
+      <button *ngFor="let ag of agencies"
+        class="sidenav-link sidenav-agency-link"
+        [class.active]="activeAgency?.id === ag.id"
+        (click)="goToAgency(ag)"
+        [title]="ag.agencyName">
+        <span class="sidenav-agency-dot" [style.background]="ag.primaryColor"></span>
+        <span class="sidenav-link-label">
+          {{ ag.agencyName }}
+          <span class="sidenav-agency-abbr" [style.color]="ag.primaryColor">{{ ag.agencyAbbreviation }}</span>
+        </span>
+      </button>
+
+      <div style="height:16px"></div>
+    </nav>
+
+    <!-- ── Main content ──────────────────────────────────────── -->
+    <main class="app-content">
       <router-outlet></router-outlet>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
+    </main>
+
+  </div>
 </ng-container>
 
 <!-- ═══════════════════════════════════════════════════════════
-     MOBILE (<960px): full Ionic shell
+     MOBILE (<960px): Ionic shell with bottom tab bar
 ════════════════════════════════════════════════════════════ -->
 <ng-template #mobileShell>
   <ion-app>

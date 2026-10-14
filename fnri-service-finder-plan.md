@@ -26,6 +26,45 @@ which means one AI extraction prompt works for all agencies.
 
 ---
 
+## Current Status — October 2026
+
+*Assessed against live codebase in `fnri-charter-finder/`. Last updated after Bob-a-thon development sprint.*
+
+| Sub-Task | Title | Status |
+|---|---|---|
+| ST-1 | Project Scaffold | ✅ Complete |
+| ST-2 | Services Data File | ✅ Complete |
+| ST-3 | Core Layout & Navigation Shell | ✅ Complete |
+| ST-4 | Instant Search Page | ✅ Complete |
+| ST-5 | Browse by Category Page | ✅ Complete |
+| ST-6 | Guided Wizard Page | ✅ Complete |
+| ST-7 | Polish, Accessibility & Mobile QA | ⚠️ In progress |
+| ST-8 | GitHub Pages Deployment | ⚠️ Pending deploy |
+| ST-9 | White-Label Agency Config | ✅ Complete |
+| ST-10 | Multi-Agency Landing Page | ⚠️ Gaps present |
+| ST-11 | watsonx.ai PDF Extraction Engine | ❓ Needs verification |
+| ST-12 | Agency PDF Upload and Review UI | ✅ UI complete |
+
+**Overall: 9 of 12 sub-tasks fully complete. 102 services live across FNRI (38), PNRI (52), SEI (12).**
+
+### Open Items (priority order)
+
+1. **[CRITICAL] ST-10 — Per-agency routing not wired.** `goToAgency()` always navigates to FNRI's Search page. `DataService` and `SearchService` load only FNRI root data. PNRI and SEI are invisible to the tabbed pages.
+2. **[CRITICAL] ST-10 — DataService/SearchService must be agency-aware.** Pass `agencyId` via route params so tabs load the correct agency's `services.json`, `categories.json`, and `wizard.json`.
+3. **[HIGH] ST-11 — Verify backend server.** Confirm `server/index.js`, `extractServices.js`, `normalizeServices.js` exist and run. Upload flow is blocked until the backend is confirmed live.
+4. **[HIGH] ST-8 — Run GitHub Pages deployment.** Build is clean. Run `npm run deploy` and confirm the public URL is live.
+5. **[MEDIUM] ST-7 — Bundle size 1.06 MB (57 kB over 1 MB budget).** Trim with lazy loading and deferred Material imports.
+6. **[MEDIUM] ST-7 — WCAG AA contrast check, favicon, hardware back button** not yet done.
+
+### Significant deviations from original plan
+
+- **UI framework:** Switched from pure Ionic to **Ionic (mobile) + Angular Material (desktop)**. Desktop uses a Material sidenav shell rendered by `AppComponent` via `BreakpointObserver`; mobile uses `ion-tabs` with bottom tab bar.
+- **Routing architecture:** Desktop pages served via top-level `/search`, `/browse`, `/wizard` routes (bypasses `TabsPage`). Mobile uses `/tabs/search` etc. through `ion-router-outlet`.
+- **No shared components folder:** `ServiceCard`, `ServiceDetail`, `CategoryCard`, `WizardStep` were implemented inline in each page rather than as separate `components/` — functional but not reusable across agencies.
+- **App name:** Rebranded from "FNRI Service Finder" to **"CitizenCharter PH — Service Finder"** to reflect the multi-agency generic platform intent.
+
+---
+
 ## Decisions & Constraints
 
 - **Framework:** Ionic 7 + Angular 17 (standalone components)
@@ -58,32 +97,45 @@ Three agency Citizen Charters are already available in `reference/` for testing 
 
 The 12 sub-tasks are grouped into 4 functional clusters. Each cluster is independently deliverable and testable.
 
-### Cluster 1 — Foundation (ST-1, ST-2) · Phase A
+### Cluster 1 — Foundation (ST-1, ST-2) · Phase A · ✅ Complete
 Project scaffold and service data. Every other cluster depends on this completing first.
 - Ionic + Angular CLI project bootstrap, GitHub Pages deploy config
 - `services.json` — all 38 FNRI services in plain language with keywords and wizardTags
 - `categories.json` — 5 category definitions
 - `wizard.json` — 3 wizard questions and answer option values
 
-### Cluster 2 — Citizen-Facing UI (ST-3 to ST-7) · Phase A
-All pages and components that citizens interact with.
-- **App Shell** — IonApp, IonTabs, IonHeader, IonToolbar wrapping all pages
-- **Instant Search** — IonSearchbar + Fuse.js hook + ServiceCard + ServiceDetail IonModal
-- **Browse by Category** — IonGrid + IonCard category cards → filtered service list
-- **Guided Wizard** — IonStepper / sequential IonSlide pages → WizardResults
-- **Polish + QA** — 48px touch targets, WCAG AA, Ionic accessibility defaults, bundle audit
+**Actual state:** Both sub-tasks fully delivered. 102 services exist across FNRI (38), PNRI (52), SEI (12) in `src/app/data/agencies/`.
 
-### Cluster 3 — Multi-Agency Platform (ST-8 to ST-10) · Phase A → B
+### Cluster 2 — Citizen-Facing UI (ST-3 to ST-7) · Phase A · ⚠️ Mostly Complete
+All pages and components that citizens interact with.
+- **App Shell** — Material sidenav (desktop ≥960px) + Ionic tab bar (mobile) via `BreakpointObserver` in `AppComponent`
+- **Instant Search** — Fuse.js + Material form field + service cards + Material dialog detail
+- **Browse by Category** — Material list + card grid → filtered service list
+- **Guided Wizard** — Sequential question cards → WizardResults
+- **Polish + QA** — Toolbar sticky fix applied; scrolling fixed; tab bar links corrected. Remaining: WCAG AA audit, 48px touch-target check, bundle size under budget
+
+**Actual state:** ST-3 through ST-6 fully delivered. ST-7 partially done — mobile toolbar, scrolling, and routing bugs resolved; formal accessibility and bundle audit still outstanding.
+
+### Cluster 3 — Multi-Agency Platform (ST-8 to ST-10) · Phase A → B · ⚠️ Partially Complete
 Deploy the FNRI instance and make the codebase agency-agnostic for multi-agency use.
 - GitHub Pages deployment of Angular build
 - `agency.config.json` white-label config — agency name, Ionic CSS color variables, logo
 - Multi-agency landing page — IonGrid of agency cards + cross-agency IonSearchbar
 
-### Cluster 4 — AI Onboarding Engine (ST-11, ST-12) · Phase B
+**Actual state:** ST-9 (white-label config) complete. ST-10 (landing page) built with cross-agency Fuse.js search working, but agency card tap always routes to FNRI — per-agency context not passed through. ST-8 (deployment): build is clean and deploy script exists; live GitHub Pages URL not yet confirmed.
+
+**Known gaps (Cluster 3):**
+1. `goToAgency()` in `landing.page.ts` always navigates to `/tabs/search` — must pass `agencyId` context
+2. `DataService` and `SearchService` load only FNRI root data — tabbed pages (Search, Browse, Wizard) do not serve PNRI or SEI yet
+3. GitHub Pages deployment not run — public URL unconfirmed
+
+### Cluster 4 — AI Onboarding Engine (ST-11, ST-12) · Phase B · ⚠️ UI Done / Backend Unverified
 Backend extraction pipeline and self-service upload UI for agency staff.
 - Node.js/Express `POST /api/extract` — pdf-parse + watsonx.ai structured extraction
 - Angular Upload page — file drag-and-drop + loading IonProgressBar
 - Angular Review page — IonGrid editable table + Publish action
+
+**Actual state:** ST-12 (Upload + Review UI) fully built with Ionic components — drag-and-drop, progress bar, inline editable review table, publish button. ST-11 (backend server): `server/` directory planned; existence and runnability of `server/index.js`, `extractServices.js`, `normalizeServices.js` needs verification before the upload flow can be tested end-to-end.
 
 ---
 
@@ -393,7 +445,7 @@ Ionic's step-by-step UI pattern and returning a personalized set of matching ser
 
 ### Sub-Task 7 — Polish, Accessibility, and Mobile QA
 
-**Status:** [x] complete
+**Status:** [~] in progress
 
 **Intent**
 Ensure the app meets the mobile-first UX standard: readable on small screens, accessible to users
@@ -409,15 +461,17 @@ with disabilities, fast on slow connections, and visually cohesive.
 - Empty/loading IonSpinner states present on all three pages
 
 **Todo List**
-1. Verify all IonButtons and IonCards have adequate touch target size on 390px
-2. Check `--ion-color-primary` against white for WCAG AA 4.5:1 contrast ratio
-3. Add `aria-label` to icon-only IonButtons
-4. Confirm `IonModal` closes on `backdropDismiss: true` (Ionic default)
-5. Handle Android hardware back button in IonModal via `modalController.getTop()` + dismiss
-6. Test all three pages on 390px viewport in Chrome devtools — fix any overflow issues
-7. Run `ng build --configuration production` — check JS bundle size in `dist/` — target under 1MB (Ionic apps are larger than React by default)
-8. Add `<meta name="description">` and `<title>FNRI Service Finder</title>` to `src/index.html`
-9. Add FNRI favicon to `src/assets/`
+1. ✅ Verify all IonButtons and IonCards have adequate touch target size on 390px
+2. [ ] Check `--ion-color-primary` against white for WCAG AA 4.5:1 contrast ratio
+3. ✅ Add `aria-label` to icon-only IonButtons
+4. ✅ Confirm `IonModal` closes on `backdropDismiss: true` (Ionic default)
+5. [ ] Handle Android hardware back button in IonModal via `modalController.getTop()` + dismiss
+6. ✅ Test all three pages on 390px viewport in Chrome devtools — fix any overflow issues
+7. ✅ Run `ng build --configuration production` — bundle is 1.06 MB (slightly over 1 MB budget — needs trimming)
+8. ✅ Add `<meta name="description">` and `<title>CitizenCharter PH — Service Finder</title>` to `src/index.html`
+9. [ ] Add favicon to `src/assets/`
+
+**Actual outcomes:** Mobile toolbar sticky, scrolling, and routing bugs resolved. Build compiles clean. Bundle is 1.06 MB — 57 kB over the 1 MB budget. WCAG AA contrast, hardware back button, and favicon not yet done.
 
 **Relevant Context**
 - Ionic handles most accessibility defaults (ARIA roles, focus management in modals) — verify rather than reimplement
@@ -428,7 +482,7 @@ with disabilities, fast on slow connections, and visually cohesive.
 
 ### Sub-Task 8 — GitHub Pages Deployment
 
-**Status:** [x] complete
+**Status:** [~] pending deployment
 
 **Intent**
 Deploy the Angular + Ionic build to GitHub Pages so it is publicly accessible via a shareable URL
@@ -441,13 +495,15 @@ for the hackathon demo.
 - README is updated with the live URL and description
 
 **Todo List**
-1. Configure `HashLocationStrategy` in `app.config.ts`: `provideRouter(routes, withHashLocation())`
-2. Confirm deploy script in `package.json`: `ng build --base-href /fnri-ibmbob/ && npx angular-cli-ghpages --dir=dist/fnri-ibmbob`
-3. Run `npm run deploy`
-4. In GitHub repo settings, confirm Pages source is set to the `gh-pages` branch
-5. Visit `https://oberojbc-fnri.github.io/fnri-ibmbob/` and verify the app loads
-6. Test all three entry points (Search, Browse, Wizard) on the live URL from a mobile device
-7. Update `README.md` with live URL, description, and tech stack
+1. ✅ Configure `HashLocationStrategy` in `app-routing.module.ts`
+2. ✅ Confirm deploy script in `package.json`
+3. [ ] Run `npm run deploy`
+4. [ ] In GitHub repo settings, confirm Pages source is set to the `gh-pages` branch
+5. [ ] Visit `https://oberojbc-fnri.github.io/fnri-ibmbob/` and verify the app loads
+6. [ ] Test all three entry points (Search, Browse, Wizard) on the live URL from a mobile device
+7. [ ] Update `README.md` with live URL, description, and tech stack
+
+**Actual outcomes:** HashLocationStrategy configured. Build is clean and deploy script exists. Live deployment not yet run — public URL unconfirmed.
 
 **Relevant Context**
 - Angular Router requires `HashLocationStrategy` on GitHub Pages because there is no server to handle path rewrites
@@ -488,7 +544,7 @@ Service Finder by swapping one config file and one `services.json`. No code chan
 
 ### Sub-Task 10 — Multi-Agency Landing Page
 
-**Status:** [x] complete
+**Status:** [~] in progress — gaps present
 
 **Intent**
 Add a landing page that presents all onboarded agencies as Ionic cards so citizens can choose their
@@ -503,15 +559,17 @@ agency or search across all agencies at once. This is the entry point to the mul
 - Platform works with FNRI, PNRI, and SEI
 
 **Todo List**
-1. Restructure `src/app/data/` → `src/app/data/agencies/fnri/`, `pnri/`, `sei/` directories
-2. Each agency directory contains: `services.json`, `categories.json`, `wizard.json`, `agency.config.json`
-3. Create `src/app/data/agencies/index.ts` — exports merged services list with `agencyId` added to each service
-4. Create `landing/landing.page.ts` — IonGrid of AgencyCardComponents + cross-agency IonSearchbar
-5. Create `src/app/components/agency-card/agency-card.component.ts` — IonCard with agency name, abbreviation, service count, primary color accent
-6. Update Angular Router: `/` → `LandingPage`, `/:agencyId/search` → `SearchPage`, etc.
-7. Add `agencyId` IonBadge chip to `ServiceCardComponent` when rendering cross-agency results
-8. Cross-agency search uses `SearchService` with the merged services list from `agencies/index.ts`
-9. Verify back navigation from any agency page returns to landing
+1. ✅ Restructure `src/app/data/` → `src/app/data/agencies/fnri/`, `pnri/`, `sei/` directories
+2. ✅ Each agency directory contains: `services.json`, `categories.json`, `wizard.json`, `agency.config.json`
+3. ✅ Create `src/app/data/agencies/index.ts` — exports merged services list with `agencyId` added to each service
+4. ✅ Create `landing/landing.page.ts` — agency cards + cross-agency Fuse.js searchbar
+5. [ ] Create per-agency routing so each agency card navigates to that agency's Search/Browse/Wizard
+6. [ ] Pass `agencyId` context into tabs so `DataService` and `SearchService` load the correct agency's data
+7. ✅ Add `agencyId` badge chip on cross-agency search result cards
+8. ✅ Cross-agency search uses merged `ALL_AGENCY_SERVICES` from `agencies/index.ts`
+9. [ ] Fix `goToAgency()` — currently always navigates to `/tabs/search` (FNRI only)
+
+**Actual outcomes:** Data structure, index.ts, landing page, and cross-agency search all working. Critical gap: agency card tap always routes to FNRI. DataService/SearchService hardwired to FNRI root data/ folder — PNRI and SEI not reachable via tabs.
 
 **Relevant Context**
 - Angular Router lazy loading: each agency's pages load on demand to keep initial bundle small
@@ -522,7 +580,7 @@ agency or search across all agencies at once. This is the entry point to the mul
 
 ### Sub-Task 11 — watsonx.ai PDF Extraction Engine
 
-**Status:** [x] complete
+**Status:** [?] needs verification
 
 **Intent**
 Build the AI extraction pipeline that reads a Citizen Charter PDF and returns a structured
@@ -536,18 +594,16 @@ Build the AI extraction pipeline that reads a Citizen Charter PDF and returns a 
 - Handles all three complexity levels: simple (SEI), medium (FNRI), high/tiered fees (PNRI)
 
 **Todo List**
-1. Create `server/` directory alongside `src/` for the Node.js backend
-2. Initialize `server/package.json` with: `express`, `multer`, `pdf-parse`, `@ibm-cloud/watsonx-ai`, `dotenv`
-3. Create `server/index.js` — Express app with `POST /api/extract` and `POST /api/publish` routes
-4. Create `server/extractServices.js` — receives PDF text, calls watsonx.ai with extraction prompt
-5. Engineer the watsonx.ai prompt to:
-   - Identify all services in the ARTA-standard table format
-   - Extract: name, description, office, processingTime, fees, requirements, whoMayAvail, classification
-   - Return valid JSON array matching the `services.json` schema
-   - Summarize tiered fee tables (PNRI pattern) into a single fees string
-6. Create `server/normalizeServices.js` — normalizes time units, cleans fee strings, assigns `id` fields
-7. Test extraction against all 3 reference PDFs and verify output quality
-8. Store API credentials in `server/.env` — never hardcoded
+1. [ ] Verify `server/` directory exists alongside `src/`
+2. [ ] Verify `server/package.json` with required dependencies installed
+3. [ ] Verify `server/index.js` — Express routes `POST /api/extract` and `POST /api/publish`
+4. [ ] Verify `server/extractServices.js` — watsonx.ai prompt and API call
+5. [ ] Verify watsonx.ai prompt handles ARTA-standard table format and tiered fee tables (PNRI)
+6. [ ] Verify `server/normalizeServices.js` exists and normalizes output
+7. [ ] Test extraction against all 3 reference PDFs in `reference/` — check output quality
+8. [ ] Confirm `server/.env` exists with `WATSONX_API_KEY`, `WATSONX_PROJECT_ID`, `WATSONX_URL`
+
+**Actual outcomes:** Server existence not confirmed from frontend codebase alone. Needs manual verification that `server/` is populated and runnable before the upload flow can be tested end-to-end.
 
 **Relevant Context**
 - All Philippine Citizen Charters follow ARTA RA 11032: Client Steps → Agency Action → Fees → Processing Time → Person Responsible
@@ -560,7 +616,7 @@ Build the AI extraction pipeline that reads a Citizen Charter PDF and returns a 
 
 ### Sub-Task 12 — Agency PDF Upload and Review UI
 
-**Status:** [x] complete
+**Status:** [x] complete (UI) — blocked on ST-11 backend for end-to-end test
 
 **Intent**
 Build the self-service Angular + Ionic pages where agency staff (non-technical) upload their charter

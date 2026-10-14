@@ -1,76 +1,125 @@
 <!-- ── Toolbar ─────────────────────────────────────────────── -->
-<mat-toolbar color="primary" class="page-toolbar flex items-center gap-3">
-  <button mat-icon-button *ngIf="selectedCategory" (click)="backToCategories()" aria-label="Back">
-    <span class="material-symbols-outlined">arrow_back</span>
-  </button>
-  <span class="flex-1 font-medium">
-    {{ selectedCategory ? selectedCategory.label : 'Browse by Category' }}
-  </span>
-  <span *ngIf="selectedCategory" class="text-xs opacity-70">
-    {{ servicesInCategory.length }} service{{ servicesInCategory.length !== 1 ? 's' : '' }}
-  </span>
-</mat-toolbar>
+<div class="page-toolbar" [style.background]="agency ? agency.primaryColor : 'var(--md-primary)'">
+  <div style="display:flex;align-items:center;gap:8px;padding:0 8px 0 4px;height:56px">
+
+    <!-- Back to categories OR back to all agencies -->
+    <button mat-icon-button *ngIf="selectedCategory" (click)="backToCategories()" aria-label="Back" style="color:#fff">
+      <span class="material-symbols-outlined">arrow_back</span>
+    </button>
+    <button mat-icon-button *ngIf="!selectedCategory && agency" (click)="goBackToAllAgencies()" aria-label="All agencies" style="color:rgba(255,255,255,0.85)">
+      <span class="material-symbols-outlined">arrow_back</span>
+    </button>
+    <span *ngIf="!selectedCategory && !agency" style="width:8px;display:inline-block"></span>
+
+    <!-- Title -->
+    <span style="color:#fff;font-family:'Google Sans',sans-serif;font-size:16px;font-weight:500;flex:1;line-height:1.2">
+      <ng-container *ngIf="selectedCategory">{{ selectedCategory.label }}</ng-container>
+      <ng-container *ngIf="!selectedCategory && agency">{{ agency.agencyName }} · Browse</ng-container>
+      <ng-container *ngIf="!selectedCategory && !agency">Browse Services</ng-container>
+    </span>
+
+    <span *ngIf="selectedCategory" style="color:rgba(255,255,255,0.75);font-size:12px;padding-right:8px">
+      {{ servicesInCategory.length }} service{{ servicesInCategory.length !== 1 ? 's' : '' }}
+    </span>
+  </div>
+</div>
 
 <div class="page-scroll">
-  <div class="max-w-4xl mx-auto px-4 pb-28">
+  <div class="max-w-4xl mx-auto pb-28">
 
-    <!-- ── Category list ───────────────────────────────────── -->
-    <div *ngIf="!selectedCategory" class="pt-4">
-      <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-4">
+    <!-- ── Category grid ──────────────────────────────────── -->
+    <div *ngIf="!selectedCategory">
+      <div style="padding:16px 16px 8px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--md-on-surface-var)">
         Select a category
-      </p>
-      <mat-nav-list class="!p-0">
-        <mat-list-item
-          *ngFor="let cat of categories"
+      </div>
+
+      <!-- MD3-style category cards — 2 column grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 px-4">
+        <div *ngFor="let cat of categories"
           (click)="selectCategory(cat)"
-          class="!mb-2 !rounded-xl overflow-hidden !h-auto cursor-pointer"
-          matRipple>
-          <div class="flex items-center gap-4 py-3 w-full"
-            [style.border-left]="'4px solid ' + cat.color">
-            <div class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ml-3"
-              [style.background]="cat.color + '20'">
-              <span class="material-symbols-outlined text-2xl" [style.color]="cat.color">
+          matRipple
+          class="cat-card"
+          [style.border-top]="'3px solid ' + cat.color">
+          <div style="padding:20px 16px 16px">
+            <!-- Icon in tonal container -->
+            <div style="width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:12px"
+              [style.background]="cat.color + '18'">
+              <span class="material-symbols-outlined icon-filled" style="font-size:26px" [style.color]="cat.color">
                 {{ cat.icon }}
               </span>
             </div>
-            <div class="flex-1 min-w-0 pr-2">
-              <p class="text-sm font-semibold text-on-surface mb-0.5">{{ cat.label }}</p>
-              <p class="text-xs text-gray-500 leading-snug line-clamp-2">{{ cat.description }}</p>
-            </div>
-            <span class="material-symbols-outlined text-gray-300 mr-2">chevron_right</span>
+            <!-- Label + description -->
+            <p style="font-family:'Google Sans',sans-serif;font-size:15px;font-weight:600;color:var(--md-on-surface);margin:0 0 4px">
+              {{ cat.label }}
+            </p>
+            <p style="font-size:12px;color:var(--md-on-surface-var);line-height:1.4;margin:0 0 12px" class="line-clamp-2">
+              {{ cat.description }}
+            </p>
+            <!-- Service count chip -->
+            <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:3px 10px;border-radius:50px"
+              [style.background]="cat.color + '18'"
+              [style.color]="cat.color">
+              <span class="material-symbols-outlined" style="font-size:12px">inventory_2</span>
+              {{ getServiceCount(cat.id) }} services
+            </span>
           </div>
-        </mat-list-item>
-      </mat-nav-list>
+        </div>
+      </div>
     </div>
 
     <!-- ── Service grid for selected category ─────────────── -->
     <div *ngIf="selectedCategory">
-      <div *ngIf="servicesInCategory.length === 0"
-        class="flex flex-col items-center pt-16 text-center text-gray-400">
-        <span class="material-symbols-outlined mb-3" style="font-size:48px">inbox</span>
-        <p class="text-sm">No services in this category yet.</p>
+
+      <!-- Category hero strip -->
+      <div style="margin:0 16px 16px;padding:16px;border-radius:16px;display:flex;align-items:center;gap:14px;margin-top:16px"
+        [style.background]="selectedCategory.color + '12'"
+        [style.border]="'1px solid ' + selectedCategory.color + '30'">
+        <div style="width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0"
+          [style.background]="selectedCategory.color + '20'">
+          <span class="material-symbols-outlined icon-filled" style="font-size:24px" [style.color]="selectedCategory.color">
+            {{ selectedCategory.icon }}
+          </span>
+        </div>
+        <div>
+          <p style="font-family:'Google Sans',sans-serif;font-size:14px;font-weight:600;margin:0 0 2px;color:var(--md-on-surface)">{{ selectedCategory.label }}</p>
+          <p style="font-size:12px;color:var(--md-on-surface-var);margin:0;line-height:1.4">{{ selectedCategory.description }}</p>
+        </div>
       </div>
 
-      <div class="pt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      <div *ngIf="servicesInCategory.length === 0"
+        class="flex flex-col items-center pt-16 text-center px-4">
+        <span class="material-symbols-outlined" style="font-size:48px;color:var(--md-outline);margin-bottom:12px">inbox</span>
+        <p style="font-size:14px;color:var(--md-on-surface-var)">No services in this category yet.</p>
+      </div>
+
+      <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 px-4">
         <mat-card *ngFor="let service of servicesInCategory"
           class="svc-card !p-0 overflow-hidden"
+          [style.border-left-color]="selectedCategory.color"
           (click)="openService(service)" matRipple>
-          <div class="h-1.5 w-full" [style.background]="selectedCategory.color"></div>
           <mat-card-content class="!p-4">
-            <h3 class="text-sm font-semibold text-on-surface mb-1 leading-snug">
+            <!-- Agency badge -->
+            <div style="margin-bottom:6px">
+              <span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;color:#fff;font-family:'Google Sans',sans-serif"
+                [style.background]="service.agencyColor">
+                {{ service.agencyName }}
+              </span>
+            </div>
+            <h3 style="font-family:'Google Sans',sans-serif;font-size:14px;font-weight:600;color:var(--md-on-surface);line-height:1.35;margin:0 0 6px">
               {{ service.plainName }}
             </h3>
-            <p class="text-xs text-gray-500 leading-relaxed mb-3 line-clamp-3">
+            <p style="font-size:12px;color:var(--md-on-surface-var);line-height:1.5;margin:0 0 12px" class="line-clamp-2">
               {{ service.description }}
             </p>
             <div class="flex gap-2 flex-wrap">
-              <mat-chip class="!text-xs !h-6">
-                <span class="material-symbols-outlined mr-1" style="font-size:13px">schedule</span>
+              <mat-chip class="chip-time !text-xs !h-6 !px-2">
+                <span class="material-symbols-outlined" style="font-size:12px;margin-right:3px">schedule</span>
                 {{ service.processingTime }}
               </mat-chip>
-              <mat-chip class="!text-xs !h-6"
-                [style.color]="service.fees === 'Free' ? '#2e7d32' : '#c62828'">
-                <span class="material-symbols-outlined mr-1" style="font-size:13px">
+              <mat-chip class="!text-xs !h-6 !px-2"
+                [class.chip-free]="service.fees === 'Free'"
+                [class.chip-paid]="service.fees !== 'Free'">
+                <span class="material-symbols-outlined" style="font-size:12px;margin-right:3px">
                   {{ service.fees === 'Free' ? 'redeem' : 'payments' }}
                 </span>
                 {{ service.fees === 'Free' ? 'Free' : 'With fee' }}
@@ -87,57 +136,67 @@
 <!-- ── Service Detail Dialog ─── -->
 <ng-template #detailTpl>
   <div class="detail-scroll" *ngIf="selectedService">
-    <div class="h-2 -mx-6 -mt-6 mb-5 rounded-t-xl"
-      [style.background]="selectedCategory?.color || '#3949ab'"></div>
-    <h2 mat-dialog-title class="!text-lg !font-bold !m-0 !mb-2 !p-0 !leading-snug">
+    <div style="height:6px;margin:-1px -24px 20px;border-radius:4px 4px 0 0"
+      [style.background]="selectedCategory?.color || 'var(--md-primary)'"></div>
+
+    <h2 style="font-family:'Google Sans',sans-serif;font-size:18px;font-weight:700;color:var(--md-on-surface);line-height:1.3;margin:0 0 8px">
       {{ selectedService.plainName }}
     </h2>
-    <p class="text-sm text-gray-500 leading-relaxed mb-4">{{ selectedService.description }}</p>
-    <mat-divider class="mb-4"></mat-divider>
-    <div class="space-y-4 mb-4">
-      <div class="flex gap-3">
-        <span class="material-symbols-outlined text-primary shrink-0" style="font-size:20px">domain</span>
+    <p style="font-size:13px;color:var(--md-on-surface-var);line-height:1.6;margin:0 0 20px">
+      {{ selectedService.description }}
+    </p>
+
+    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px">
+      <div class="detail-info-row">
+        <div class="detail-info-icon"><span class="material-symbols-outlined icon-filled" style="font-size:18px">domain</span></div>
+        <div><p class="detail-info-label">Office</p><p class="detail-info-value">{{ selectedService.office }}</p></div>
+      </div>
+      <div class="detail-info-row">
+        <div class="detail-info-icon"><span class="material-symbols-outlined icon-filled" style="font-size:18px">schedule</span></div>
+        <div><p class="detail-info-label">Processing Time</p><p class="detail-info-value">{{ selectedService.processingTime }}</p></div>
+      </div>
+      <div class="detail-info-row"
+        [style.background]="selectedService.fees === 'Free' ? 'var(--md-success-cont)' : 'var(--md-error-cont)'">
+        <div class="detail-info-icon"
+          [style.background]="selectedService.fees === 'Free' ? '#c8e6c9' : '#ffcdd2'"
+          [style.color]="selectedService.fees === 'Free' ? 'var(--md-success)' : 'var(--md-error)'">
+          <span class="material-symbols-outlined icon-filled" style="font-size:18px">
+            {{ selectedService.fees === 'Free' ? 'redeem' : 'payments' }}
+          </span>
+        </div>
         <div>
-          <p class="text-xs text-gray-400 uppercase tracking-wide mb-0.5">Office</p>
-          <p class="text-sm text-gray-800">{{ selectedService.office }}</p>
+          <p class="detail-info-label">Fees</p>
+          <p class="detail-info-value" [style.color]="selectedService.fees === 'Free' ? 'var(--md-success)' : 'var(--md-error)'">
+            {{ selectedService.fees }}
+          </p>
         </div>
       </div>
-      <div class="flex gap-3">
-        <span class="material-symbols-outlined text-primary shrink-0" style="font-size:20px">schedule</span>
-        <div>
-          <p class="text-xs text-gray-400 uppercase tracking-wide mb-0.5">Processing Time</p>
-          <p class="text-sm text-gray-800">{{ selectedService.processingTime }}</p>
-        </div>
-      </div>
-      <div class="flex gap-3">
-        <span class="material-symbols-outlined text-primary shrink-0" style="font-size:20px">payments</span>
-        <div>
-          <p class="text-xs text-gray-400 uppercase tracking-wide mb-0.5">Fees</p>
-          <p class="text-sm text-gray-800">{{ selectedService.fees }}</p>
-        </div>
-      </div>
-      <div class="flex gap-3">
-        <span class="material-symbols-outlined text-primary shrink-0" style="font-size:20px">group</span>
-        <div>
-          <p class="text-xs text-gray-400 uppercase tracking-wide mb-0.5">Who May Apply</p>
-          <p class="text-sm text-gray-800">{{ selectedService.whoMayAvail }}</p>
-        </div>
+      <div class="detail-info-row">
+        <div class="detail-info-icon"><span class="material-symbols-outlined icon-filled" style="font-size:18px">group</span></div>
+        <div><p class="detail-info-label">Who May Apply</p><p class="detail-info-value">{{ selectedService.whoMayAvail }}</p></div>
       </div>
     </div>
-    <div *ngIf="selectedService.requirements?.length" class="mb-4">
-      <mat-divider class="mb-3"></mat-divider>
-      <h4 class="text-sm font-semibold text-gray-700 mb-2">
-        <span class="material-symbols-outlined align-middle mr-1" style="font-size:16px">checklist</span>
+
+    <div *ngIf="selectedService.requirements?.length" style="margin-bottom:20px">
+      <p style="font-size:13px;font-weight:600;color:var(--md-on-surface);margin:0 0 10px;display:flex;align-items:center;gap:6px">
+        <span class="material-symbols-outlined icon-filled" style="font-size:16px;color:var(--md-primary)">checklist</span>
         What to Bring
-      </h4>
-      <ul class="list-disc list-inside space-y-1">
-        <li *ngFor="let req of selectedService.requirements" class="text-sm text-gray-600">{{ req }}</li>
+      </p>
+      <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px">
+        <li *ngFor="let req of selectedService.requirements"
+          style="display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--md-on-surface);line-height:1.4">
+          <span class="material-symbols-outlined" style="font-size:14px;color:var(--md-primary);flex-shrink:0;margin-top:1px">check_circle</span>
+          {{ req }}
+        </li>
       </ul>
     </div>
-    <mat-divider class="mb-4"></mat-divider>
-    <a mat-raised-button color="primary" [href]="'mailto:' + contactEmail" class="w-full">
-      <span class="material-symbols-outlined mr-1" style="font-size:18px">mail</span>
-      Contact {{ agencyName }}
+
+    <div class="md-divider"></div>
+    <a mat-raised-button color="primary"
+      [href]="'mailto:' + getAgencyContact(selectedService).email"
+      style="height:44px;display:flex;align-items:center;margin-top:8px">
+      <span class="material-symbols-outlined" style="font-size:18px;margin-right:6px">mail</span>
+      Contact {{ selectedService.agencyName }}
     </a>
   </div>
 </ng-template>

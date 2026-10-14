@@ -1,10 +1,12 @@
 import { Component, OnInit, OnDestroy, ViewChild, TemplateRef } from '@angular/core';
+import { Router } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { SearchService } from '../../services/search.service';
 import { DataService, Service } from '../../services/data.service';
-import { AgencyConfigService } from '../../services/agency-config.service';
+import { AgencyContextService } from '../../services/agency-context.service';
+import { AGENCIES, AgencyMeta } from '../../data/agencies/index';
 
 @Component({
   selector: 'app-search',
@@ -18,13 +20,14 @@ export class SearchPage implements OnInit, OnDestroy {
   results: Service[] = [];
   selectedService: Service | null = null;
   hasSearched = false;
+  /** Active agency filter — null means all-agencies */
+  agency: AgencyMeta | null = null;
 
-  agencyName = '';
-  tagline = '';
-  contactEmail = '';
-  websiteUrl = '';
-
-  suggestions = ['food testing', 'nutrition training', 'survey data', 'nutrition label', 'laboratory'];
+  get suggestions(): string[] {
+    if (this.agency?.id === 'pnri') return ['radiation', 'dosimetry', 'irradiation', 'nuclear', 'sterilization'];
+    if (this.agency?.id === 'sei')  return ['scholarship', 'DOST scholar', 'science olympiad', 'youth program'];
+    return ['food testing', 'nutrition training', 'irradiation', 'scholarship', 'radiation dosimetry'];
+  }
 
   private querySubject = new Subject<string>();
   private sub!: Subscription;
@@ -33,17 +36,15 @@ export class SearchPage implements OnInit, OnDestroy {
   constructor(
     private searchService: SearchService,
     private dataService: DataService,
-    private agencyConfigService: AgencyConfigService,
     private dialog: MatDialog,
+    private agencyContext: AgencyContextService,
+    private router: Router,
   ) {}
 
   ngOnInit() {
-    this.agencyName = this.agencyConfigService.config.agencyName;
-    this.tagline = this.agencyConfigService.config.tagline;
-    this.contactEmail = this.agencyConfigService.contactEmail;
-    this.websiteUrl = this.agencyConfigService.websiteUrl;
+    this.agency = this.agencyContext.agency;
     this.sub = this.querySubject.pipe(debounceTime(250)).subscribe(q => {
-      this.results = this.searchService.search(q);
+      this.results = this.searchService.search(q, this.agency?.id ?? null);
     });
   }
 
@@ -54,27 +55,31 @@ export class SearchPage implements OnInit, OnDestroy {
   onQueryChange(value: string) {
     this.query = value;
     this.hasSearched = value.trim().length >= 2;
-    if (!this.hasSearched) {
-      this.results = [];
-    }
+    if (!this.hasSearched) this.results = [];
     this.querySubject.next(value);
   }
 
-  clearSearch() {
-    this.onQueryChange('');
-  }
+  clearSearch() { this.onQueryChange(''); }
 
   openDetail(service: Service) {
     this.selectedService = service;
     this.dialogRef = this.dialog.open(this.detailTpl, {
-      maxWidth: '560px',
-      width: '95vw',
-      panelClass: 'detail-dialog',
+      maxWidth: '560px', width: '95vw', panelClass: 'detail-dialog',
     });
   }
 
   getCategoryColor(categoryId: string): string {
     const cat = this.dataService.getCategoryById(categoryId);
     return cat ? cat.color : '#5e6ad2';
+  }
+
+  getAgencyContact(service: Service | null): { email: string; website: string } {
+    const ag = AGENCIES.find(a => a.id === service?.agencyId);
+    return { email: ag?.contact.email ?? '', website: ag?.contact.website ?? '' };
+  }
+
+  goBackToAllAgencies() {
+    this.agencyContext.clear();
+    this.router.navigate(['/landing']);
   }
 }
