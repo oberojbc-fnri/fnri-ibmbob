@@ -47,6 +47,15 @@
         <span class="sidenav-link-label">Guide Me</span>
       </button>
 
+      <!-- ── Admin ───────────────────────────────────────── -->
+      <div class="sidenav-section-label">Admin</div>
+
+      <button class="sidenav-link" [class.active]="isRoute('/upload')" (click)="navigateToUpload()"
+        title="Upload Charter">
+        <span class="sidenav-link-icon material-symbols-outlined">upload_file</span>
+        <span class="sidenav-link-label">Upload Charter</span>
+      </button>
+
       <div class="sidenav-spacer"></div>
 
       <!-- ── Agencies ─────────────────────────────────────── -->

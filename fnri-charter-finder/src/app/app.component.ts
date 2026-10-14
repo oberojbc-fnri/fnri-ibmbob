@@ -53,8 +53,15 @@ export class AppComponent implements OnInit, OnDestroy {
     this.sidenavCollapsed = !this.sidenavCollapsed;
   }
 
-  /** Navigate to a main section */
+  navigateToUpload(): void {
+    this.router.navigate(['/upload']);
+  }
+
+  /** Navigate to a main section — preserves current agency context */
   navigateTo(path: '/search' | '/browse' | '/wizard'): void {
+    // Emit on the context so pages subscribed to agencyId$ re-init even
+    // if the route doesn't change (same component reuse, no ngOnInit re-fire)
+    this.agencyContext.setAgency(this.agencyContext.agencyId);
     this.router.navigate([path]);
   }
 

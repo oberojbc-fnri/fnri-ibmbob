@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
 import { DataService, Category, Service } from '../../services/data.service';
 import { AgencyContextService } from '../../services/agency-context.service';
 import { AGENCIES, AgencyMeta } from '../../data/agencies/index';
@@ -10,16 +11,17 @@ import { AGENCIES, AgencyMeta } from '../../data/agencies/index';
   templateUrl: 'browse.page.html',
   styleUrls: ['browse.page.scss'],
 })
-export class BrowsePage implements OnInit {
+export class BrowsePage implements OnInit, OnDestroy {
   @ViewChild('detailTpl') detailTpl!: TemplateRef<any>;
 
   categories: Category[] = [];
   selectedCategory: Category | null = null;
   servicesInCategory: Service[] = [];
   selectedService: Service | null = null;
-  /** Active agency filter — null means all-agencies */
   agency: AgencyMeta | null = null;
+
   private dialogRef: MatDialogRef<any> | null = null;
+  private subs: Subscription[] = [];
 
   constructor(
     private dataService: DataService,
@@ -29,10 +31,22 @@ export class BrowsePage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.agency = this.agencyContext.agency;
-    this.categories = this.agency
-      ? this.dataService.getCategoriesForAgency(this.agency.id)
-      : this.dataService.getCategories();
+    // Re-run whenever agency context changes (covers same-route navigation)
+    this.subs.push(
+      this.agencyContext.agencyId$.subscribe(() => {
+        this.agency = this.agencyContext.agency;
+        // Reset browse state when agency switches
+        this.selectedCategory = null;
+        this.servicesInCategory = [];
+        this.categories = this.agency
+          ? this.dataService.getCategoriesForAgency(this.agency.id)
+          : this.dataService.getCategories();
+      })
+    );
+  }
+
+  ngOnDestroy() {
+    this.subs.forEach(s => s.unsubscribe());
   }
 
   selectCategory(cat: Category) {

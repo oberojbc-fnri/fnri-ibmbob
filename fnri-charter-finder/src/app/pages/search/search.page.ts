@@ -20,17 +20,17 @@ export class SearchPage implements OnInit, OnDestroy {
   results: Service[] = [];
   selectedService: Service | null = null;
   hasSearched = false;
-  /** Active agency filter — null means all-agencies */
   agency: AgencyMeta | null = null;
 
   get suggestions(): string[] {
     if (this.agency?.id === 'pnri') return ['radiation', 'dosimetry', 'irradiation', 'nuclear', 'sterilization'];
     if (this.agency?.id === 'sei')  return ['scholarship', 'DOST scholar', 'science olympiad', 'youth program'];
+    if (this.agency?.id === 'fnri') return ['food testing', 'nutrition label', 'dietary assessment', 'food composition'];
     return ['food testing', 'nutrition training', 'irradiation', 'scholarship', 'radiation dosimetry'];
   }
 
   private querySubject = new Subject<string>();
-  private sub!: Subscription;
+  private subs: Subscription[] = [];
   private dialogRef: MatDialogRef<any> | null = null;
 
   constructor(
@@ -42,14 +42,26 @@ export class SearchPage implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.agency = this.agencyContext.agency;
-    this.sub = this.querySubject.pipe(debounceTime(250)).subscribe(q => {
-      this.results = this.searchService.search(q, this.agency?.id ?? null);
-    });
+    // Re-run whenever agency context changes (covers same-route navigation)
+    this.subs.push(
+      this.agencyContext.agencyId$.subscribe(() => {
+        this.agency = this.agencyContext.agency;
+        // Reset search state when agency switches
+        this.query = '';
+        this.results = [];
+        this.hasSearched = false;
+      })
+    );
+
+    this.subs.push(
+      this.querySubject.pipe(debounceTime(250)).subscribe(q => {
+        this.results = this.searchService.search(q, this.agency?.id ?? null);
+      })
+    );
   }
 
   ngOnDestroy() {
-    this.sub?.unsubscribe();
+    this.subs.forEach(s => s.unsubscribe());
   }
 
   onQueryChange(value: string) {

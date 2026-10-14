@@ -1,14 +1,13 @@
 {
   "name": "fnri-charter-finder-server",
   "version": "1.0.0",
-  "description": "Backend API for FNRI Charter Finder — PDF extraction via watsonx.ai",
+  "description": "Backend API for FNRI Charter Finder — PDF extraction via Ollama (local, free)",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "dev": "node --watch index.js"
   },
   "dependencies": {
-    "@ibm-cloud/watsonx-ai": "^1.1.2",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",

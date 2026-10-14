@@ -276,7 +276,8 @@ app-root {
 .app-content app-landing,
 .app-content app-search,
 .app-content app-browse,
-.app-content app-wizard {
+.app-content app-wizard,
+.app-content app-upload {
   display: flex;
   flex-direction: column;
   flex: 1;

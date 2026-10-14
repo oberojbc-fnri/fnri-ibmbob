@@ -1,102 +1,190 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-button routerLink="/landing" aria-label="Back to agencies">
-        <span class="material-symbols-outlined">arrow_back</span>
-      </ion-button>
-    </ion-buttons>
-    <ion-title>Upload Charter PDF</ion-title>
-  </ion-toolbar>
-</ion-header>
+<!-- ── Toolbar ──────────────────────────────────────────────── -->
+<div class="page-toolbar page-toolbar-brand" style="background:var(--md-primary)">
+  <div style="display:flex;align-items:center;gap:8px;padding:0 12px 0 4px;height:56px">
+    <button mat-icon-button routerLink="/landing" aria-label="Back to agencies" style="color:rgba(255,255,255,0.85)">
+      <span class="material-symbols-outlined">arrow_back</span>
+    </button>
+    <span class="material-symbols-outlined icon-filled" style="color:rgba(255,255,255,0.9);font-size:22px">upload_file</span>
+    <span style="color:#fff;font-family:'Google Sans',sans-serif;font-size:16px;font-weight:500;flex:1">
+      Upload Charter PDF
+    </span>
+  </div>
+</div>
 
-<ion-content>
-  <div class="px-5 pt-6 pb-24 max-w-lg mx-auto">
+<!-- ── Scrollable content ──────────────────────────────────── -->
+<div class="page-scroll">
+  <div style="max-width:560px;margin:0 auto;padding:24px 20px 80px">
 
     <!-- Intro -->
-    <div class="text-center mb-8">
-      <span class="material-symbols-outlined text-6xl text-primary mb-3 block">upload_file</span>
-      <h1 class="text-xl font-bold text-gray-800 mb-1">Onboard your agency</h1>
-      <p class="text-sm text-gray-500 leading-relaxed">
-        Upload your Citizen Charter PDF and we'll extract all your services automatically using AI.
-        You can review and edit before publishing.
+    <div style="text-align:center;margin-bottom:32px">
+      <div style="width:72px;height:72px;border-radius:50%;background:var(--md-primary-cont);display:flex;align-items:center;justify-content:center;margin:0 auto 16px">
+        <span class="material-symbols-outlined icon-filled" style="font-size:36px;color:var(--md-primary)">auto_awesome</span>
+      </div>
+      <h1 style="font-family:'Google Sans',sans-serif;font-size:20px;font-weight:700;color:var(--md-on-surface);margin:0 0 8px">
+        Onboard your agency
+      </h1>
+      <p style="font-size:13px;color:var(--md-on-surface-var);line-height:1.6;margin:0">
+        Upload your Citizen Charter PDF and we'll extract all services automatically using local AI.
+        You can review and edit every entry before publishing.
       </p>
     </div>
 
     <!-- Agency Name -->
-    <div class="mb-5">
-      <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Agency Name *</label>
-      <ion-input
-        [(ngModel)]="agencyName"
-        placeholder="e.g. DOST-PNRI"
-        fill="outline"
-        class="rounded-xl"
-        [disabled]="isUploading">
-      </ion-input>
+    <div style="margin-bottom:18px">
+      <label style="display:block;font-family:'Google Sans',sans-serif;font-size:11px;font-weight:600;color:var(--md-on-surface-var);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px">
+        Agency Name <span style="color:var(--md-error)">*</span>
+      </label>
+      <mat-form-field appearance="outline" class="w-full" subscriptSizing="dynamic">
+        <input matInput
+          [(ngModel)]="agencyName"
+          placeholder="e.g. DOST-PNRI"
+          [disabled]="isUploading"
+          autocomplete="organization">
+      </mat-form-field>
     </div>
 
     <!-- Agency ID -->
-    <div class="mb-5">
-      <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Agency Slug (URL identifier)</label>
-      <ion-input
-        [(ngModel)]="agencyId"
-        placeholder="e.g. pnri"
-        fill="outline"
-        class="rounded-xl"
-        [disabled]="isUploading">
-      </ion-input>
-      <p class="text-xs text-gray-400 mt-1">Lowercase letters and hyphens only</p>
+    <div style="margin-bottom:20px">
+      <label style="display:block;font-family:'Google Sans',sans-serif;font-size:11px;font-weight:600;color:var(--md-on-surface-var);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px">
+        Agency Slug <span style="font-weight:400;text-transform:none;letter-spacing:0">(URL identifier)</span>
+      </label>
+      <mat-form-field appearance="outline" class="w-full" subscriptSizing="dynamic">
+        <input matInput
+          [(ngModel)]="agencyId"
+          placeholder="e.g. pnri"
+          [disabled]="isUploading"
+          autocomplete="off">
+      </mat-form-field>
+      <p style="font-size:11px;color:var(--md-on-surface-var);margin:4px 0 0 4px">Lowercase letters and hyphens only</p>
     </div>
 
     <!-- Drop Zone -->
-    <div class="mb-5">
-      <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Citizen Charter PDF *</label>
+    <div style="margin-bottom:20px">
+      <label style="display:block;font-family:'Google Sans',sans-serif;font-size:11px;font-weight:600;color:var(--md-on-surface-var);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px">
+        Citizen Charter PDF <span style="color:var(--md-error)">*</span>
+      </label>
       <div
-        class="border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-colors"
-        [class.border-primary]="isDragOver"
-        [class.bg-blue-50]="isDragOver"
-        [class.border-gray-300]="!isDragOver"
+        style="border:2px dashed;border-radius:16px;padding:32px 24px;text-align:center;cursor:pointer;transition:border-color 0.15s,background 0.15s"
+        [class.drop-zone-active]="isDragOver"
+        [class.drop-zone-selected]="!!selectedFile && !isDragOver"
+        [style.border-color]="isDragOver ? 'var(--md-primary)' : selectedFile ? 'var(--md-primary)' : 'var(--md-outline)'"
+        [style.background]="isDragOver ? 'var(--md-primary-cont)' : 'var(--md-surface-1)'"
         (dragover)="onDragOver($event)"
         (dragleave)="onDragLeave()"
         (drop)="onDrop($event)"
-        (click)="fileInput.click()">
-        <input #fileInput type="file" accept=".pdf,application/pdf" class="hidden" (change)="onFileSelect($event)">
-        <span class="material-symbols-outlined text-4xl text-gray-300 mb-2 block">
-          {{ selectedFile ? 'picture_as_pdf' : 'cloud_upload' }}
-        </span>
-        <p *ngIf="!selectedFile" class="text-sm text-gray-500">Drag and drop your PDF here, or <span class="text-primary font-medium">browse</span></p>
-        <p *ngIf="selectedFile" class="text-sm font-semibold text-gray-800">{{ selectedFile.name }}</p>
-        <p *ngIf="selectedFile" class="text-xs text-gray-400 mt-0.5">{{ (selectedFile.size / 1024 / 1024).toFixed(1) }} MB</p>
+        (click)="!isUploading && fileInput.click()">
+
+        <input #fileInput type="file" accept=".pdf,application/pdf" style="display:none" (change)="onFileSelect($event)">
+
+        <!-- No file selected -->
+        <ng-container *ngIf="!selectedFile">
+          <span class="material-symbols-outlined" style="font-size:48px;color:var(--md-outline);margin-bottom:12px;display:block">cloud_upload</span>
+          <p style="font-size:14px;color:var(--md-on-surface-var);margin:0 0 4px">
+            Drag and drop your PDF here, or
+            <span style="color:var(--md-primary);font-weight:600">browse</span>
+          </p>
+          <p style="font-size:11px;color:var(--md-outline);margin:0">PDF only · max 20 MB</p>
+        </ng-container>
+
+        <!-- File selected -->
+        <ng-container *ngIf="selectedFile">
+          <span class="material-symbols-outlined icon-filled" style="font-size:48px;color:var(--md-primary);margin-bottom:10px;display:block">picture_as_pdf</span>
+          <p style="font-size:14px;font-weight:600;color:var(--md-on-surface);margin:0 0 2px">{{ selectedFile.name }}</p>
+          <p style="font-size:11px;color:var(--md-on-surface-var);margin:0 0 10px">{{ (selectedFile.size / 1024 / 1024).toFixed(1) }} MB</p>
+          <button mat-stroked-button color="primary" style="font-size:12px;height:30px" (click)="$event.stopPropagation(); clearFile()">
+            <span class="material-symbols-outlined" style="font-size:14px;margin-right:4px">close</span>
+            Remove
+          </button>
+        </ng-container>
       </div>
     </div>
 
-    <!-- Error -->
-    <div *ngIf="errorMessage" class="mb-4 bg-red-50 border border-red-200 rounded-xl px-4 py-3">
-      <p class="text-sm text-red-600">{{ errorMessage }}</p>
-    </div>
+    <!-- ── Error states ───────────────────────────────────────── -->
 
-    <!-- Progress -->
-    <div *ngIf="isUploading" class="mb-5">
-      <div class="flex items-center gap-2 mb-2">
-        <ion-spinner name="crescent" class="text-primary" style="width:18px;height:18px"></ion-spinner>
-        <p class="text-sm text-gray-600">Reading your charter with AI…</p>
+    <!-- Ollama offline -->
+    <div *ngIf="errorType === 'ollama-offline'"
+      style="margin-bottom:20px;border-radius:16px;overflow:hidden;border:1px solid #fed7aa">
+      <div style="background:#fff7ed;padding:14px 16px;display:flex;align-items:flex-start;gap:12px">
+        <span class="material-symbols-outlined icon-filled" style="font-size:22px;color:#ea580c;flex-shrink:0;margin-top:1px">wifi_off</span>
+        <div>
+          <p style="font-family:'Google Sans',sans-serif;font-size:14px;font-weight:600;color:#9a3412;margin:0 0 3px">
+            AI extraction is temporarily unavailable
+          </p>
+          <p style="font-size:12px;color:#c2410c;line-height:1.5;margin:0">
+            The AI service (Ollama) is currently offline. The local AI engine must be running to process PDFs.
+          </p>
+        </div>
       </div>
-      <ion-progress-bar [value]="uploadProgress / 100" color="primary"></ion-progress-bar>
-      <p class="text-xs text-gray-400 mt-1 text-right">{{ uploadProgress }}%</p>
+      <div style="background:#fff;padding:12px 16px;border-top:1px solid #fed7aa">
+        <p style="font-size:12px;color:var(--md-on-surface-var);margin:0 0 10px;line-height:1.5">
+          Please try again in a few minutes, or contact your system administrator to start the AI service.
+        </p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button mat-flat-button
+            style="background:#fff7ed;color:#ea580c;font-size:12px;height:34px;border:1px solid #fed7aa"
+            (click)="uploadAndExtract()">
+            <span class="material-symbols-outlined" style="font-size:15px;margin-right:4px">refresh</span>
+            Try Again
+          </button>
+          <a mat-stroked-button
+            href="mailto:servicelab@fnri.dost.gov.ph"
+            style="font-size:12px;height:34px;color:var(--md-on-surface-var);display:inline-flex;align-items:center">
+            <span class="material-symbols-outlined" style="font-size:15px;margin-right:4px">mail</span>
+            Contact Admin
+          </a>
+        </div>
+      </div>
     </div>
 
-    <!-- Submit -->
-    <ion-button
-      expand="block"
-      color="primary"
+    <!-- Scanned PDF -->
+    <div *ngIf="errorType === 'scanned-pdf'"
+      style="margin-bottom:20px;border-radius:16px;overflow:hidden;border:1px solid #fde68a">
+      <div style="background:#fffbeb;padding:14px 16px;display:flex;align-items:flex-start;gap:12px">
+        <span class="material-symbols-outlined icon-filled" style="font-size:22px;color:#d97706;flex-shrink:0;margin-top:1px">document_scanner</span>
+        <div>
+          <p style="font-family:'Google Sans',sans-serif;font-size:14px;font-weight:600;color:#92400e;margin:0 0 3px">
+            Scanned PDF detected
+          </p>
+          <p style="font-size:12px;color:#b45309;line-height:1.5;margin:0">
+            This PDF is image-based (scanned) and cannot be read by the AI.
+            Please use the digital/text version of your Citizen Charter.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Generic error -->
+    <div *ngIf="errorType === 'generic'"
+      style="margin-bottom:20px;border-radius:12px;border:1px solid #fecaca;background:#fef2f2;padding:12px 16px;display:flex;align-items:flex-start;gap:10px">
+      <span class="material-symbols-outlined icon-filled" style="font-size:18px;color:#dc2626;flex-shrink:0;margin-top:1px">error</span>
+      <p style="font-size:13px;color:#b91c1c;line-height:1.5;margin:0">
+        {{ errorMessage || 'Something went wrong. Please try again.' }}
+      </p>
+    </div>
+
+    <!-- ── Progress ───────────────────────────────────────────── -->
+    <div *ngIf="isUploading" style="margin-bottom:20px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <mat-spinner diameter="18"></mat-spinner>
+        <p style="font-size:13px;color:var(--md-on-surface-var);margin:0">{{ progressLabel }}</p>
+      </div>
+      <mat-progress-bar mode="determinate" [value]="uploadProgress" color="primary"></mat-progress-bar>
+      <p style="font-size:11px;color:var(--md-on-surface-var);text-align:right;margin:4px 0 0">{{ uploadProgress }}%</p>
+    </div>
+
+    <!-- ── Submit button ──────────────────────────────────────── -->
+    <button mat-raised-button color="primary"
+      class="w-full"
+      style="height:48px;font-size:15px;font-weight:600"
       [disabled]="!canUpload() || isUploading"
       (click)="uploadAndExtract()">
-      <span class="material-symbols-outlined mr-2" style="font-size:18px">auto_awesome</span>
+      <span class="material-symbols-outlined icon-filled" style="font-size:20px;margin-right:8px">auto_awesome</span>
       {{ isUploading ? 'Extracting services…' : 'Extract Services with AI' }}
-    </ion-button>
+    </button>
 
-    <p class="text-xs text-gray-400 text-center mt-4 leading-relaxed">
-      Your PDF is processed by IBM watsonx.ai. No data is stored permanently until you publish.
+    <p style="font-size:11px;color:var(--md-on-surface-var);text-align:center;margin:12px 0 0;line-height:1.6">
+      Your PDF is processed locally by Ollama AI.<br>No data leaves your network until you publish.
     </p>
 
   </div>
-</ion-content>
+</div>

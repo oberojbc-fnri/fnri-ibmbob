@@ -1,1 +1,24 @@
-// upload.page.scss
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.page-scroll {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Drop zone active state */
+.drop-zone-active {
+  border-color: var(--md-primary) !important;
+  background: var(--md-primary-cont) !important;
+}
+
+/* File selected state */
+.drop-zone-selected {
+  border-style: solid !important;
+  border-color: var(--md-primary) !important;
+}

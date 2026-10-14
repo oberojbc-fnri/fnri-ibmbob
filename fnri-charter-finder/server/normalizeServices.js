@@ -19,13 +19,7 @@ const TIME_PATTERNS = [
   [/\bsame[- ]day\b/gi,            'Same day'],
 ];
 
-const FEE_PATTERNS = [
-  [/^free$/i,                      'Free'],
-  [/^none$/i,                      'Free'],
-  [/^no fee$/i,                    'Free'],
-  [/^n\/a$/i,                      'Free'],
-  [/^php\s*/i,                     'PHP '],
-];
+const FEE_FREE_PATTERNS = [/^free$/i, /^none$/i, /^no\s+fee$/i, /^n\/a$/i, /^waived$/i];
 
 function normalizeTime(raw) {
   if (!raw) return 'See charter';
@@ -38,13 +32,12 @@ function normalizeTime(raw) {
 
 function normalizeFee(raw) {
   if (!raw) return 'See charter';
-  let s = String(raw).trim();
-  for (const [pattern, replacement] of FEE_PATTERNS) {
-    if (pattern instanceof RegExp ? pattern.test(s) : s.toLowerCase() === pattern) {
-      return typeof replacement === 'string' ? s.replace(pattern, replacement) : replacement;
-    }
-  }
-  return s;
+  const s = String(raw).trim();
+  // Canonical free strings
+  if (FEE_FREE_PATTERNS.some(p => p.test(s))) return 'Free';
+  // Normalise PHP prefix capitalisation
+  const phpNorm = s.replace(/^php\s*/i, 'PHP ');
+  return phpNorm;
 }
 
 function normalizeCategory(raw) {

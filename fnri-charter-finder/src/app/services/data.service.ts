@@ -51,8 +51,7 @@ export class DataService {
   getWizardQuestions(): WizardQuestion[] { return this.wizardQuestions; }
 
   getServicesByTags(tags: string[]): Service[] {
-    if (!tags.length) return this.services;
-    return this.services.filter(s => tags.some(tag => s.tags.includes(tag)));
+    return this._filterByTags(this.services, tags);
   }
 
   getFreeServices(): Service[] {
@@ -84,8 +83,35 @@ export class DataService {
   }
 
   getServicesByTagsForAgency(tags: string[], agencyId: string): Service[] {
-    const pool = this.getServicesForAgency(agencyId);
+    return this._filterByTags(this.getServicesForAgency(agencyId), tags);
+  }
+
+  /**
+   * Filter services by wizard-selected tags.
+   * "free" → hard-filter: only services where fees === 'Free'
+   * "paid" → no fee restriction (user is willing to pay)
+   * "any"  → never added to selectedTags (wizard skips it)
+   * All other tags → at least one must match service.tags[]
+   */
+  private _filterByTags(pool: Service[], tags: string[]): Service[] {
     if (!tags.length) return pool;
-    return pool.filter(s => tags.some(tag => s.tags.includes(tag)));
+
+    // Separate the fee-intent tag from content tags
+    const freeOnly = tags.includes('free');
+    const contentTags = tags.filter(t => t !== 'free' && t !== 'paid');
+
+    let results = pool;
+
+    // Apply fee filter first
+    if (freeOnly) {
+      results = results.filter(s => s.fees === 'Free');
+    }
+
+    // Then filter by content tags (if any were selected)
+    if (contentTags.length) {
+      results = results.filter(s => contentTags.some(tag => s.tags.includes(tag)));
+    }
+
+    return results;
   }
 }
