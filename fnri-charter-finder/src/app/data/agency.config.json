@@ -1,0 +1,16 @@
+{
+  "agencyName": "DOST-FNRI",
+  "fullName": "Food and Nutrition Research Institute",
+  "tagline": "Service Finder",
+  "department": "Department of Science and Technology",
+  "logo": "assets/logo.png",
+  "primaryColor": "#0055a5",
+  "secondaryColor": "#e8333a",
+  "accentColor": "#f5a623",
+  "contact": {
+    "email": "servicelab@fnri.dost.gov.ph",
+    "phone": "(02) 8837-2071",
+    "website": "https://www.fnri.dost.gov.ph",
+    "address": "DOST Compound, General Santos Avenue, Bicutan, Taguig City, Metro Manila"
+  }
+}

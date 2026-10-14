@@ -1,0 +1,33 @@
+/* Ionic Core CSS */
+@import "@ionic/angular/css/core.css";
+@import "@ionic/angular/css/normalize.css";
+@import "@ionic/angular/css/structure.css";
+@import "@ionic/angular/css/typography.css";
+@import "@ionic/angular/css/display.css";
+
+/* Optional Ionic utility classes */
+@import "@ionic/angular/css/padding.css";
+@import "@ionic/angular/css/float-elements.css";
+@import "@ionic/angular/css/text-alignment.css";
+@import "@ionic/angular/css/text-transformation.css";
+@import "@ionic/angular/css/flex-utils.css";
+
+/* FNRI brand tokens */
+:root {
+  --ion-color-primary: #0055a5;
+  --ion-color-primary-rgb: 0, 85, 165;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #004b91;
+  --ion-color-primary-tint: #1a66ae;
+
+  --ion-color-secondary: #e8333a;
+  --ion-color-secondary-rgb: 232, 51, 58;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #cc2d33;
+  --ion-color-secondary-tint: #ea474e;
+
+  --ion-font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+  --ion-background-color: #f7f8fa;
+}

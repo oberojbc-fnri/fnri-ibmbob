@@ -1,0 +1,35 @@
+[
+  {
+    "id": "q1",
+    "question": "What best describes what you need?",
+    "icon": "help-circle-outline",
+    "answers": [
+      { "label": "Test a food or product sample", "tag": "testing" },
+      { "label": "Learn about food and nutrition", "tag": "training" },
+      { "label": "Get expert advice or consultation", "tag": "consultancy" },
+      { "label": "Access research data or publications", "tag": "data" }
+    ]
+  },
+  {
+    "id": "q2",
+    "question": "Who are you?",
+    "icon": "person-circle-outline",
+    "answers": [
+      { "label": "Student or researcher", "tag": "researcher" },
+      { "label": "Food manufacturer or business", "tag": "industry" },
+      { "label": "Government or NGO staff", "tag": "government" },
+      { "label": "Health or nutrition professional", "tag": "professional" },
+      { "label": "General public / individual", "tag": "public" }
+    ]
+  },
+  {
+    "id": "q3",
+    "question": "Is there a fee involved acceptable to you?",
+    "icon": "cash-outline",
+    "answers": [
+      { "label": "Free services only", "tag": "free" },
+      { "label": "I can pay for the service", "tag": "paid" },
+      { "label": "No preference", "tag": "any" }
+    ]
+  }
+]

@@ -1,0 +1,129 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start" *ngIf="selectedCategory">
+      <ion-back-button (click)="backToCategories()" defaultHref="/tabs/browse"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ selectedCategory ? selectedCategory.label : 'Browse by Category' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <!-- Category grid -->
+  <div *ngIf="!selectedCategory" class="category-grid">
+    <h2 class="section-heading">What type of service are you looking for?</h2>
+    <div class="cards-container">
+      <div
+        class="category-card"
+        *ngFor="let cat of categories"
+        (click)="selectCategory(cat)"
+        [style.border-left-color]="cat.color">
+        <div class="cat-icon-wrap" [style.background]="cat.color + '18'">
+          <ion-icon [name]="cat.icon" [style.color]="cat.color" class="cat-icon"></ion-icon>
+        </div>
+        <div class="cat-text">
+          <h3 class="cat-label">{{ cat.label }}</h3>
+          <p class="cat-desc">{{ cat.description }}</p>
+        </div>
+        <ion-icon name="chevron-forward-outline" class="cat-arrow"></ion-icon>
+      </div>
+    </div>
+  </div>
+
+  <!-- Service list for selected category -->
+  <div *ngIf="selectedCategory">
+    <ion-list lines="none" class="service-list">
+      <ion-item
+        *ngFor="let service of servicesInCategory"
+        button
+        detail="false"
+        (click)="openService(service)"
+        class="service-item">
+        <ion-label>
+          <div class="service-card">
+            <h2 class="service-name">{{ service.plainName }}</h2>
+            <p class="service-desc">{{ service.description }}</p>
+            <div class="service-chips">
+              <ion-chip outline class="chip-time">
+                <ion-icon name="time-outline"></ion-icon>
+                <ion-label>{{ service.processingTime }}</ion-label>
+              </ion-chip>
+              <ion-chip outline [class]="service.fees === 'Free' ? 'chip-free' : 'chip-fee'">
+                <ion-icon [name]="service.fees === 'Free' ? 'gift-outline' : 'cash-outline'"></ion-icon>
+                <ion-label>{{ service.fees === 'Free' ? 'Free' : 'With fee' }}</ion-label>
+              </ion-chip>
+            </div>
+          </div>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+    <div *ngIf="servicesInCategory.length === 0" class="empty-state">
+      <p>No services in this category yet.</p>
+    </div>
+  </div>
+
+</ion-content>
+
+<!-- Service Detail Modal -->
+<ion-modal [isOpen]="isServiceModalOpen" (didDismiss)="closeService()" [breakpoints]="[0, 0.5, 0.92]" [initialBreakpoint]="0.92" backdropDismiss="true">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Service Details</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="closeService()">
+            <ion-icon name="close-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="modal-content" *ngIf="selectedService">
+      <div class="detail-container">
+        <h1 class="detail-title">{{ selectedService.plainName }}</h1>
+        <p class="detail-desc">{{ selectedService.description }}</p>
+        <ion-list lines="none" class="detail-list">
+          <ion-item>
+            <ion-icon name="business-outline" slot="start" color="primary"></ion-icon>
+            <ion-label>
+              <p class="detail-label">Office</p>
+              <p class="detail-value">{{ selectedService.office }}</p>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="time-outline" slot="start" color="primary"></ion-icon>
+            <ion-label>
+              <p class="detail-label">Processing Time</p>
+              <p class="detail-value">{{ selectedService.processingTime }}</p>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="cash-outline" slot="start" color="primary"></ion-icon>
+            <ion-label>
+              <p class="detail-label">Fees</p>
+              <p class="detail-value">{{ selectedService.fees }}</p>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="people-outline" slot="start" color="primary"></ion-icon>
+            <ion-label>
+              <p class="detail-label">Who May Apply</p>
+              <p class="detail-value">{{ selectedService.whoMayAvail }}</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+        <div class="requirements-section" *ngIf="selectedService.requirements?.length">
+          <h3 class="section-title">What to Bring</h3>
+          <ul class="requirements-list">
+            <li *ngFor="let req of selectedService.requirements">{{ req }}</li>
+          </ul>
+        </div>
+        <div class="cta-section">
+          <ion-button expand="block" color="primary" href="mailto:servicelab@fnri.dost.gov.ph">
+            <ion-icon name="mail-outline" slot="start"></ion-icon>
+            Email FNRI
+          </ion-button>
+        </div>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>
