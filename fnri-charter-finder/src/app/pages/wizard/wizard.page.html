@@ -1,147 +1,153 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>Guide Me</ion-title>
-  </ion-toolbar>
-</ion-header>
+<!-- ── Toolbar ─────────────────────────────────────────────── -->
+<mat-toolbar color="primary" class="flex items-center gap-3">
+  <span class="material-symbols-outlined">auto_awesome</span>
+  <span class="font-medium flex-1">Guide Me</span>
+  <span *ngIf="state === 'questions'" class="text-xs opacity-70">
+    {{ currentIndex + 1 }} / {{ questions.length }}
+  </span>
+</mat-toolbar>
 
-<ion-content>
+<div class="max-w-2xl mx-auto px-4 pb-28">
 
-  <!-- Questions flow -->
-  <div *ngIf="state === 'questions'" class="px-4 pt-6 pb-24">
-    <div class="mb-6">
-      <div class="w-full bg-gray-200 rounded-full h-1.5 mb-1">
-        <div class="bg-primary h-1.5 rounded-full transition-all duration-300"
-          [style.width.%]="progress"></div>
-      </div>
-      <p class="text-xs text-gray-400 text-right">Question {{ currentIndex + 1 }} of {{ questions.length }}</p>
-    </div>
+  <!-- ── Question flow ──────────────────────────────────── -->
+  <div *ngIf="state === 'questions'" class="pt-6">
+    <!-- Progress bar -->
+    <mat-progress-bar mode="determinate" [value]="progress" class="mb-6 rounded-full"></mat-progress-bar>
 
-    <div *ngIf="currentQuestion" class="bg-white rounded-2xl p-6 shadow-sm text-center">
-      <span class="material-symbols-outlined text-5xl text-primary mb-3 block">{{ currentQuestion.icon }}</span>
-      <h2 class="text-lg font-semibold text-gray-800 mb-6 leading-snug">{{ currentQuestion.question }}</h2>
-      <div class="flex flex-col gap-3 text-left">
-        <button
-          class="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3.5 text-sm text-gray-800 text-left active:bg-primary active:text-white active:border-primary transition-colors"
-          *ngFor="let answer of currentQuestion.answers"
-          (click)="selectAnswer(answer.tag)">
-          {{ answer.label }}
-        </button>
-      </div>
-    </div>
+    <mat-card class="!rounded-2xl !shadow-sm" *ngIf="currentQuestion">
+      <mat-card-content class="!p-6 text-center">
+        <span class="material-symbols-outlined text-primary block mb-3" style="font-size:48px">
+          {{ currentQuestion.icon }}
+        </span>
+        <h2 class="text-lg font-semibold text-on-surface mb-6 leading-snug">
+          {{ currentQuestion.question }}
+        </h2>
+        <div class="flex flex-col gap-3 text-left">
+          <button mat-stroked-button
+            class="!justify-start !text-sm !font-normal !py-5 !rounded-xl !border-outline hover:!bg-primary-cont hover:!text-primary"
+            *ngFor="let answer of currentQuestion.answers"
+            (click)="selectAnswer(answer.tag)">
+            <span class="material-symbols-outlined mr-2 opacity-50" style="font-size:18px">chevron_right</span>
+            {{ answer.label }}
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
   </div>
 
-  <!-- Results -->
-  <div *ngIf="state === 'results'" class="px-4 pt-4 pb-24">
-    <div class="text-center py-6">
-      <span class="material-symbols-outlined text-5xl text-green-500 mb-2 block">check_circle</span>
-      <h2 class="text-lg font-semibold text-gray-800">
-        {{ results.length }} service{{ results.length !== 1 ? 's' : '' }} found for you
-      </h2>
-      <p *ngIf="results.length === 0" class="text-sm text-gray-500 mt-1">
-        Try broadening your answers or use the Search tab.
-      </p>
+  <!-- ── Results ────────────────────────────────────────── -->
+  <div *ngIf="state === 'results'" class="pt-4">
+    <!-- Header -->
+    <div class="flex items-center gap-3 mb-5">
+      <div class="w-12 h-12 rounded-full flex items-center justify-center"
+        [class]="results.length > 0 ? 'bg-green-100' : 'bg-gray-100'">
+        <span class="material-symbols-outlined"
+          [class]="results.length > 0 ? 'text-green-600' : 'text-gray-400'"
+          style="font-size:28px">
+          {{ results.length > 0 ? 'check_circle' : 'search_off' }}
+        </span>
+      </div>
+      <div>
+        <h2 class="text-base font-semibold text-on-surface">
+          {{ results.length }} service{{ results.length !== 1 ? 's' : '' }} found
+        </h2>
+        <p *ngIf="results.length === 0" class="text-sm text-gray-500">
+          Try the Search tab for broader results.
+        </p>
+      </div>
     </div>
 
-    <ion-list *ngIf="results.length > 0" lines="none" class="bg-transparent">
-      <ion-item
-        *ngFor="let service of results"
-        button
-        detail="false"
-        (click)="openService(service)"
-        class="mb-3 rounded-xl overflow-hidden"
-        style="--background: transparent; --padding-start: 0; --inner-padding-end: 0;">
-        <ion-label>
-          <div class="bg-white rounded-xl p-4 shadow-sm">
-            <h2 class="text-sm font-semibold text-gray-800 mb-1">{{ service.plainName }}</h2>
-            <p class="text-xs text-gray-500 leading-relaxed mb-3 line-clamp-3">{{ service.description }}</p>
-            <div class="flex gap-2 flex-wrap">
-              <span class="inline-flex items-center gap-1 text-xs border border-gray-300 rounded-full px-2 py-0.5 text-gray-600">
-                <span class="material-symbols-outlined" style="font-size:13px">schedule</span>
-                {{ service.processingTime }}
+    <!-- Service cards grid -->
+    <div class="grid gap-3 sm:grid-cols-2">
+      <mat-card *ngFor="let service of results"
+        class="svc-card !p-0 overflow-hidden"
+        (click)="openService(service)" matRipple>
+        <mat-card-content class="!p-4">
+          <h3 class="text-sm font-semibold text-on-surface mb-1 leading-snug">
+            {{ service.plainName }}
+          </h3>
+          <p class="text-xs text-gray-500 leading-relaxed mb-3 line-clamp-3">
+            {{ service.description }}
+          </p>
+          <div class="flex gap-2 flex-wrap">
+            <mat-chip class="!text-xs !h-6">
+              <span class="material-symbols-outlined mr-1" style="font-size:13px">schedule</span>
+              {{ service.processingTime }}
+            </mat-chip>
+            <mat-chip class="!text-xs !h-6"
+              [style.color]="service.fees === 'Free' ? '#2e7d32' : '#c62828'">
+              <span class="material-symbols-outlined mr-1" style="font-size:13px">
+                {{ service.fees === 'Free' ? 'redeem' : 'payments' }}
               </span>
-              <span class="inline-flex items-center gap-1 text-xs rounded-full px-2 py-0.5 border"
-                [class]="service.fees === 'Free' ? 'border-green-500 text-green-700' : 'border-red-400 text-red-600'">
-                <span class="material-symbols-outlined" style="font-size:13px">
-                  {{ service.fees === 'Free' ? 'redeem' : 'payments' }}
-                </span>
-                {{ service.fees === 'Free' ? 'Free' : 'With fee' }}
-              </span>
-            </div>
+              {{ service.fees === 'Free' ? 'Free' : 'With fee' }}
+            </mat-chip>
           </div>
-        </ion-label>
-      </ion-item>
-    </ion-list>
+        </mat-card-content>
+      </mat-card>
+    </div>
 
-    <div class="mt-4">
-      <ion-button expand="block" fill="outline" color="primary" (click)="restart()">
+    <div class="mt-5">
+      <button mat-stroked-button color="primary" class="w-full !rounded-full" (click)="restart()">
         <span class="material-symbols-outlined mr-2" style="font-size:18px">refresh</span>
         Start Over
-      </ion-button>
+      </button>
     </div>
   </div>
 
-</ion-content>
+</div>
 
-<!-- Service Detail Modal -->
-<ion-modal [isOpen]="isModalOpen" (didDismiss)="closeService()" [breakpoints]="[0, 0.5, 0.92]" [initialBreakpoint]="0.92" backdropDismiss="true">
-  <ng-template>
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Service Details</ion-title>
-        <ion-buttons slot="end">
-          <ion-button (click)="closeService()">
-            <span class="material-symbols-outlined">close</span>
-          </ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content *ngIf="selectedService">
-      <div class="p-4 pb-12">
-        <h1 class="text-xl font-bold text-gray-800 mb-2">{{ selectedService.plainName }}</h1>
-        <p class="text-sm text-gray-500 leading-relaxed mb-4">{{ selectedService.description }}</p>
-        <div class="space-y-3 mb-4">
-          <div class="flex items-start gap-3">
-            <span class="material-symbols-outlined text-primary mt-0.5" style="font-size:20px">domain</span>
-            <div>
-              <p class="text-xs text-gray-400 uppercase tracking-wide">Office</p>
-              <p class="text-sm text-gray-700">{{ selectedService.office }}</p>
-            </div>
-          </div>
-          <div class="flex items-start gap-3">
-            <span class="material-symbols-outlined text-primary mt-0.5" style="font-size:20px">schedule</span>
-            <div>
-              <p class="text-xs text-gray-400 uppercase tracking-wide">Processing Time</p>
-              <p class="text-sm text-gray-700">{{ selectedService.processingTime }}</p>
-            </div>
-          </div>
-          <div class="flex items-start gap-3">
-            <span class="material-symbols-outlined text-primary mt-0.5" style="font-size:20px">payments</span>
-            <div>
-              <p class="text-xs text-gray-400 uppercase tracking-wide">Fees</p>
-              <p class="text-sm text-gray-700">{{ selectedService.fees }}</p>
-            </div>
-          </div>
-          <div class="flex items-start gap-3">
-            <span class="material-symbols-outlined text-primary mt-0.5" style="font-size:20px">group</span>
-            <div>
-              <p class="text-xs text-gray-400 uppercase tracking-wide">Who May Apply</p>
-              <p class="text-sm text-gray-700">{{ selectedService.whoMayAvail }}</p>
-            </div>
-          </div>
-        </div>
-        <div *ngIf="selectedService.requirements?.length" class="mb-4">
-          <h3 class="text-sm font-semibold text-gray-800 mb-2">What to Bring</h3>
-          <ul class="list-disc list-inside space-y-1">
-            <li *ngFor="let req of selectedService.requirements" class="text-sm text-gray-600">{{ req }}</li>
-          </ul>
-        </div>
-        <div class="mt-5">
-          <ion-button expand="block" color="primary" href="mailto:servicelab@fnri.dost.gov.ph">
-            <span class="material-symbols-outlined mr-2" style="font-size:18px">mail</span>
-            Email FNRI
-          </ion-button>
+<!-- ── Service Detail Dialog ─── -->
+<ng-template #detailTpl>
+  <div class="detail-scroll" *ngIf="selectedService">
+    <h2 mat-dialog-title class="!text-lg !font-bold !m-0 !mb-2 !p-0 !leading-snug">
+      {{ selectedService.plainName }}
+    </h2>
+    <p class="text-sm text-gray-500 leading-relaxed mb-4">{{ selectedService.description }}</p>
+    <mat-divider class="mb-4"></mat-divider>
+    <div class="space-y-4 mb-4">
+      <div class="flex gap-3">
+        <span class="material-symbols-outlined text-primary shrink-0" style="font-size:20px">domain</span>
+        <div>
+          <p class="text-xs text-gray-400 uppercase tracking-wide mb-0.5">Office</p>
+          <p class="text-sm text-gray-800">{{ selectedService.office }}</p>
         </div>
       </div>
-    </ion-content>
-  </ng-template>
-</ion-modal>
+      <div class="flex gap-3">
+        <span class="material-symbols-outlined text-primary shrink-0" style="font-size:20px">schedule</span>
+        <div>
+          <p class="text-xs text-gray-400 uppercase tracking-wide mb-0.5">Processing Time</p>
+          <p class="text-sm text-gray-800">{{ selectedService.processingTime }}</p>
+        </div>
+      </div>
+      <div class="flex gap-3">
+        <span class="material-symbols-outlined text-primary shrink-0" style="font-size:20px">payments</span>
+        <div>
+          <p class="text-xs text-gray-400 uppercase tracking-wide mb-0.5">Fees</p>
+          <p class="text-sm text-gray-800">{{ selectedService.fees }}</p>
+        </div>
+      </div>
+      <div class="flex gap-3">
+        <span class="material-symbols-outlined text-primary shrink-0" style="font-size:20px">group</span>
+        <div>
+          <p class="text-xs text-gray-400 uppercase tracking-wide mb-0.5">Who May Apply</p>
+          <p class="text-sm text-gray-800">{{ selectedService.whoMayAvail }}</p>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="selectedService.requirements?.length" class="mb-4">
+      <mat-divider class="mb-3"></mat-divider>
+      <h4 class="text-sm font-semibold text-gray-700 mb-2">
+        <span class="material-symbols-outlined align-middle mr-1" style="font-size:16px">checklist</span>
+        What to Bring
+      </h4>
+      <ul class="list-disc list-inside space-y-1">
+        <li *ngFor="let req of selectedService.requirements" class="text-sm text-gray-600">{{ req }}</li>
+      </ul>
+    </div>
+    <mat-divider class="mb-4"></mat-divider>
+    <a mat-raised-button color="primary" href="mailto:servicelab@fnri.dost.gov.ph" class="w-full">
+      <span class="material-symbols-outlined mr-1" style="font-size:18px">mail</span>
+      Email FNRI
+    </a>
+  </div>
+</ng-template>

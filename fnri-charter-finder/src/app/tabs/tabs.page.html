@@ -1,18 +1,56 @@
 <ion-tabs>
+
+  <!-- ══════════════════════════════════════════════════════
+       DESKTOP: Material sidenav nav rail (≥768px)
+  ══════════════════════════════════════════════════════════ -->
+  <mat-sidenav-container class="app-sidenav-container hidden md:flex">
+    <mat-sidenav class="app-sidenav" mode="side" opened>
+      <div class="nav-logo">
+        FNRI
+        <span class="nav-subtitle">Service Finder</span>
+      </div>
+      <div class="sidenav-section-label">Navigation</div>
+      <a class="sidenav-link" routerLink="/tabs/search" routerLinkActive="active">
+        <span class="material-symbols-outlined">search</span>
+        Search
+      </a>
+      <a class="sidenav-link" routerLink="/tabs/browse" routerLinkActive="active">
+        <span class="material-symbols-outlined">grid_view</span>
+        Browse
+      </a>
+      <a class="sidenav-link" routerLink="/tabs/wizard" routerLinkActive="active">
+        <span class="material-symbols-outlined">auto_awesome</span>
+        Guide Me
+      </a>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <ion-router-outlet></ion-router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+
+  <!-- ══════════════════════════════════════════════════════
+       MOBILE: Ionic router outlet + Material bottom nav bar
+  ══════════════════════════════════════════════════════════ -->
+  <div class="flex flex-col h-full md:hidden">
+    <div class="flex-1 overflow-auto">
+      <ion-router-outlet></ion-router-outlet>
+    </div>
+  </div>
+
+  <!-- Ionic bottom tab bar (shown on mobile via CSS) -->
   <ion-tab-bar slot="bottom">
     <ion-tab-button tab="search" href="/tabs/search">
-      <span class="material-symbols-outlined text-2xl">search</span>
+      <span class="material-symbols-outlined" style="font-size:22px">search</span>
       <ion-label>Search</ion-label>
     </ion-tab-button>
-
     <ion-tab-button tab="browse" href="/tabs/browse">
-      <span class="material-symbols-outlined text-2xl">grid_view</span>
+      <span class="material-symbols-outlined" style="font-size:22px">grid_view</span>
       <ion-label>Browse</ion-label>
     </ion-tab-button>
-
     <ion-tab-button tab="wizard" href="/tabs/wizard">
-      <span class="material-symbols-outlined text-2xl">auto_awesome</span>
+      <span class="material-symbols-outlined" style="font-size:22px">auto_awesome</span>
       <ion-label>Guide Me</ion-label>
     </ion-tab-button>
   </ion-tab-bar>
+
 </ion-tabs>

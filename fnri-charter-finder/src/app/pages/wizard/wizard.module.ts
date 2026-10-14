@@ -4,9 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { WizardPageRoutingModule } from './wizard-routing.module';
 import { WizardPage } from './wizard.page';
+import { MaterialModule } from '../../material.module';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, IonicModule, WizardPageRoutingModule],
+  imports: [CommonModule, FormsModule, IonicModule, WizardPageRoutingModule, MaterialModule],
   declarations: [WizardPage],
 })
 export class WizardPageModule {}

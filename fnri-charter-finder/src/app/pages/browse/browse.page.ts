@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DataService, Category, Service } from '../../services/data.service';
-import { AgencyConfigService } from '../../services/agency-config.service';
 
 @Component({
   selector: 'app-browse',
@@ -8,21 +8,21 @@ import { AgencyConfigService } from '../../services/agency-config.service';
   styleUrls: ['browse.page.scss'],
 })
 export class BrowsePage implements OnInit {
+  @ViewChild('detailTpl') detailTpl!: TemplateRef<any>;
+
   categories: Category[] = [];
   selectedCategory: Category | null = null;
   servicesInCategory: Service[] = [];
   selectedService: Service | null = null;
-  isServiceModalOpen = false;
-  agencyName = '';
+  private dialogRef: MatDialogRef<any> | null = null;
 
   constructor(
     private dataService: DataService,
-    private agencyConfigService: AgencyConfigService
+    private dialog: MatDialog,
   ) {}
 
   ngOnInit() {
     this.categories = this.dataService.getCategories();
-    this.agencyName = this.agencyConfigService.config.agencyName;
   }
 
   selectCategory(cat: Category) {
@@ -37,11 +37,10 @@ export class BrowsePage implements OnInit {
 
   openService(service: Service) {
     this.selectedService = service;
-    this.isServiceModalOpen = true;
-  }
-
-  closeService() {
-    this.isServiceModalOpen = false;
-    this.selectedService = null;
+    this.dialogRef = this.dialog.open(this.detailTpl, {
+      maxWidth: '560px',
+      width: '95vw',
+      panelClass: 'detail-dialog',
+    });
   }
 }
