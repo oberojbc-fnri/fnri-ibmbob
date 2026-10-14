@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ModalController } from '@ionic/angular';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { SearchService } from '../../services/search.service';
@@ -28,7 +27,6 @@ export class SearchPage implements OnInit, OnDestroy {
     private searchService: SearchService,
     private dataService: DataService,
     private agencyConfigService: AgencyConfigService,
-    private modalCtrl: ModalController
   ) {}
 
   ngOnInit() {
@@ -36,7 +34,6 @@ export class SearchPage implements OnInit, OnDestroy {
     this.tagline = this.agencyConfigService.config.tagline;
     this.sub = this.querySubject.pipe(debounceTime(300)).subscribe(q => {
       this.results = this.searchService.search(q);
-      this.hasSearched = q.trim().length >= 2;
     });
   }
 
@@ -46,6 +43,11 @@ export class SearchPage implements OnInit, OnDestroy {
 
   onSearchInput(event: any) {
     this.query = event.target.value || '';
+    // Set hasSearched immediately so the empty-state hides at once
+    this.hasSearched = this.query.trim().length >= 2;
+    if (!this.hasSearched) {
+      this.results = [];
+    }
     this.querySubject.next(this.query);
   }
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import * as agencyConfig from '../data/agency.config.json';
+import agencyConfig from '../data/agency.config.json';
 
 export interface AgencyConfig {
   agencyName: string;
@@ -20,7 +20,7 @@ export interface AgencyConfig {
 
 @Injectable({ providedIn: 'root' })
 export class AgencyConfigService {
-  readonly config: AgencyConfig = agencyConfig as AgencyConfig;
+  readonly config: AgencyConfig = agencyConfig as unknown as AgencyConfig;
 
   applyTheme(): void {
     const root = document.documentElement;

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import * as servicesData from '../data/services.json';
-import * as categoriesData from '../data/categories.json';
-import * as wizardData from '../data/wizard.json';
+import servicesData from '../data/services.json';
+import categoriesData from '../data/categories.json';
+import wizardData from '../data/wizard.json';
 
 export interface Service {
   id: string;
@@ -39,9 +39,9 @@ export interface WizardQuestion {
 
 @Injectable({ providedIn: 'root' })
 export class DataService {
-  private services: Service[] = servicesData as Service[];
-  private categories: Category[] = categoriesData as Category[];
-  private wizardQuestions: WizardQuestion[] = wizardData as WizardQuestion[];
+  private services: Service[] = servicesData as unknown as Service[];
+  private categories: Category[] = categoriesData as unknown as Category[];
+  private wizardQuestions: WizardQuestion[] = wizardData as unknown as WizardQuestion[];
 
   getServices(): Service[] {
     return this.services;
