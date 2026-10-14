@@ -160,10 +160,10 @@ The Upload Tool (for agency staff only) requires the agency to log in with their
 
 | What | Plain Explanation |
 |---|---|
-| **The website** | Built using modern web tools (React + Vite) that create fast, responsive pages |
-| **The look and feel** | Styled with Tailwind CSS — a design toolkit for clean, mobile-friendly pages |
+| **The website** | Built with Ionic + Angular — a professional framework used for mobile and government apps |
+| **The look and feel** | Ionic component library — gives the app a native mobile feel on any phone or browser, with no extra design work |
 | **The search** | Powered by Fuse.js — a smart search that finds services even with typos |
-| **The AI extraction** | IBM watsonx reads PDF text and returns structured service data |
+| **The AI extraction** | IBM watsonx reads the charter PDF and extracts all services automatically |
 | **The service data** | One file per agency (`services.json`) built from their Citizen Charter |
 | **Where it lives** | Hosted for free on GitHub Pages — no monthly server cost for citizens |
 
