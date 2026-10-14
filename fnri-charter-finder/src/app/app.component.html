@@ -1,3 +1,41 @@
-<ion-app>
-  <ion-router-outlet></ion-router-outlet>
-</ion-app>
+<!-- ═══════════════════════════════════════════════════════════
+     DESKTOP (≥960px): pure Material layout, no Ionic shell
+════════════════════════════════════════════════════════════ -->
+<ng-container *ngIf="isDesktop$ | async; else mobileShell">
+  <mat-sidenav-container class="app-sidenav-container">
+    <mat-sidenav class="app-sidenav" mode="side" opened>
+      <div class="nav-logo">
+        <span class="material-symbols-outlined nav-logo-icon">account_balance</span>
+        CitizenCharter
+        <span class="nav-subtitle">Service Finder · PH</span>
+      </div>
+      <div class="sidenav-section-label">Navigation</div>
+      <a class="sidenav-link" routerLink="/search" routerLinkActive="active">
+        <span class="material-symbols-outlined">search</span>Search
+      </a>
+      <a class="sidenav-link" routerLink="/browse" routerLinkActive="active">
+        <span class="material-symbols-outlined">grid_view</span>Browse
+      </a>
+      <a class="sidenav-link" routerLink="/wizard" routerLinkActive="active">
+        <span class="material-symbols-outlined">auto_awesome</span>Guide Me
+      </a>
+      <div class="sidenav-section-label" style="margin-top:auto">Agencies</div>
+      <a class="sidenav-link" routerLink="/landing" routerLinkActive="active">
+        <span class="material-symbols-outlined">apps</span>All Agencies
+      </a>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <!-- Named outlet so Ionic tabs routes still resolve -->
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</ng-container>
+
+<!-- ═══════════════════════════════════════════════════════════
+     MOBILE (<960px): full Ionic shell
+════════════════════════════════════════════════════════════ -->
+<ng-template #mobileShell>
+  <ion-app>
+    <ion-router-outlet></ion-router-outlet>
+  </ion-app>
+</ng-template>

@@ -15,6 +15,20 @@ const routes: Routes = [
     path: 'review',
     loadChildren: () => import('./pages/review/review.module').then(m => m.ReviewPageModule)
   },
+  // ── Desktop direct routes (bypasses ion-tabs shell) ──────────
+  {
+    path: 'search',
+    loadChildren: () => import('./pages/search/search.module').then(m => m.SearchPageModule)
+  },
+  {
+    path: 'browse',
+    loadChildren: () => import('./pages/browse/browse.module').then(m => m.BrowsePageModule)
+  },
+  {
+    path: 'wizard',
+    loadChildren: () => import('./pages/wizard/wizard.module').then(m => m.WizardPageModule)
+  },
+  // ── Mobile Ionic tabs shell ───────────────────────────────────
   {
     path: '',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)

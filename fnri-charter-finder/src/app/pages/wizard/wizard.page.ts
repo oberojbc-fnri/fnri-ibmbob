@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DataService, WizardQuestion, Service } from '../../services/data.service';
+import { AgencyConfigService } from '../../services/agency-config.service';
 
 type WizardState = 'questions' | 'results';
 
@@ -18,15 +19,20 @@ export class WizardPage implements OnInit {
   state: WizardState = 'questions';
   results: Service[] = [];
   selectedService: Service | null = null;
+  agencyName = '';
+  contactEmail = '';
   private dialogRef: MatDialogRef<any> | null = null;
 
   constructor(
     private dataService: DataService,
     private dialog: MatDialog,
+    private agencyConfigService: AgencyConfigService,
   ) {}
 
   ngOnInit() {
     this.questions = this.dataService.getWizardQuestions();
+    this.agencyName = this.agencyConfigService.config.agencyName;
+    this.contactEmail = this.agencyConfigService.contactEmail;
   }
 
   get currentQuestion(): WizardQuestion {
